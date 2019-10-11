@@ -1,8 +1,7 @@
 CMEE Coursework Repository- readme.txt 
 
 Files included: 
-Week1: Learnt Unix and Shell scripting 
-
+Week1
     Code 
         boilerplate.sh      tabtocsv.sh        variables.sh       MyExampleScript.sh 
         CountLines.sh       ConcatenateTwoFiles.sh                tiff2png.sh
@@ -73,7 +72,7 @@ Week1
                 1802.csv
                 1803.csv
     spawannxs.txt: Input files for practice excercises in Unix and shell scripting 
-
+    
     Sandbox: A practice directory for work practice.
 
 
