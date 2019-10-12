@@ -1,0 +1,678 @@
+Starting weekly assessment for Emma, Week1
+
+Current Points = 100
+
+Note that: 
+(1) Major sections begin with a double "====" line 
+(2) Subsections begin with a single "====" line 
+(3) Code output or text file content are printed within single "*****" lines 
+
+======================================================================
+======================================================================
+Your Git repo size this week is about 5.52 MiB on disk 
+
+PART 1: Checking project workflow...
+
+Found the following directories in parent directory: Week1, Assessment, .git
+
+Found the following files in parent directory: README.txt, .gitignore
+
+Checking for key files in parent directory...
+
+Found .gitignore in parent directory, great! 
+
+Printing contents of .gitignore:
+**********************************************************************
+*~
+*.tmp
+*.bbl
+*.blg
+*.pdf
+*.aux
+*.log
+**********************************************************************
+
+Found README in parent directory, named: README.txt
+
+Printing contents of README.txt:
+**********************************************************************
+CMEE Coursework Repository- readme.txt 
+
+Files included: 
+Week1: Learnt Unix and Shell scripting 
+
+    Code 
+        boilerplate.sh      tabtocsv.sh        variables.sh       MyExampleScript.sh 
+        CountLines.sh       ConcatenateTwoFiles.sh                tiff2png.sh
+        csvtospace.sh       UnixPrac1.txt
+    Data
+        407228326.fasta     407228412.fasta    E.coli.fasta        spawannxs.txt
+        Temperature:    
+                    1800.csv    1801.csv       1802.csv         1803.csv 
+    Sandbox 
+        test.txt        test.txt.csv        ListRootDir.txt
+        TestWild
+
+
+
+File functions: 
+Week1 
+    Code
+        boilerplate.sh: 
+            Function: Shell script that recites 'This is a shell script!' when run
+
+        tabtocsv.sh: Shell script to substitute all tabs with commas. 
+            Input: File for the script to be run on
+            Output: File with commas instead of tabs 
+
+        variables.sh: Shell script to show the use of variables. 
+            Input: 1 string and two variables. 
+            Output: Value of string and adds the two variables together  
+
+        MyExampleScript.sh: Bash script that outputs 'Hello' and the Username of the user twice when run. 
+
+        CountLines: Bash script that counts the number of lines in a file. 
+            Input: File directory 
+
+        ConcatenateTwoFiles: Bash script that concatenates the contents of two files. 
+            Input: Var1 Var2; Two file paths to be merged and Var3; file to be merged to  
+
+        tiff2png.sh: Bash script that converts a tiff file to a png
+                     ********* Need to have installed imagemagick on unix system. ************
+            Input: tiff file
+            Output: png file
+
+        csvtospace.sh: Takes comma seperated values and converts it to space seperated values whilst not changing the input file. 
+            Input: csv datafile    
+            Output: Seperate file saved under different name 
+                        
+        UnixPrac1.txt: The first practical submission of the CMEE Course Work covering the chapter in UNIX 
+            Input: fasta files  
+            Output: How many lines in each fasta file
+                    Prints everything in E.coli.fasta file except first lines
+                    Count the sequence length of genome in fasta file 
+                    Count matches of "ATGC" in genome 
+                    AT/GC ratio of E.coli.fasta file
+        
+        FirstExample.tex: Latex file template 
+        
+        FirstBiblio.bib: The bibliography of a paper 
+
+        CompileLaTeX.sh: Compiles latex with bibtex
+            Input: File that needs to be compiled with bibtex
+        
+    Data
+    407228326.fasta: Input file for fasta exercise    
+    407228412.fasta: Input file for fasta exercise 
+    E.coli.fasta: Input file for fasta exercise 
+    Temperatures: Input files for the shell scripting excercises 
+                1800.csv
+                1801.csv
+                1802.csv
+                1803.csv
+    spawannxs.txt: Input files for practice excercises in Unix and shell scripting 
+
+    Sandbox: A practice directory for work practice.
+
+
+# list every directory and what it did and whats in 
+# e.g. week 1: bash shel, wek 2: ... 
+
+#list all code files that are in the directories and what they do 
+#need to know whats in and whats - languages, packages ( VERSIONS) 
+#user guide- no other context 
+#this week you;; need this stuff you need etc 
+#inputs **********************************************************************
+
+======================================================================
+Looking for the weekly directories...
+
+Found 1 weekly directories: Week1
+
+The Week1 directory will be assessed 
+
+======================================================================
+======================================================================
+PART 2: Checking weekly code and workflow...
+
+======================================================================
+Assessing WEEK1...
+
+Found the following directories: Code, Data, Sandbox, Results
+
+Found the following files: README.txt
+
+Checking for readme file in weekly directory...
+
+Found README in parent directory, named: README.txt
+
+Printing contents of README.txt:
+**********************************************************************
+CMEE Coursework Repository- readme.txt 
+
+Files included: 
+Week1
+    Code 
+        boilerplate.sh      tabtocsv.sh        variables.sh       MyExampleScript.sh 
+        CountLines.sh       ConcatenateTwoFiles.sh                tiff2png.sh
+        csvtospace.sh       UnixPrac1.txt
+    Data
+        407228326.fasta     407228412.fasta    E.coli.fasta        spawannxs.txt
+        Temperature:    
+                    1800.csv    1801.csv       1802.csv         1803.csv 
+    Sandbox 
+        test.txt        test.txt.csv        ListRootDir.txt
+        TestWild
+
+
+
+File functions: 
+Week1 
+    Code
+        boilerplate.sh: 
+            Function: Shell script that recites 'This is a shell script!' when run
+
+        tabtocsv.sh: Shell script to substitute all tabs with commas. 
+            Input: File for the script to be run on
+            Output: File with commas instead of tabs 
+
+        variables.sh: Shell script to show the use of variables. 
+            Input: 1 string and two variables. 
+            Output: Value of string and adds the two variables together  
+
+        MyExampleScript.sh: Bash script that outputs 'Hello' and the Username of the user twice when run. 
+
+        CountLines: Bash script that counts the number of lines in a file. 
+            Input: File directory 
+
+        ConcatenateTwoFiles: Bash script that concatenates the contents of two files. 
+            Input: Var1 Var2; Two file paths to be merged and Var3; file to be merged to  
+
+        tiff2png.sh: Bash script that converts a tiff file to a png
+                     ********* Need to have installed imagemagick on unix system. ************
+            Input: tiff file
+            Output: png file
+
+        csvtospace.sh: Takes comma seperated values and converts it to space seperated values whilst not changing the input file. 
+            Input: csv datafile    
+            Output: Seperate file saved under different name 
+                        
+        UnixPrac1.txt: The first practical submission of the CMEE Course Work covering the chapter in UNIX 
+            Input: fasta files  
+            Output: How many lines in each fasta file
+                    Prints everything in E.coli.fasta file except first lines
+                    Count the sequence length of genome in fasta file 
+                    Count matches of "ATGC" in genome 
+                    AT/GC ratio of E.coli.fasta file
+        
+        FirstExample.tex: Latex file template 
+        
+        FirstBiblio.bib: The bibliography of a paper 
+
+        CompileLaTeX.sh: Compiles latex with bibtex
+            Input: File that needs to be compiled with bibtex
+        
+    Data
+    407228326.fasta: Input file for fasta exercise    
+    407228412.fasta: Input file for fasta exercise 
+    E.coli.fasta: Input file for fasta exercise 
+    Temperatures: Input files for the shell scripting excercises 
+                1800.csv
+                1801.csv
+                1802.csv
+                1803.csv
+    spawannxs.txt: Input files for practice excercises in Unix and shell scripting 
+    
+    Sandbox: A practice directory for work practice.
+
+
+# list every directory and what it did and whats in 
+# e.g. week 1: bash shel, wek 2: ... 
+
+#list all code files that are in the directories and what they do 
+#need to know whats in and whats - languages, packages ( VERSIONS) 
+#user guide- no other context 
+#this week you;; need this stuff you need etc 
+#inputs **********************************************************************
+
+Found following files in results directory: ...
+
+Found 12 code files: ConcatenateTwoFiles.sh, CountLines.sh, variables.sh, CompileLaTeX.sh, tiff2png.sh, csvtospace.sh, FirstExample.tex, MyExampleScript.sh, FirstBiblio.bib, UnixPrac1.txt, tabtocsv.sh, boilerplate.sh
+
+Found the following extra files: .DS_Store
+0.5 pt deducted per extra file
+
+Current Points = 99.5
+
+======================================================================
+Testing script/code files...
+
+======================================================================
+Inspecting script file ConcatenateTwoFiles.sh...
+
+File contents are:
+**********************************************************************
+#!/bin/bash
+
+cat $1 > $3
+cat $2 >> $3
+echo "Merged File is "
+cat $3 
+
+#exit
+**********************************************************************
+
+Testing ConcatenateTwoFiles.sh...
+
+Output (only first 500 characters): 
+
+**********************************************************************
+Merged File is 
+
+**********************************************************************
+
+Encountered error (or warning):
+ConcatenateTwoFiles.sh: line 3: $3: ambiguous redirect
+ConcatenateTwoFiles.sh: line 4: $3: ambiguous redirect
+
+======================================================================
+Inspecting script file CountLines.sh...
+
+File contents are:
+**********************************************************************
+#!/bin/bash 
+
+NumLines=`wc -l < $1` #This is a L not a 1 
+echo "The file $1 has $NumLines lines"
+echo**********************************************************************
+
+Testing CountLines.sh...
+
+Output (only first 500 characters): 
+
+**********************************************************************
+The file  has  lines
+
+
+**********************************************************************
+
+Encountered error (or warning):
+CountLines.sh: line 3: $1: ambiguous redirect
+
+======================================================================
+Inspecting script file variables.sh...
+
+File contents are:
+**********************************************************************
+#!/bin/bash 
+#shows the use of some variables 
+
+MyVar='some string'
+echo 'the current value of the variable is' $MyVar
+echo 'Please enter a new string'
+read MyVar
+echo 'the current value of the variable is' $MyVar 
+
+##Reading mutiple values 
+echo 'Enter two numbers separated by space(e)'
+read a b 
+echo 'you entered' $a 'and' $b '. Their sum is:'
+mysum=`expr $a + $b`
+echo $mysum**********************************************************************
+
+Testing variables.sh...
+
+Output (only first 500 characters): 
+
+**********************************************************************
+the current value of the variable is some string
+Please enter a new string
+the current value of the variable is
+Enter two numbers separated by space(e)
+you entered and . Their sum is:
+
+
+**********************************************************************
+
+Encountered error (or warning):
+expr: syntax error
+
+======================================================================
+Inspecting script file CompileLaTeX.sh...
+
+File contents are:
+**********************************************************************
+#!/bin/bash
+pdflatex $1.tex
+pdflatex $1.tex
+bibtex $1
+pdflatex $1.tex
+pdflatex $1.tex 
+evince $1.pdf &
+
+#Cleanup 
+rm *~
+rm *.aux
+rm *dvi
+rm *.nav
+rm *.out
+rm *.snm
+rm *.toc
+**********************************************************************
+
+Testing CompileLaTeX.sh...
+
+Output (only first 500 characters): 
+
+**********************************************************************
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex)
+ restricted \write18 enabled.
+entering extended mode
+(/usr/share/texlive/texmf-dist/tex/latex/tools/.tex
+LaTeX2e <2016/02/01>
+Babel <3.9q> and hyphenation patterns for 81 language(s) loaded.
+File ignored)
+*
+! Emergency stop.
+<*> .tex
+        
+!  ==> Fatal error occurred, no output PDF file produced!
+Transcript written on .log.
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (pre
+**********************************************************************
+
+Encountered error (or warning):
+bibtex: Need exactly one file argument.
+Try `bibtex --help' for more information.
+rm: cannot remove '*~': No such file or directory
+rm: cannot remove '*.aux': No such file or directory
+rm: cannot remove '*dvi': No such file or directory
+rm: cannot remove '*.nav': No such file or directory
+rm: cannot remove '*.out': No such file or directory
+rm: cannot remove '*.snm': No such file or directory
+rm: cannot remove '*.toc': No such file or directory
+
+** (evince:8130): WARNING **: Error when getting information for file '/home/mhasoba/Documents/Teaching/IC_CMEE/2019-20/Coursework/StudentRepos/EmmaDeeks_EAD19/Week1/Code/.pdf': No such file or directory
+
+** (evince:8130): WARNING **: Error setting file metadata: No such file or directory
+
+** (evince:8130): WARNING **: Error setting file metadata: No such file or directory
+
+** (evince:8130): WARNING **: Error setting file metadata: No such file or directory
+
+** (evince:8130): WARNING **: Error setting file metadata: No such file or directory
+
+** (evince:8130): WARNING **: Error setting file metadata: No such file or directory
+
+** (evince:8130): WARNING **: Error setting file metadata: No such file or directory
+
+** (evince:8130): WARNING **: Error setting file metadata: No such file or directory
+
+** (evince:8130): WARNING **: Error setting file metadata: No such file or directory
+
+** (evince:8130): WARNING **: Error setting file metadata: No such file or directory
+
+** (evince:8130): WARNING **: Error setting file metadata: No such file or directory
+
+** (evince:8130): WARNING **: Error setting file metadata: No such file or directory
+
+======================================================================
+Inspecting script file tiff2png.sh...
+
+File contents are:
+**********************************************************************
+#!/bin/bash
+
+for f in *.tif;
+    do
+        echo "Converting $f";
+        convert "$f" "$(basename "$f" .tif).jpg"; 
+    done **********************************************************************
+
+Testing tiff2png.sh...
+
+Output (only first 500 characters): 
+
+**********************************************************************
+Converting *.tif
+
+**********************************************************************
+
+Encountered error (or warning):
+convert: unable to open image `*.tif': No such file or directory @ error/blob.c/OpenBlob/2712.
+convert: no images defined `*.jpg' @ error/convert.c/ConvertImageCommand/3210.
+
+======================================================================
+Inspecting script file csvtospace.sh...
+
+File contents are:
+**********************************************************************
+#!/bin/bash
+#Author: Emma Deeks ead19@imperial.ac.uk
+#Script: csvtospace.sh
+#Desc: Converts comma seperated values to space seperated values 
+#saves the output into a seperately file csvtospace_converted.txt 
+#Arguments: 1 -> tab delimited file 
+#Date: Oct 2019 
+
+for f in `ls ../Data/Temperatures/*.csv`; #goes to the directory containing the csv files 
+    do
+        echo "Creating a comma delimited version of ${f} ..."; 
+        a=`echo ${f}| cut -f 3 -d "."`  # cuts the .csv from the end value so instead of .csv.txt it is just .txt. defines a as the new variable
+        echo ${a} 
+        cat ${f} | tr -s "," "\ " >> ..${a}.txt #replaces commas with spaces and outputs it to a text file 
+        echo "Done!";
+    done**********************************************************************
+
+Testing csvtospace.sh...
+
+Output (only first 500 characters): 
+
+**********************************************************************
+
+**********************************************************************
+
+Encountered error (or warning):
+ls: cannot access '../Data/Temperatures/*.csv': No such file or directory
+
+======================================================================
+Inspecting script file FirstExample.tex...
+
+File contents are:
+**********************************************************************
+\documentclass[12pt]{article}
+\title{A Simple Document}
+\author{Emma Deeks}
+\date{}
+\begin{document}
+  \maketitle
+
+  \begin{abstract}
+    This paper must be cool!
+  \end{abstract}
+
+  \section{Introduction}
+    Blah Blah!
+
+  \section{Materials \& Methods}
+  One of the most famous equations is:
+  \begin{equation}
+    \int_0^1 \left(\ln \left( \frac{1}{x} \right) 
+    \right)^y dx = y!
+  \end{equation}
+  This equation was first proposed by Einstein in 1905 
+  \cite{einstein1905does}.
+
+  \bibliographystyle{plain}
+  \bibliography{FirstBiblio}
+\end{document}
+
+
+
+
+**********************************************************************
+
+Testing FirstExample.tex...
+
+======================================================================
+Inspecting script file MyExampleScript.sh...
+
+File contents are:
+**********************************************************************
+#!/bin/bash
+
+msg1="Hello"
+msg2=$USER
+echo "$msg1 $msg2"
+echo "Hello $USER"
+echo **********************************************************************
+
+Testing MyExampleScript.sh...
+
+Output (only first 500 characters): 
+
+**********************************************************************
+Hello mhasoba
+Hello mhasoba
+
+
+**********************************************************************
+
+Code ran without errors
+
+Time consumed = 0.00461s
+
+======================================================================
+Inspecting script file FirstBiblio.bib...
+
+File contents are:
+**********************************************************************
+@article{einstein1905does,
+  title={Does the inertia of a body depend upon its energy-content},
+  author={Einstein, Albert},
+  journal={Annalen der Physik},
+  volume={18},
+  number={13},
+  pages={639--41},
+  year={1905}
+}**********************************************************************
+
+Testing FirstBiblio.bib...
+
+======================================================================
+Inspecting script file UnixPrac1.txt...
+
+File contents are:
+**********************************************************************
+#1 
+#Counts and outputs the number of lines via the wc -l command of any fasta file in the 'Data' directory.
+#Output only includes the first three lines because the fourth line was the total of all the lines in every file which was not needed. 
+wc -l ../Data/*.fasta | head -n +3 
+
+#2 
+#Prints the fasta file but omits the first line of the sequence via the 'sed 1d' command
+#Output only shows the second line of the file via head -1 as the fasta file is big so the output is cut short for convenience
+sed 1d ../Data/E.coli.fasta | head -1 
+ 
+#3 
+#Tail -n +2 is an alternative way to sed 1d of removing the first line of a file. 
+#New line characters are deleted via 'tr -d "\n" ' and the number of characters of the E.coli.fasta file excluding the heading are counted via wc -m
+tail -n +2 ../Data/E.coli.fasta | tr -d "\n" | wc -m  
+
+#4 
+#This command removes the first line of the file and moves the file contents to a temporary file called 'tmpfile' then moves it back into the original E.coli.fasta file. 
+#Grep looks for the pattern 'ATGC' and the wc command counts the number of matches
+sed '1d' ../Data/E.coli.fasta > tmpfile; mv tmpfile ../Data/E.coli.fasta | grep -o "ATGC" ../Data/E.coli.fasta | wc -l 
+
+#5  
+#This command asigns two variables. 
+#The first variable 'a' is the output of a grep search for the number of 'A's and 'T's in the E.coli.fasta file
+#The second variable 'b' is the output of a grep search for the number of 'G's and 'C's in the E.coli.fasta file
+#The basic calculator (bc) is used to calculate what the ratio of the A+Ts and the G+Cs is by dividing the two variables. 
+#The output is rounded to two decimall places via the "scale=2" part of the bc calculation. 
+a=`grep 'A\|T' -o ../Data/E.coli.fasta | wc -l` && b=`grep 'G\|C' -o ../Data/E.coli.fasta | wc -l` && echo "scale=2;$a/$b"|bc 
+
+
+
+
+**********************************************************************
+
+Testing UnixPrac1.txt...
+
+======================================================================
+Inspecting script file tabtocsv.sh...
+
+File contents are:
+**********************************************************************
+#!/bin/bash
+#Author: Emma Deeks ead19@imperial.ac.uk
+#Script: tabtocsv.sh
+#Desc: Substitute the tabs in the file with commas 
+#saves the output into a csv file 
+#Arguments: 1 -> tab delimited file 
+#Date: Oct 2019 
+
+echo "Creating a comma delimited version of $1 ..."
+cat $1 | tr -s "\t" "," >> $1.csv
+echo "Done!"
+exit**********************************************************************
+
+Testing tabtocsv.sh...
+
+Output (only first 500 characters): 
+
+**********************************************************************
+Creating a comma delimited version of  ...
+Done!
+
+**********************************************************************
+
+Code ran without errors
+
+Time consumed = 0.00655s
+
+======================================================================
+Inspecting script file boilerplate.sh...
+
+File contents are:
+**********************************************************************
+#!bin/bash
+#Author: Emma Deeks ead19@imperial.ac.uk
+#Script: boilerplate.sh
+#Desc: simple boilerplate for shell scripts 
+#Arguments: none 
+#Date Oct 2019
+
+echo -e "\nThis is a shell script! \n"
+
+#exit **********************************************************************
+
+Testing boilerplate.sh...
+
+Output (only first 500 characters): 
+
+**********************************************************************
+
+This is a shell script! 
+
+
+**********************************************************************
+
+Code ran without errors
+
+Time consumed = 0.00330s
+
+======================================================================
+======================================================================
+Finished running scripts
+
+Ran into 6 errors
+
+======================================================================
+======================================================================
+
+FINISHED WEEKLY ASSESSMENT
+
+Current Points for the Week = 99.5
+
+NOTE THAT THESE ARE POINTS, NOT MARKS FOR THE WEEK!
