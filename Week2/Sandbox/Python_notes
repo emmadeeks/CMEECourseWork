@@ -1,0 +1,11 @@
+#python3 or iphython but recommends using ipython as it has the in [1]
+#Tuplules are like lists but not able to change unless its a whole pairing
+
+
+x = 11 #This assigns the variable 
+for i in range(x):
+    if i > 3:      #you have to make sure the indentations are correct all the time
+        print(i)   #for i in the range of x, only print values higher than x 
+
+
+
