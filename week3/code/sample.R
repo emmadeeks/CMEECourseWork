@@ -1,4 +1,6 @@
 ######### Functions ##########
+# Function: Example script of using vectorization involving lapply and sapply. 
+
 
 ## A function to take a sample of size n from a population "popn" and return its mean
 myexperiment <- function(popn,n){
@@ -54,6 +56,8 @@ num <- 100 # Number of times to rerun the experiment
 n <- 20 # sample size for each experiment
 num <- 1000 # Number of times to rerun the experiment
 
+
+#Times the time taken for script to run 
 print("The loopy, non-preallocation approach takes:" )
 print(system.time(loopy_sample1(popn, n, num)))
 

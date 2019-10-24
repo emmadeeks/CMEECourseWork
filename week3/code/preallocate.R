@@ -1,3 +1,6 @@
+
+#Illustrating the speed of preallocation
+
 a <- NA
 for (i in 1:10) {
   a <- c(a, i)
@@ -11,3 +14,4 @@ for (i in 1:10) {
   print(a)
   print(object.size(a))
 }
+

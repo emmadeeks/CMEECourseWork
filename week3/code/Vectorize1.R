@@ -1,3 +1,6 @@
+
+#A vectorisation example which compares the time taken to run 
+#a vectorisation function compares to aa loop 
 M <- matrix(runif(1000000),1000,1000)
 
 SumAllElements <- function(M){

@@ -1,3 +1,6 @@
+#Illustrates how R functions work and takes as input 
+#Already defined inputs and returns the class of these inputs
+
 MyFunction <- function(Arg1, Arg2){
 
   # Statements involving Arg1, Arg2:
