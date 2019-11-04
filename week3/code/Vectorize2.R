@@ -2,8 +2,6 @@
 #two scripts, one stochastic Ricker model and another and improved version of this model which is vectorised
 #Output: Speed comparion of both scripts
 
-rm(list=ls())
-
 stochrick<-function(p0=runif(1000,.5,1.5),r=1.2,K=1,sigma=0.2,numyears=100)
 {
   #initialize
@@ -40,12 +38,13 @@ stochrickvect<-function(p0=runif(1000,.5,1.5),r=1.2,K=1,sigma=0.2,numyears=100)
 
 for (yr in 2:numyears){ #for each pop, loop through the years
 
-      N[yr,] <- N[yr-1,] * exp(r * (1 - N[yr - 1,] / K) + rnorm(length(p0),0,sigma)) #Take out the pop part of the for loop as it is not nessearily needed for the loop and takes extra time
+      N[yr,] <- N[yr-1,] * exp(r * (1 - N[yr - 1,] / K) + rnorm(1,0,sigma)) #Take out the pop part of the for loop as it is not nessearily needed for the loop and takes extra time
 
   }
 
   return(N)
 }
+
 
 
 # Now write another function called stochrickvect that vectorizes the above
