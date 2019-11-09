@@ -25,10 +25,10 @@
 
 Files
 
-	407228326.fasta: Input file for fasta exercise    
-	407228412.fasta: Input file for fasta exercise 
-	E.coli.fasta: Input file for fasta exercise 
-	Temperatures: Input files for the shell scripting exercises 
+	`407228326.fasta`: Input file for fasta exercise    
+	`407228412.fasta`: Input file for fasta exercise 
+	`E.coli.fasta`: Input file for fasta exercise 
+	`Temperatures`: Input files for the shell scripting exercises 
                 1800.csv
                 1801.csv
                 1802.csv
