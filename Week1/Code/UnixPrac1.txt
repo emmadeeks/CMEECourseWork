@@ -1,22 +1,22 @@
 #1 
 #Counts and outputs the number of lines via the wc -l command of any fasta file in the 'Data' directory.
 #Output only includes the first three lines because the fourth line was the total of all the lines in every file which was not needed. 
-wc -l ../Data/*.fasta | head -n +3 
+wc -l ../data/*.fasta | head -n +3 
 
 #2 
 #Prints the fasta file but omits the first line of the sequence via the 'sed 1d' command
 #Output only shows the second line of the file via head -1 as the fasta file is big so the output is cut short for convenience
-sed 1d ../Data/E.coli.fasta | head -1 
+sed 1d ../data/E.coli.fasta | head -1 
  
 #3 
 #Tail -n +2 is an alternative way to sed 1d of removing the first line of a file. 
 #New line characters are deleted via 'tr -d "\n" ' and the number of characters of the E.coli.fasta file excluding the heading are counted via wc -m
-tail -n +2 ../Data/E.coli.fasta | tr -d "\n" | wc -m  
+tail -n +2 ../data/E.coli.fasta | tr -d "\n" | wc -m  
 
 #4 
 #This command removes the first line of the file and moves the file contents to a temporary file called 'tmpfile' then moves it back into the original E.coli.fasta file. 
 #Grep looks for the pattern 'ATGC' and the wc command counts the number of matches
-sed '1d' ../Data/E.coli.fasta > tmpfile; mv tmpfile ../Data/E.coli.fasta | grep -o "ATGC" ../Data/E.coli.fasta | wc -l 
+sed '1d' ../data/E.coli.fasta > tmpfile; mv tmpfile ../data/E.coli.fasta | grep -o "ATGC" ../data/E.coli.fasta | wc -l 
 
 #5  
 #This command asigns two variables. 
@@ -24,7 +24,7 @@ sed '1d' ../Data/E.coli.fasta > tmpfile; mv tmpfile ../Data/E.coli.fasta | grep 
 #The second variable 'b' is the output of a grep search for the number of 'G's and 'C's in the E.coli.fasta file
 #The basic calculator (bc) is used to calculate what the ratio of the A+Ts and the G+Cs is by dividing the two variables. 
 #The output is rounded to two decimall places via the "scale=2" part of the bc calculation. 
-a=`grep 'A\|T' -o ../Data/E.coli.fasta | wc -l` && b=`grep 'G\|C' -o ../Data/E.coli.fasta | wc -l` && echo "scale=2;$a/$b"|bc 
+a=`grep 'A\|T' -o ../data/E.coli.fasta | wc -l` && b=`grep 'G\|C' -o ../data/E.coli.fasta | wc -l` && echo "scale=2;$a/$b"|bc 
 
 
 

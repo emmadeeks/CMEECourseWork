@@ -11,7 +11,7 @@ __license__ = "License for this code/program"
 import sys
 # Assign the longer sequence s1, and the shorter to s2
 # l1 is length of the longest, l2 that of the shortest
-exec(open("../Data/sequences.csv").read(), globals()) #This executes a scripts and puts all the variables into the global scope.
+exec(open("../data/sequences.csv").read(), globals()) #This executes a scripts and puts all the variables into the global scope.
                                                        #This means the rest of the programme can read in te variabels and use them 
 
 l1 = len(seq1)

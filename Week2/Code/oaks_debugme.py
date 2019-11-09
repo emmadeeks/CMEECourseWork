@@ -25,7 +25,7 @@ def is_an_oak(name):
         return False
 
 def main(argv): 
-    f = open('../Data/TestOaksData.csv','r')
+    f = open('../data/TestOaksData.csv','r')
     i =f.readline() 
     p = f.readlines()[0:] #Excludes header line of file
     g = open('../results/JustOaksData.csv','w')

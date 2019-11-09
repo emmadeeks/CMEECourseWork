@@ -14,7 +14,7 @@ __license__ = "License for this code/program"
 import sys
 import os   #Changes root directory
 
-path = "../Data"   #sets variable of directory change 
+path = "../data"   #sets variable of directory change 
 os.chdir(path) #Changes the directory 
 
 def parse_fasta(fastafile): #function named parse_fasta which defines the input as fastafile
