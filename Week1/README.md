@@ -4,6 +4,19 @@
 
 - Unix Week:  Learnt the basics of UNIX including shell scripting, key commands such as grep and running functions. 
 
+| Script       | Function     | Input     | Output    |
+| :------------- | :----------: | -----------: |-----------: |
+|  boilerplate.sh | Shell script that recites 'This is a shell script!' when run   | None    | 'This is a shell script!    |
+| You Can Also   | Put Pipes In | Like this \| |
+
+
+| Bash scripts       |      |      |
+| :------------- | :----------: | -----------: |
+| boilerplate.sh | tabtocsv.sh   | variables.sh    |
+| MyExampleScript.sh   | CountLines.sh |
+| ConcatenateTwoFiles.sh   | tiff2png.sh |
+| csvtospace.sh   | **UnixPrac1.txt** |
+
 | Script | Function | Input | Output
 | ----------- | ----------- |
 |  boilerplate.sh | Shell script that recites 'This is a shell script!' when run | None | 'This is a shell script! |
