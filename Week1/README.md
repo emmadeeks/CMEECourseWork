@@ -1,7 +1,13 @@
-CMEE Coursework Repository- readme.txt 
+#CMEE Coursework Repository- README.md
 
-Files included: 
-Week1
+##Week1
+
+- Unix Week; Learnt the basics of UNIX including shell scripting, key commands such as grep and running functions. 
+
+| code | Bash scripts found in the code directory |
+| ----------- | ----------- |
+| Script | Function | Input | Output
+|  boilerplate.sh | Shell script that recites 'This is a shell script!' when run | None | 'This is a shell script! |
     Code 
         boilerplate.sh      tabtocsv.sh        variables.sh       MyExampleScript.sh 
         CountLines.sh       ConcatenateTwoFiles.sh                tiff2png.sh
@@ -75,12 +81,3 @@ Week1
     
     Sandbox: A practice directory for work practice.
 
-
-# list every directory and what it did and whats in 
-# e.g. week 1: bash shel, wek 2: ... 
-
-#list all code files that are in the directories and what they do 
-#need to know whats in and whats - languages, packages ( VERSIONS) 
-#user guide- no other context 
-#this week you;; need this stuff you need etc 
-#inputs 
