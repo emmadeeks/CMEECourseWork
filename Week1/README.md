@@ -4,10 +4,19 @@
 
 - Unix Week:  Learnt the basics of UNIX including shell scripting, key commands such as grep and running functions. 
 
+Code:
+
 | Script       | Function     | Input     | Output    |
 | :------------- | :----------: | -----------: |-----------: |
 |  boilerplate.sh | Shell script that recites 'This is a shell script!' when run   | None    | 'This is a shell script!    |
-| You Can Also   | Put Pipes In | Like this \| |
+|  tabtocsv.sh | Shell script to substitute all tabs with commas.    | File for the script to be run on    | File with commas instead of tabs |    
+|  variables.sh | Shell script to show the use of variables.    | 1 string and two variables.    | Value of string and adds the two variables together    |
+|  MyExampleScript.sh | Example script   | No input | 'Hello' and the Username of the user twice when run.    |
+|  CountLines.sh | Counts lines in a file   | File directory | Number of lines   |
+|  ConcatenateTwoFiles.sh | Concatenates two files   | Var1 Var2- Two file paths to be merged and Var3-file to be merged to | Merged files in var 3   |
+|  tiff2png.sh | Converts a tiff file to a png  | tiff file | png file   |
+|  csvtospace.sh | Takes comma seperated values and converts it to space seperated values whilst not changing the input file.   | csv datafile    | Seperate file that is space seperated   |
+
 
 
 | Bash scripts       |      |      |
