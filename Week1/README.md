@@ -4,7 +4,7 @@
 
 - Unix Week:  Learnt the basics of UNIX including shell scripting, key commands such as grep and running functions. 
 
-### Code:
+### Code: ** Bold scripts are part of the practical coursework for week 1 **
 
 | Script       | Function     | Input     | Output    |
 | :------------- | :----------: | -----------: |-----------: |
@@ -25,10 +25,10 @@
 
 Files
 
-	`407228326.fasta`: Input file for fasta exercise    
-	`407228412.fasta`: Input file for fasta exercise 
-	`E.coli.fasta`: Input file for fasta exercise 
-	`Temperatures`: Input files for the shell scripting exercises 
+	407228326.fasta: Input file for fasta exercise    
+	407228412.fasta: Input file for fasta exercise 
+	E.coli.fasta: Input file for fasta exercise 
+	Temperatures: Input files for the shell scripting exercises 
                 1800.csv
                 1801.csv
                 1802.csv
