@@ -1,13 +1,13 @@
-#CMEE Coursework Repository- README.md
+# CMEE Coursework Repository- README.md
 
-##Week1
+## Week1
 
-- Unix Week; Learnt the basics of UNIX including shell scripting, key commands such as grep and running functions. 
+- Unix Week:  Learnt the basics of UNIX including shell scripting, key commands such as grep and running functions. 
 
-| code | Bash scripts found in the code directory |
-| ----------- | ----------- |
 | Script | Function | Input | Output
+| ----------- | ----------- |
 |  boilerplate.sh | Shell script that recites 'This is a shell script!' when run | None | 'This is a shell script! |
+    
     Code 
         boilerplate.sh      tabtocsv.sh        variables.sh       MyExampleScript.sh 
         CountLines.sh       ConcatenateTwoFiles.sh                tiff2png.sh
