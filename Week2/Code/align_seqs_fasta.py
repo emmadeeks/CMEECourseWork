@@ -11,7 +11,7 @@ __license__ = "License for this code/program"
 import sys
 import os
 
-path = "../Data"
+path = "../data"
 os.chdir(path)
 
 def parse_fasta(fastafile):
@@ -76,7 +76,7 @@ for i in range(l1): # Note that you just take the last alignment with the highes
 
 print("Sequences aligned!")
 
-path = "../Code"
+path = "../code"
 os.chdir(path)
 
 f = open('../results/best_fasta_alignment.txt', 'w+')
