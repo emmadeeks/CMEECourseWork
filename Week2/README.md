@@ -16,7 +16,7 @@
     11. Using python to run other, non-python tasks and code
     12. Using python to patch together data analysis and/or numerical        simulation work flows
 
-### Code: 
+### Code:   ** Bold scripts are part of the practical coursework for week 2 **
 
 | Script       | Function     | Input     | Output    |
 | :------------- | :----------: | -----------: |-----------: |
@@ -51,27 +51,27 @@
     
 Files
 
-    `407228326.fasta`: Input file for fasta exercise of align_seq practical   
-    `407228412.fasta`: Input file for fasta exercise of align_seq practical
-    `TestOaksData.csv`: Input file for oaks_debugme.py practical 
-    `sequences.csv`: Input file for align_seqs practical part 2
-    `bodymass.csv`: Test file for practicals
-    `testcsv.csv`: Test input file for csv practical 
+ 	 407228326.fasta: Input file for fasta exercise of align_seq practical   
+ 	 407228412.fasta: Input file for fasta exercise of align_seq practical
+         TestOaksData.csv: Input file for oaks_debugme.py practical 
+         sequences.csv: Input file for align_seqs practical part 2
+    	bodymass.csv: Test file for practicals
+	testcsv.csv: Test input file for csv practical 
 
 
  #### Sandbox: 
  A practice directory for rough work and practice  
  
  ## Additional notes on packages required for scripts: 
-align_seqs_better.py: _Requires import sys and os_
-oaks_debugme.py: _Requires import csv, sys, doctest and re_
-sysargv.py: _Requires import sys_
-control_flow.py: _Requires import sys_
-align_seqs.py: _Requires import sys_
-align_seqs_fasta.py: _Requires import sys and os_
-basic_io3.py: _Requires import pickle_
-basic_csv.py: _Requires import csv_
-boilerplate.py: _Requires import sys_
+- align_seqs_better.py: _Requires import sys and os_
+- oaks_debugme.py: _Requires import csv, sys, doctest and re_
+- sysargv.py: _Requires import sys_
+- control_flow.py: _Requires import sys_
+- align_seqs.py: _Requires import sys_
+- align_seqs_fasta.py: _Requires import sys and os_
+- basic_io3.py: _Requires import pickle_
+- basic_csv.py: _Requires import csv_
+- boilerplate.py: _Requires import sys_
 
     
     
