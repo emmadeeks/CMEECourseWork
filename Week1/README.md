@@ -19,24 +19,21 @@
 |   `FirstExample.tex` | Latex file template  | No input    | Latex document   |
 |   `CompileLaTeX.sh` | Compiles latex with bibtex  | File that needs to be compiled with bibtex    | Latex document   |
 |   `FirstBiblio.bib` | The bibliography of a paper   | Bibliography of desired paper    | Bibliography of paper  |
-|   **`UnixPrac1.txt`** | The first practical submission of the CMEE Course Work covering the chapter in UNIX  | fasta files    | How many lines in each fasta file
-                    Prints everything in E.coli.fasta file except first lines
-                    Count the sequence length of genome in fasta file 
-                    Count matches of "ATGC" in genome 
-                    AT/GC ratio of E.coli.fasta file  |
+|   **`UnixPrac1.txt`** | The first practical submission of the CMEE Course Work covering the chapter in UNIX  | fasta files    | How many lines in each fasta file; Prints everything in E.coli.fasta file except first lines; Count the sequence length of genome in fasta file; Count matches of "ATGC" in genome; AT/GC ratio of E.coli.fasta file  |
 
 ### Data: 
 
 Files
-407228326.fasta: Input file for fasta exercise    
-407228412.fasta: Input file for fasta exercise 
-E.coli.fasta: Input file for fasta exercise 
-Temperatures: Input files for the shell scripting exercises 
+
+	407228326.fasta: Input file for fasta exercise    
+	407228412.fasta: Input file for fasta exercise 
+	E.coli.fasta: Input file for fasta exercise 
+	Temperatures: Input files for the shell scripting exercises 
                 1800.csv
                 1801.csv
                 1802.csv
                 1803.csv
- spawannxs.txt: Input files for practice exercises in Unix and shell scripting 
+ 	spawannxs.txt: Input files for practice exercises in Unix and shell scripting 
  
  #### Sandbox: 
  A practice directory for rough work and practice 
