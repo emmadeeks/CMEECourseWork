@@ -4,7 +4,7 @@
 
 - Unix Week:  Learnt the basics of UNIX including shell scripting, key commands such as grep and running functions. 
 
-### Code: ** Bold scripts are part of the practical coursework for week 1 **
+### Code: Bold scripts are part of the practical coursework for week 1 
 
 | Script       | Function     | Input     | Output    |
 | :------------- | :----------: | -----------: |-----------: |

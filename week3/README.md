@@ -13,7 +13,7 @@ Focuses on the basics of R as well as data exploration, management and visualisa
 - To make data wrangling and analyses more efficient and convenient using custom tools such as tidyr
 - Some additional tools and topics in R (accessing databases, building your own packages, etc.).
 
-### Code: ** Bold scripts are part of the practical coursework for week 3 **
+### Code: Bold scripts are part of the practical coursework for week 3
 
 | Script       | Function     | Input     | Output    |
 | :------------- | :----------: | -----------: |-----------: |
