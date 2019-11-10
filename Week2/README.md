@@ -16,7 +16,7 @@ Focuses on the basics of Python; Topics covered include:
     - Using python to run other, non-python tasks and code
     - Using python to patch together data analysis and/or numerical simulation work flows
 
-### Code:   ** Bold scripts are part of the practical coursework for week 2 **
+### Code:   Bold scripts are part of the practical coursework for week 2
 
 | Script       | Function     | Input     | Output    |
 | :------------- | :----------: | -----------: |-----------: |
