@@ -3,18 +3,18 @@
 ## Week2 
 
 Focuses on the basics of Python; Topics covered include:
-    - Basics of python syntax and data structures
-    - Python's object-oriented features
-    - How to write and run python code
-    - Understand and implement python control flow tools
-    - Learning to use the ipython environment 
-    - Writing, debugging, using, and testing python functions 
-    - Learning efficient numerical programming in python
-    - Using regular expressions in python
-    - Introduction to certain particularly useful python packages
-    - Using python for building and modifying databases
-    - Using python to run other, non-python tasks and code
-    - Using python to patch together data analysis and/or numerical simulation work flows
+- Basics of python syntax and data structures
+- Python's object-oriented features
+- How to write and run python code
+- Understand and implement python control flow tools
+- Learning to use the ipython environment 
+- Writing, debugging, using, and testing python functions 
+- Learning efficient numerical programming in python
+- Using regular expressions in python
+- Introduction to certain particularly useful python packages
+- Using python for building and modifying databases
+- Using python to run other, non-python tasks and code
+- Using python to patch together data analysis and/or numerical simulation work flows
 
 ### Code:   Bold scripts are part of the practical coursework for week 2
 
