@@ -1,5 +1,6 @@
 
 import re
+import scipy as sc
 
 # Read the file (using a different, more python 3 way, just for fun!)
 with open('../data/blackbirds.txt', 'r') as f:
@@ -22,3 +23,14 @@ text = text.decode('ascii', 'ignore') # Now decode back to string
 # Hint: you may want to use re.findall(my_reg, text)... Keep in mind that there
 # are multiple ways to skin this cat! Your solution could involve multiple
 # regular expression calls (easier!), or a single one (harder!)
+# 
+Kingdom = re.findall(r"Kingdom\s+\w+", text)
+Phylum = re.findall(r"Phylum\s+\w+", text)
+Species = re.findall(r"Species\s+\w+\s+\w+", text)
+
+for i in range(len(Kingdom)):
+    print (Kingdom[i])
+    print (Phylum[i])
+    print (Species[i], "\n")
+
+
