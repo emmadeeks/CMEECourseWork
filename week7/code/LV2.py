@@ -8,7 +8,7 @@ def dCR_dt(pops, t=0):
 
     R = pops[0]
     C = pops[1]
-    dRdt = r * R * (1- R * K) - a * R * C 
+    dRdt = r * R * (1- (R / K)) - a * R * C 
     dCdt = -z * C + e * a * R * C
     
     return sc.array([dRdt, dCdt])
@@ -18,7 +18,7 @@ a = float(sys.argv[2])
 z = float(sys.argv[3])
 e = float(sys.argv[4])
 
-K = 100
+K = 35
 
 R0 = 10
 C0 = 5 
@@ -29,26 +29,39 @@ t = sc.linspace(0, 15, 1000)
 pops, infodict = integrate.odeint(dCR_dt, RC0, t, full_output=True)
 
 f1 = p.figure()
+fig, (ax1, ax2) = p.subplots(1,2)
 
-p.plot(t, pops[:,0], 'g-', label='Resource density') # Plot
-p.plot(t, pops[:,1]  , 'b-', label='Consumer density')
-p.grid()
-p.legend(loc='best')
-p.xlabel('Time')
+ax1.plot(t, pops[:,0], 'g-', label='Resource density') # Plot
+ax1.plot(t, pops[:,1]  , 'b-', label='Consumer density')
+ax1.legend(loc='best')
+ax1.set(xlabel = 'Time', ylabel = 'Population density')
 p.ylabel('Population density')
-p.title('Consumer-Resource population dynamics')
+ax1.set_title('Consumer-Resource population dynamics')
 p.show()# To display the figure
 
 #f1.savefig('../results/LV_model_LV2.pdf') #Save figure
-
-f2 = p.figure()
-
-p.plot(pops[:,1], pops[:,0]  , 'r-', label = ('r=',r, 'a=',a, 'z=',z, 'e=',e))
-p.grid()
+textstr = ' '.join(("r =", (str(r))))
+textstr1 = ' '.join(("a =", (str(a))))
+textstr2 = ' '.join(("z =", (str(z))))
+textstr3 = ' '.join(("e =", (str(e))))
+final = '\n'.join((textstr, textstr1, textstr2, textstr3))
+props = dict(boxstyle='round', facecolor='wheat', alpha=0.5)
+ax2.text(0.05, 0.95, final, transform=ax2.transAxes, fontsize=9,
+        verticalalignment='top', bbox=props)
+props = dict(boxstyle='round', facecolor='wheat', alpha=0.5)
+ax2.plot(pops[:,1], pops[:,0]  , 'r-')
 p.legend(loc='best')
 p.xlabel('Resource density')
 p.ylabel('Consumer density')
-p.title('Consumer-Resource population dynamics')
 p.show()# To display the figure
 
 #f2.savefig('../results/consumer_resource_model_LV2.pdf')
+#prelist = r=',r, 'a=',a, 'z=',z, 'e=',e
+
+#p.plot(pops[:,1], pops[:,0]  , 'r-')
+#p.annotate('r=',r, 'a=',a, 'z=',z, 'e=',e, xy= )
+#p.legend(loc='best')
+#p.xlabel('Resource density')
+#p.ylabel('Consumer density')
+#p.title('Consumer-Resource population dynamics')
+#p.show()# To display the figure
