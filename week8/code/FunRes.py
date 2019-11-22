@@ -40,3 +40,7 @@ newdata_no_missing = newdata.dropna()
 print(newdata_no_missing)
 #Check that it has worked 
 newdata_no_missing.isnull().sum()
+
+
+
+newdata_no_missing.to_csv('../data/FunResData.csv')
