@@ -1,4 +1,4 @@
-#! /usr/bin/Rscript
+#!/usr/bin/env Rscript 
 
 # Plots log(field metabolic rate) against log(body mass) for the Nagy et al 
 # 1999 dataset to a file fmr.pdf.
@@ -18,4 +18,4 @@ for(class in unique(nagy$Class)){ #For loop that plots the log scales
 }
 dev.off()
 
-cat("Finished in R!\n")
+cat("Finished in R! Plot saved in Results directory\n")
