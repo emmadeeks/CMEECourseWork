@@ -43,4 +43,8 @@ newdata_no_missing.isnull().sum()
 
 
 
-newdata_no_missing.to_csv('../data/FunResData.csv')
+newdata_no_missing.to_csv('../data/modified_CRat.csv')
+
+
+
+data_subset = newdata_no_missing[newdata_no_missing['ID']]

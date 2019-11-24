@@ -13,10 +13,17 @@ def dCR_dt(pops, t=0):
     
     return sc.array([dRdt, dCdt])
 
-r = float(sys.argv[1])
-a = float(sys.argv[2])
-z = float(sys.argv[3])
-e = float(sys.argv[4])
+if len(sys.argv)== 5:
+    r = float(sys.argv[1])
+    a = float(sys.argv[2])
+    z = float(sys.argv[3])
+    e = float(sys.argv[4])
+else: 
+    print("Using default arguments:")
+    r = 1.
+    a = 0.1 
+    z = 1.5
+    e = 0.75
 
 K = 35
 
@@ -28,7 +35,6 @@ RC0 = sc.array([R0, C0])
 t = sc.linspace(0, 15, 1000)
 pops, infodict = integrate.odeint(dCR_dt, RC0, t, full_output=True)
 
-f1 = p.figure()
 fig, (ax1, ax2) = p.subplots(1,2)
 
 ax1.plot(t, pops[:,0], 'g-', label='Resource density') # Plot
@@ -55,13 +61,5 @@ p.xlabel('Resource density')
 p.ylabel('Consumer density')
 p.show()# To display the figure
 
-#f2.savefig('../results/consumer_resource_model_LV2.pdf')
-#prelist = r=',r, 'a=',a, 'z=',z, 'e=',e
+fig.savefig('../results/consumer_resource_model_LV2.pdf')
 
-#p.plot(pops[:,1], pops[:,0]  , 'r-')
-#p.annotate('r=',r, 'a=',a, 'z=',z, 'e=',e, xy= )
-#p.legend(loc='best')
-#p.xlabel('Resource density')
-#p.ylabel('Consumer density')
-#p.title('Consumer-Resource population dynamics')
-#p.show()# To display the figure
