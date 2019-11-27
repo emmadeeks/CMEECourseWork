@@ -4,6 +4,8 @@ import sys
 import matplotlib.pylab as p
 import scipy.integrate as integrate
 
+""" Similar to LV1 but requires inputs into the parameters but does use default values """
+
 def dCR_dt(pops, t=0):
 
     R = pops[0]

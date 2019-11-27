@@ -1,4 +1,4 @@
-
+""" script that demonstrates profiling and how to time functions """
 def my_squares(iters):
     out = []
     for i in range(iters):

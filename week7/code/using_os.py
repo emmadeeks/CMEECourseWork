@@ -1,4 +1,4 @@
-""" This is blah blah"""
+""" Illustrates hhow to use os and subprocess, utilises subprocess.os.walk"""
 
 
 import subprocess
