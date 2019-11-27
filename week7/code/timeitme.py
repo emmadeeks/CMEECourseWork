@@ -1,7 +1,7 @@
 ##############################################################################
 # loops vs. list comprehensions: which is faster?
 ##############################################################################
-
+""" A function that times loops vs comprehension to see which is faster """
 iters = 1000000
 
 import timeit 

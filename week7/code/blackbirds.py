@@ -1,6 +1,8 @@
 
 import re
 
+""" Blackbirds practical that uses regex to output Kingdom, Phylum and Species """
+
 # Read the file (using a different, more python 3 way, just for fun!)
 with open('../data/blackbirds.txt', 'r') as f:
     text = f.read()

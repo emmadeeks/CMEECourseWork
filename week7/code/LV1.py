@@ -2,6 +2,8 @@ import scipy as sc
 import matplotlib.pylab as p
 import scipy.integrate as integrate
 
+""" Plots Consumer-Resource population dynamics """
+
 def dCR_dt(pops, t=0):
 
     R = pops[0]
@@ -48,3 +50,7 @@ p.title('Consumer-Resource population dynamics')
 p.show()# To display the figure
 
 f2.savefig('../results/consumer_resource_model.pdf')
+
+
+
+

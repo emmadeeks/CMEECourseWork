@@ -2,6 +2,8 @@ import networkx as nx
 import scipy as sc
 import matplotlib.pyplot as p
 
+""" This script outputs figure of a food web network and saves it as a pdf """
+
 def GenRdmAdjList(N = 2, C = 0.5):
     """ 
     """
