@@ -2,7 +2,7 @@
 Now have list comprehensions instead and the .join has beenr eplaced with an explicit string concatenation 
 """
 
-def sum_sqaures(iters):
+def my_squares(iters):
     out = [i ** 2 for i in range(iters)]
     return out 
 
@@ -14,7 +14,7 @@ def my_join(iters, string):
 
 def run_my_funcs(x,y):
     print(x,y)
-    sum_squares(x)
+    my_squares(x)
     my_join(x,y)
     return 0 
 
