@@ -43,7 +43,7 @@ newdata_no_missing.isnull().sum()
 
 
 
-newdata_no_missing.to_csv('../data/modified_CRat.csv')
+newdata_no_missing.to_csv('../code/modified_CRat.csv')
 
 
 

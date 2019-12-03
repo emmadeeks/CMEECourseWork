@@ -41,3 +41,8 @@ f3 = p.figure()
 nx.draw_networkx(G, pos, node_size = NodSizs)
 
 f3.savefig('../results/network.pdf')
+
+
+
+
+

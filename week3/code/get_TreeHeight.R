@@ -1,3 +1,5 @@
+#!/usr/bin/env Rscript
+
 #Define function TreeHeight 
 TreeHeight <- function(degrees, distance){
   radians <- degrees * pi / 180

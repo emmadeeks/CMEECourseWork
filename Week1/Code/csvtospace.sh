@@ -6,6 +6,7 @@
 #Arguments: 1 -> tab delimited file 
 #Date: Oct 2019 
 
+
 for f in `ls ../data/Temperatures/*.csv`; #goes to the directory containing the csv files 
     do
         echo "Creating a comma delimited version of ${f} ..."; 
