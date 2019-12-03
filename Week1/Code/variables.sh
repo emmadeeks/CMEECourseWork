@@ -8,6 +8,7 @@ read MyVar
 echo 'the current value of the variable is' $MyVar 
 
 ##Reading mutiple values 
+## Shows how to assign inputs to scripts and how to incorporate them 
 echo 'Enter two numbers separated by space(e)'
 read a b 
 echo 'you entered' $a 'and' $b '. Their sum is:'

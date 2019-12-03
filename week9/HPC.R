@@ -179,34 +179,94 @@ sum_vect <- function(x, y) {
 question_16 <- function()  {
   duration = 200
   speciation_rate = 0.1
-  vector <- species_richness(community)
+  octave_min <- c()
+  octave_max <- c()
+  octave_min_use <- c()
+  octave_max_use <- c()
+  richness_community <- init_community_max(100)
+  richness_min_community <- init_community_min(100)
   for (x in 1:duration){
-    richness_community <- neutral_generation_speciation(init_community_max(100), speciation_rate)
+    richness_community <- neutral_generation_speciation(richness_community, speciation_rate)
   }
   for (x in 1:duration){
-    richness_min_community <- neutral_generation_speciation(init_community_min(100), speciation_rate)
+    richness_min_community <- neutral_generation_speciation(richness_min_community, speciation_rate)
   }
   octave_max <- octaves(species_abundance(richness_community))
   octave_min <- octaves(species_abundance(richness_min_community))
-  for (x in 1:2000){
-    richness_community_2000 <- neutral_generation_speciation(richness_community, speciation_rate)
+  for(i in 1:2000) {
+    richness_max_community_2000 <- neutral_generation_speciation(richness_community, speciation_rate)
+    if(i %% 20==0) {
+      octave_min <- octaves(species_abundance(richness_max_community_2000))
+      octave_min_use <- sum_vect(octave_min_use, octave_min)
+      cat(paste0("iteration: ", i, "\n"))
+    } # Just for waiting a bit in this example
   }
-  for (x in 1:2000){
+  for(i in 1:2000) {
     richness_min_community_2000 <- neutral_generation_speciation(richness_min_community, speciation_rate)
+    if(i %% 20==0) {
+      octave_max <- octaves(species_abundance(richness_min_community_2000))
+      octave_max_use <- sum_vect(octave_max_use, octave_max)
+      cat(paste0("iteration: ", i, "\n"))
+    } # Just for waiting a bit in this example
   }
+  average_min <- octave_min_use/100
+  average_max <- octave_max_use/100
+  barplot(octave_min)
+  barplot(octave_max)
   return("type your written answer here")
 }
 
-richness <- neutral_time_series_speciation(init_community_max(100), speciation_rate, duration)
-richness2 <- neutral_time_series_speciation(init_community_min(100), speciation_rate, duration)
-x <- c()
-y <- c()
-y2 <- c()
 # Question 17
 cluster_run <- function(speciation_rate, size, wall_time, interval_rich, interval_oct, burn_in_generations, output_file_name)  {
+  inital_com <- init_community_min(size)
+  t1 <- Sys.time()
+  for (i in 1:wall_time){
+  initial_com <- neutral_generation_speciation(inital_com, speciation_rate)
+    for(i in 1:burn_in_generations) {
+      initial_com <- neutral_generation_speciation(initial_com, speciation_rate)
+      if(i %% interval_rich==0) {
+        octave_min <- species_abundance(initial_com)
+        octave_min_use <- sum_vect(octave_min_use, octave_min)
+        cat(paste0("iteration: ", i, "\n"))
+      if(i %% interval_oct==0){
+        octave <- list(octaves(species_abundance(initial_com)))
+      }
+    } # Just for waiting a bit in this example
+  }
+  end <- Sys.time()
+  time_taken <- print(end-t1)
   
+  }
 }
 
+# Question 17
+cluster_run <- function(speciation_rate, size, wall_time, interval_rich, interval_oct,
+                        burn_in_generations, output_file_name)  {
+  time_start <- (proc.time()[3]) # the computer time at the very start of the function
+  community <- init_community_min(size)
+  # want to run the time series without putting a number in for duration,
+  #instead, want to run until run_time equals wall time
+  counter <- 0
+  species_richnes_vector <- c()
+  octave_data <- list()
+  run_time <- (proc.time()[3] - time_start)/60
+  while (run_time < wall_time) {
+    community <- neutral_generation_speciation(community, speciation_rate)
+    counter <- counter + 1
+    #print(counter) - just to check if something is happening
+    run_time <- (proc.time()[3] - time_start)/60
+    if (counter %% interval_rich == 0 && counter <= burn_in_generations) {
+      species_richnes_vector <- cbind(species_richnes_vector, species_richness(community))
+    }
+    if (counter %% interval_oct == 0) {
+      octave_temp <- octaves(species_abundance(community))
+      octave_data[counter] <- octave_temp
+    }
+  }
+  time_end <- proc.time()[3] - time_start
+  save(species_richnes_vector, octave_data, community, time_end, speciation_rate,
+       size, wall_time, interval_rich, interval_oct, burn_in_generations,  file = output_file_name)
+}
 # Questions 18 and 19 involve writing code elsewhere to run your simulations on the cluster
 
 # Question 20 
