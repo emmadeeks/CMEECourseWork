@@ -1,3 +1,14 @@
+#!/usr/bin/env Rscript
+
+#Author: Emma Deeks ead19@imperial.ac.uk
+#Script: sample.R
+#Desc: Example script of using vectorization involving lapply and sapply. 
+#Also times the different functions under a vectorized and looped approach to lapply and sapply.
+#Arguments: No input	
+#Outputs: The result of the functions using loops and vectorisation as well as the time taken to run each function with apply,
+#vectorization and preallocation
+#Date: Oct 2019  
+
 ######### Functions ##########
 # Function: Example script of using vectorization involving lapply and sapply. 
 

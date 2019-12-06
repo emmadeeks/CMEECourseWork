@@ -1,7 +1,7 @@
 #!/usr/bin/env python3 
 
 #Author: Emma Deeks ead19@imperial.ac.uk
-#Script: sysargv.py
+#Script: test_control_flow.py
 #Desc: Exercise of the sys.argv module which contains the names of the argument variables in the current script
 #Arguments: No input
 #Outputs: Prints doctests

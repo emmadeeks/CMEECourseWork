@@ -1,3 +1,13 @@
+#!/usr/bin/env Rscript
+
+#Author: Emma Deeks ead19@imperial.ac.uk
+#Script: try.R
+#Desc: Demonstrates how to use try to catch errors in script- Runs a simulation that involves sampling from a synthetic 
+#population with replacement and takes its mean, but only if at least 30 unique samples are obtained
+#Arguments: No input
+#Outputs:Prints errors in script to variable
+#Date: Oct 2019  
+
 #Using try to catch errors in the script 
 
 #Function that rus a simulation that involves sampling from a synthetic population with 
@@ -28,3 +38,4 @@ for(i in 1:15) {
 	}
 #Errors put into variable 
 print(result)
+

@@ -11,7 +11,8 @@
 """This programme aligns sequences and outputs the best match and score.
 Takes as input two files or if not files are inputed will default use two input files
 This programme returns the highest alignments in a text file called 'Improved
-fasta alignment.txt"""
+fasta alignment.txt. This script also takes into account any fasta file headings that might 
+impact the score """
 
 __author__ = 'Emma Deeks (ead19@ic.ac.uk)'
 
@@ -23,7 +24,8 @@ path = "../data"   #sets variable of directory change
 os.chdir(path) #Changes the directory 
 
 def parse_fasta(fastafile): #function named parse_fasta which defines the input as fastafile
-    """ Defining parse_fasta input as fasta file 
+   """ Defining parse_fasta input as fasta file, this function strips fasta files of their
+     headers if they are found to have them in order for the alignment scores to be correct
     """
     fastastr = ""  #Sets fastastr as an empty string 
     header = True #Includes a header 
@@ -59,6 +61,9 @@ else:
 # A function that computes a score by returning the number of matches starting
 # from arbitrary startpoint (chosen by user)
 def calculate_score(s1, s2, l1, l2, startpoint):
+    """
+    This function is calculating the scores by a series of if statements
+    """
     matched = "" # to hold string displaying alignements
     score = 0
     for i in range(l2):

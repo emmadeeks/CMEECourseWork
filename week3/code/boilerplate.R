@@ -1,3 +1,13 @@
+#!/usr/bin/env Rscript 
+
+#Author: Emma Deeks ead19@imperial.ac.uk
+#Script: boilerplate.R
+#Desc: Illustrates how R functions work
+#Arguments: Two arguments defined within script	
+#Outputs: Class of inputs
+#Date: Oct 2019  
+
+
 #Illustrates how R functions work and takes as input 
 #Already defined inputs and returns the class of these inputs
 

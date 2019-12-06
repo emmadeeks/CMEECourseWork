@@ -1,3 +1,13 @@
+#!/usr/bin/env Rscript 
+
+#Author: Emma Deeks ead19@imperial.ac.uk
+#Script: Nets.R
+#Desc:  This script visualizes the QMEE CDT collaboration network, coloring the the nodes by the type of node 
+#(organization type: "University","Hosting Partner", "Non-hosting Partner") using the igraph package
+#Arguments: Takes as input the QMEE_Net_Mat_edges.csv and QMEE_Net_Mat_nodes.csv from data directory
+#Outputs: network plot in pdf called QMEENet.svg in the results directory
+#Date: Oct 2019 
+
 rm(list = ls())
 
 library(igraph) # Load the igraph package

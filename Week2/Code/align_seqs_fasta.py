@@ -7,7 +7,8 @@
 #Arguments: Option to manually input 2 fasta files to be aligned or to have a default where there are no inputs
 #Date: Oct 2019 
 
-"""This programme aligns sequences and outputs the best match and score, It takes as input fasta files"""
+"""This programme aligns sequences and outputs the best match and score, It takes as input fasta files.
+This script also accounts for any headers that fasta files might have """
 
 __appname__ = '[Align sequences]'
 __author__ = 'Emma Deeks (ead19@ic.ac.uk)'

@@ -1,6 +1,18 @@
+#!/usr/bin/env Rscript
+
+#Author: Emma Deeks ead19@imperial.ac.uk
+#Script: MyBars.R
+#Desc: Script that builds a plot and saves as a pdf
+#Arguments: Text file of Resuts.txt from data directory
+#Outputs: pdf called 'MyBars.pdf' in results directory
+#Date: Oct 2019  
+
+require(ggplot2)
+
+## read in table results.txt 
 a <- read.table("../data/Results.txt", header = TRUE)
 
-
+#add a column to the tble 
 a$ymin <- rep(0, dim(a)[1]) # append a column of zeros
 
 # Print the first linerange
@@ -43,6 +55,8 @@ p <- p + scale_x_continuous("My x axis",
   scale_y_continuous("My y axis") + 
   theme_bw() + 
   theme(legend.position = "none") 
+
+#save variable as a pdf 
 pdf("../results/MyBars.pdf")
 p
 dev.off()

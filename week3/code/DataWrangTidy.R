@@ -1,4 +1,11 @@
+#!/usr/bin/env Rscript 
 
+#Author: Emma Deeks ead19@imperial.ac.uk
+#Script: DataWrangTidy.R
+#Desc: Script illustrating how to 'wrangle' data using the 'dplyr' and 'tidyr' package and other functions in R	
+#Arguments: No manual input required but uses the PoundHillData.csv and PoundHillMetaData.csv from data
+#Outputs: Both inputted datasets are in an improved format and under variable names 'MyData' and 'MyMetaData' respectively
+#Date: Oct 2019  
 ################################################################
 ################## Wrangling the Pound Hill Dataset ############
 ################################################################
@@ -11,11 +18,11 @@ MyData <- as.matrix(read.csv("../data/PoundHillData.csv",header = F))
 MyMetaData <- read.csv("../data/PoundHillMetaData.csv",header = T, sep=";", stringsAsFactors = F)
 
 ############# Inspect the dataset ###############
-require(dplyr)
+require(dplyr) #Instead of reshape its the dplyr and tidyr packages 
 require(tidyr)
 
-glimpse(MyData)
-tbl_df(MyData)
+glimpse(MyData) # different ways to look at data using diplyr
+tbl_df(MyData) # different ways to look at data using diplyr
 dim(MyData)
 fix(MyData) #you can also do this
 fix(MyMetaData)
@@ -39,6 +46,7 @@ colnames(TempData) <- MyData[1,] # assign column names from original data
 require(dplyr)
 require(tidyr)
 #This is using gather to convert data from wide to long format
+# instead of melt from reshape2 gather is used to convert data from wide to long format 
 MyWrangledData <- TempData %>% gather(Species, Count, -Cultivation, -Block, -Plot, -Quadrat)
 
 MyWrangledData[, "Cultivation"] <- as.factor(MyWrangledData[, "Cultivation"])
@@ -47,8 +55,8 @@ MyWrangledData[, "Plot"] <- as.factor(MyWrangledData[, "Plot"])
 MyWrangledData[, "Quadrat"] <- as.factor(MyWrangledData[, "Quadrat"])
 MyWrangledData[, "Count"] <- as.integer(MyWrangledData[, "Count"])
 
-glimpse(MyWrangledData)
+glimpse(MyWrangledData) #some more diplr and tidyr functions 
 tbl_df(MyWrangledData)
 dim(MyWrangledData)
 
-############# Exploring the data (extend the script below)  ###############
+

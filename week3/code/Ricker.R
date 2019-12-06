@@ -1,7 +1,17 @@
+#!/usr/bin/env Rscript
+
+#Author: Emma Deeks ead19@imperial.ac.uk
+#Script: Ricker.R
+#Desc: A vectorization challenge that runs a simulation of the Ricker model and returns a vector of length generations
+#Arguments: No input	
+#Outputs: Plots Ricker model
+#Date: Oct 2019  
+
+#This defines the ricker function 
+# Runs a simulation of the Ricker model
+# Returns a vector of length generations
 Ricker <- function(N0=1, r=1, K=10, generations=50)
 {
-  # Runs a simulation of the Ricker model
-  # Returns a vector of length generations
 
   N <- rep(NA, generations)    # Creates a vector of NA
 
@@ -13,4 +23,5 @@ Ricker <- function(N0=1, r=1, K=10, generations=50)
   return (N)
 }
 
-plot(Ricker(generations=10), type="l")
+#### PLOT MODEL 
+plot(Ricker(generations=10), type="l") #plots the ricker model 

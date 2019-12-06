@@ -1,3 +1,13 @@
+#!/usr/bin/env Rscript
+
+#Author: Emma Deeks ead19@imperial.ac.uk
+#Script: PP_Lattice.R
+#Desc: Script that makes three pdf lattices of prey mass, predator mass and the size ratio of prey mass over predator mass. 
+#Script also calculates the mean, median and log of these for prey mass, predator mass and size ratio into a csv file. 
+#Script calculates this for the data subsetted by feeding type
+#Arguments: EcolArchives-E089-51-D1.csv from data- no manual input
+#Outputs: 3 pdf and a csv file with values
+#Date: Oct 2019  
 
 #Script that makes three pdf lattices of prey mass, predator mass and the size ratio of prey mass over predator mass.
 #Script also calculates the mean, median and log of these for prey mass, predator mass and size ratio into a csv file.
@@ -6,6 +16,7 @@
 #Reads the data in and assigns the table to a variable
 MyDF <- read.csv("../data/EcolArchives-E089-51-D1.csv")
 
+#requires lattice from library to plot a lattice plot 
 library(lattice)
 
 pdf("../results/Pred_Lattice.pdf", # Open blank pdf page using a relative path

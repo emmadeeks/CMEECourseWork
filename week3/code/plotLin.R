@@ -1,3 +1,13 @@
+#!/usr/bin/env Rscript
+
+#Author: Emma Deeks ead19@imperial.ac.uk
+#Script: plotLin.R
+#Desc: A script that plots data and adds linear regression line
+#Arguments: No input
+#Outputs: pdf called 'MyLinReg.pdf' in results
+#Date: Oct 2019  
+
+
 x <- seq(0, 100, by = 0.1)
 y <- -4. + 0.25 * x +
   rnorm(length(x), mean = 0., sd = 2.5)
@@ -28,6 +38,7 @@ p <- p + geom_text(aes(x = 60, y = 0,
                        label = "sqrt(alpha) * 2* pi"), 
                    parse = TRUE, size = 6, 
                    colour = "blue")
+#Saves variable to pdf 
 pdf("../results/MyLinReg.pdf")
 p
 dev.off()

@@ -1,3 +1,14 @@
+#!/usr/bin/env Rscript
+
+#Author: Emma Deeks ead19@imperial.ac.uk
+#Script: TAutoCorr.R
+#Desc: An exercise in correlation coefficients and P-values. Calculates the correlation between n-1 pairs of years in temperature, script loads the KeyWestAnnualMeanTemperature data 
+#using load and computes the coefficient for this data before randomly shuffling the data 10000 times to randomly permute the time series and then recalculate the correlation 
+#coefficient for each randomly permuted year sequence and storing it.
+#Arguments: No manual input but uses the KeyWestAnnualMeanTemperature data	
+#Outputs: TThe fraction of the correlation coefficients from the previous step were greater that that from step 1. Also out outputs a Latex file interpreting results. Also outputs pdf of graph for lattice.
+#Date: Oct 2019  
+
 #an excercise in correlation coefficients and P-values.
 #Calculates the correlation between n-1 pairs of years in temperature,
 #script loads the KeyWestAnnualMeanTemperature data using load and computes the coefficient for this data
@@ -32,8 +43,8 @@ add_cor <- c()
 #Shift rows up using re defined function
 #removes final line
 #Runs correlation and appends to empty vector
-for (i in 1:replicate){
-  df$V1 <- sample(ats$Temp)
+for (i in 1:replicate){ #from one to 1000 (replicate)
+  df$V1 <- sample(ats$Temp) 
   df$V2 <- df$V1
   df <- transform(df, V2 = shift2(V2, 1))
   ats_df <- df[-nrow(df),]
