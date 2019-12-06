@@ -17,7 +17,7 @@ def my_squares(iters):
     return out 
 
 def my_join(iters, string):
-    """ Takes as input iteration and strings and joins them """
+    """ Takes as input iteration and a string and joins them """
     out = ''
     for i in range(iters):
         out += string.join(", ")

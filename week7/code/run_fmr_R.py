@@ -1,4 +1,4 @@
-#!/usr/bin/env Rscript 
+#!/usr/bin/env python3
 
 #Author: Emma Deeks ead19@imperial.ac.uk
 #Script: run_fmr_R.py

@@ -56,13 +56,13 @@ if len(sys.argv)== 5:
     e = float(sys.argv[4])
 else: 
     print("Using default arguments:")
-    r = 3
+    r = 1
     a = 0.1 
-    z = 1
+    z = 1.5
     e = 0.75
 
 #K used 
-K = 35
+K = 30
 
 # an array of consumer resource is created to be put into the function 
 R0 = 10

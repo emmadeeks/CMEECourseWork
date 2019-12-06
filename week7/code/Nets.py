@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 #Author: Emma Deeks ead19@imperial.ac.uk
 #Script: Nets.py
 #Desc:  Extension practical of Python week 7  which uses networkx to visualise the QMEE 
