@@ -3,7 +3,8 @@
 #Author: Emma Deeks ead19@imperial.ac.uk
 #Script: get_TreeHeight.R
 #Desc: Function that calculates heights of trees given distance of each tree from its base and angle to its top, using the trigonometric formula
-#Arguments: Degrees and distance but not required manually as there is a default of 'trees.csv' from data
+#Arguments: You must input the name of the csv file but not the .csv at the end e.g. if your trees data is found in the data directory and is called
+# trees.csv you only need to put trees into the command line e.g. Rscript get_TreeHeight.R trees
 #Outputs: Heights of the tree, same units as distance
 #Date: Oct 2019  
 
