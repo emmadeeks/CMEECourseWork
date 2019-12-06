@@ -40,11 +40,11 @@ z is the mortality rate - units are 'per time'
 e is the consumer's efficiency (rate in turning mass into its own mass). no units. """
 
 
-K = 35
+K = 30
 
 #define time vector integrating from time point 0 to 30 using 1000 sub-divisions of time
 #The time series 
-t = sc.linspace(1, 30, 10)
+t = sc.linspace(1, 15, 100)
 
 #length of the time ereis 
 rows = len(t)
