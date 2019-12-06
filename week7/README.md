@@ -1,6 +1,6 @@
 # CMEE Coursework Repository- README.md 
 
-##  Week7: 
+##  Week7: Python II 
 
 ### Code: Bold scripts are part of the practical coursework for week 7
 
@@ -12,29 +12,19 @@ adjacency table and saves it as a pdf. uses packages netwrokx |  no input  |  ne
 |  `fmr.R` |  Similar to TestR.R as it is an R script that is run through python. Plots log field metabolic rate against the log body mass and saves it as a pdf  |  no manual input but used NagyEtAl1999.csv from data directory, runs through python but is an R script |  plots a linear regression of log(field metabolic rate) against log(body mass) and saves it in the results as fmrplot.R  |
 |  `LV1.py` |  Plots Consumer-resource population dybamics and runs the Lotka-Volterra model for predator prey systems   | no input   |  Plots two models; consumer-resource model and LV model |
 |  `LV2.py` | Plots Consumer-resource population dybamics and runs the Lotka-Volterra model for predator prey systems. This script is modifying the Lotka-Volterra model for predator-prey system in two-dimensional space (e.g. on land) by adding K (carrying capacity  | Has default arguments but can manually input LV parameters,  r: is intrinsic growth rate of resource population a: per-capita "search rate", i.e. the rate at which consumers find resources units: area per time unit, z: mortality rate - units are 'per time' and e consumer's efficiency (rate in turning mass into its own mass). no units.   |  Plots two models; consumer-resource model and LV model and saves to results  called consumer_resource_model_LV2.pdf |
-|  `LV3.py` |  Extra credit:  of LV2 and is a discrete time version of the Lv model  using a time series and is also profiled
- |  Has default arguments but can input LV model parameters manually: r: is intrinsic growth rate of resource population, a: per-capita "search rate", i.e. the rate at which consumers find resources units: area per time unit, z: mortality rate - units are 'per time', e" consumer's efficiency (rate in turning mass into its own mass). no units.   |  Plots two models; consumer-resource model and LV model and saves to results called consumer_resource_model_LV3.pdf | 
+|  `LV3.py` |  Extra credit:  of LV2 and is a discrete time version of the Lv model  using a time series and is also profiled | Has default arguments but can input LV model parameters manually: r: is intrinsic growth rate of resource population, a: per-capita "search rate", i.e. the rate at which consumers find resources units: area per time unit, z: mortality rate - units are 'per time', e" consumer's efficiency (rate in turning mass into its own mass). no units.   |  Plots two models; consumer-resource model and LV model and saves to results called consumer_resource_model_LV3.pdf | 
 |  `Nets.py` |  Extension practical of Python week 7  which uses networkx to visualise the QMEE CDT collaboration network, coloruing the nodes by the type of node (organisation type: University, Histing partner or non-histing partner)  |  Takes as input the QMEE_Net_Mat_edges.csv and QMEE_Net_Mat_nodes.csv from data directory   |  network plot in pdf called nets.svg in the results directory |
 |  `Nets.R` |  This script visualizes the QMEE CDT collaboration network, coloring the the nodes by the type of node (organization type: "University","Hosting Partner", "Non-hosting Partner") using the igraph package  |  Takes as input the QMEE_Net_Mat_edges.csv and QMEE_Net_Mat_nodes.csv from data directory  |  network plot in pdf called QMEENet.svg in the results directory  |
 |  `profileme.py` |  an illustrative programme about how to porfile functions and scripts  |  no input    | Profiles of the three functions  defined in the script including running time etc and certain 'slow' parts  |
-|  `profileme2.py` |  Similar script to profileme but the functions (which use to have loops)
-Now have list comprehensions instead and the .join has been replaced with an explicit string concatenation  |  No input  |  Profiles of the three functions  defined in the script including running time etc and certain 'slow' parts  |
+|  `profileme2.py` |  Similar script to profileme but the functions (which use to have loops) Now have list comprehensions instead and the .join has been replaced with an explicit string concatenation  |  No input  |  Profiles of the three functions  defined in the script including running time etc and certain 'slow' parts  |
+|  `regexs.py` | Regex exercises   |  No input  | outputs of regex excercises  |
+|  `run_fmr_R.py` |  runs the fmr.R script through python using subprocess |  No input  |  output of fmr.R |
+|  `run_LV.py` | Profiles and times all the LV scripts using timeit and CPorfile.  |  Does not require inputs but takes manual inputs of r, a, z and e  |  Profiles of the three functions  defined in the script including running time etc and certain 'slow' parts  |
+|  `TestR.py` |  runs Rscript through python using os  |  No input  |  Outputs output of TestR.R to results directory called TestR.Rout  |
+|  `TestR.R` |  R script to be run through python script TestR.py script.  |  No input  |  Hello this is R! in an output script in results   |
+|  `timeitme.py` |  A script that times loops vs comprehension to see which is faster using timeit and profileme2  |  No input  |  time results of loops verses comprehensions |
+|  `using_os.py` |  Illustrates hhow to use os and subprocess, utilises subprocess.os.walk  |  No input  |  Contents of home directory  |
 
-
-|  `control_flow.R` |  Illustrates the use of if statements, while loops and for loops.  |  No input  |  The results from each loop illustrated  |
-
-
-|  `control_flow.R` |  Illustrates the use of if statements, while loops and for loops.  |  No input  |  The results from each loop illustrated  |
-|  `control_flow.R` |  Illustrates the use of if statements, while loops and for loops.  |  No input  |  The results from each loop illustrated  |
-
-|  `browse.R` |  Function that shows a different way of debugging by running a simulation of exponential growth and returning a vector of generations before plotting it. Shows how to use break to run through the code line by line and debug.  |  Once run you can input code to navigate the break function   |  first iteration of the for loop and the console will enter the browser mode then allows manual debugging  |
-
-
-|  `control_flow.R` |  Illustrates the use of if statements, while loops and for loops.  |  No input  |  The results from each loop illustrated  |
-|  `browse.R` |  Function that shows a different way of debugging by running a simulation of exponential growth and returning a vector of generations before plotting it. Shows how to use break to run through the code line by line and debug.  |  Once run you can input code to navigate the break function   |  first iteration of the for loop and the console will enter the browser mode then allows manual debugging  |
-|  `control_flow.R` |  Illustrates the use of if statements, while loops and for loops.  |  No input  |  The results from each loop illustrated  |
-|  `browse.R` |  Function that shows a different way of debugging by running a simulation of exponential growth and returning a vector of generations before plotting it. Shows how to use break to run through the code line by line and debug.  |  Once run you can input code to navigate the break function   |  first iteration of the for loop and the console will enter the browser mode then allows manual debugging  |
-|  `control_flow.R` |  Illustrates the use of if statements, while loops and for loops.  |  No input  |  The results from each loop illustrated  |
 
 
 

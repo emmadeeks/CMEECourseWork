@@ -12,8 +12,8 @@
 # Plots log(field metabolic rate) against log(body mass) for the Nagy et al 
 # 1999 dataset to a file fmr.pdf.
 
-""" Similar to TestR.R as it is an R script that is run through python"""
-""" Plots log field metabolic rate against the log body mass and saves it as a pdf """
+#Similar to TestR.R as it is an R script that is run through python"""
+#Plots log field metabolic rate against the log body mass and saves it as a pdf """
 cat("Reading CSV\n") #Reads string with a newline
 
 nagy <- read.csv('../data/NagyEtAl1999.csv', stringsAsFactors = FALSE) #Reads in csv and saves to a variable 
