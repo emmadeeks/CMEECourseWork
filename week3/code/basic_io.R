@@ -1,3 +1,12 @@
+#!/usr/bin/env Rscript 
+
+#Author: Emma Deeks ead19@imperial.ac.uk
+#Script: basic_io.R
+#Desc: Script to illustrate the different ways to write in a file and different parameters
+#Arguments: No manual input required but uses trees.csv data from data directory
+#Outputs: csv file names MyData in global environment
+#Date: Oct 2019  
+
 # A simple script to illustrate R input-output.
 # Run line by line and check inputs putput to
 # understand what is happening

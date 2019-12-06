@@ -1,3 +1,12 @@
+#!/usr/bin/env Rscript 
+
+#Author: Emma Deeks ead19@imperial.ac.uk
+#Script: DataWrang.R
+#Desc: Script illustrating how to 'wrangle' data using the reshape2 package and other functions in R
+#Arguments: No manual input required but uses the PoundHillData.csv and PoundHillMetaData.csv from data
+#Outputs: Both inputted datasets are in an improved format and under variable names 'MyData' and 'MyMetaData' respectively
+#Date: Oct 2019  
+
 ################################################################
 ################## Wrangling the Pound Hill Dataset ############
 ################################################################
@@ -25,6 +34,8 @@ dim(MyData)
 ############# Replace species absences with zeros ###############
 MyData[MyData == ""] = 0
 
+
+
 ############# Convert raw matrix to data frame ###############
 
 TempData <- as.data.frame(MyData[-1,],stringsAsFactors = F) #stringsAsFactors = F is important!
@@ -34,6 +45,7 @@ colnames(TempData) <- MyData[1,] # assign column names from original data
 require(reshape2) # load the reshape2 package
 
 ?melt #check out the melt function
+
 
 MyWrangledData <- melt(TempData, id=c("Cultivation", "Block", "Plot", "Quadrat"), variable.name = "Species", value.name = "Count")
 

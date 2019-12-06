@@ -1,3 +1,12 @@
+#!/usr/bin/env Rscript
+
+#Author: Emma Deeks ead19@imperial.ac.uk
+#Script: Vectorize2.R
+#Desc: Two scripts, one stochastic Ricker model and an improved version of this model which is vectorised
+#Arguments: No input
+#Outputs:Speed comparison of both scripts
+#Date: Oct 2019  
+
 # Runs the stochastic Ricker equation with gaussian fluctuations
 #two scripts, one stochastic Ricker model and another and improved version of this model which is vectorised
 #Output: Speed comparion of both scripts
@@ -32,6 +41,9 @@ stochrickvect<-function(p0=runif(1000,.5,1.5),r=1.2,K=1,sigma=0.2,numyears=100)
   #initialize
   N<-matrix(NA,numyears,length(p0))
   N[1,]<-p0
+  
+# Now write another function called stochrickvect that vectorizes the above
+# to the extent possible, with improved performance:
 
 #loop through the populations---- Takes out pop in script
 #speeds up loop as its now been vectorised
@@ -44,11 +56,6 @@ for (yr in 2:numyears){ #for each pop, loop through the years
 
   return(N)
 }
-
-
-
-# Now write another function called stochrickvect that vectorizes the above
-# to the extent possible, with improved performance:
 
 print("Vectorized Stochastic Ricker takes:")
 print(system.time(res2<-stochrickvect()))

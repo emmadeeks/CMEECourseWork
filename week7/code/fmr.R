@@ -1,5 +1,14 @@
 #!/usr/bin/env Rscript 
 
+#Author: Emma Deeks ead19@imperial.ac.uk
+#Script: fmr.R
+#Desc:  Similar to TestR.R as it is an R script that is run through python
+#Plots log field metabolic rate against the log body mass and saves it as a pdf
+#Arguments: no manual input but used NagyEtAl1999.csv from data directory, runs through python but is an 
+# R script 
+#Outputs: plots a linear regression of log(field metabolic rate) against log(body mass) and saves it in the results
+#Date: Oct 2019 
+
 # Plots log(field metabolic rate) against log(body mass) for the Nagy et al 
 # 1999 dataset to a file fmr.pdf.
 

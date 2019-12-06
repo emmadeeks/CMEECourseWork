@@ -1,3 +1,16 @@
+#!/usr/bin/python
+
+#Author: Emma Deeks ead19@imperial.ac.uk
+#Script: Vectorize2.py
+#Desc: Two scripts, one stochastic Ricker model and an improved version of this model which is vectorised, 
+#this script is the python version of 'Vectorize2.R'
+#Arguments: No input
+#Outputs:Speed comparison of both scripts
+#Date: Oct 2019  
+
+""" Two scripts, one stochastic Ricker model and an improved version of this model which is vectorised, 
+this script is the python version of 'Vectorize2.R'"""
+
 #Import random for generating random distributions 
 #Import numpy for functions for maths- number python
 #Import time for timing two functions 
@@ -8,6 +21,7 @@ import time
 #The Stochastic Ricker Model defined by Samraat in R and converted to Python
 
 def stochrick():
+  """ defines the stochrick richer model """
     p0= [] #Start population
     for i in range(0,1000):
         nextvalue = random.uniform(0.5,1.5)
@@ -30,6 +44,7 @@ def stochrick():
 ###### Improved function ########
 
 def stochrickvect():
+  """ defines the vectorised Stochastic Ricker Model """
     p0= []
     for i in range(0,1000):
         nextvalue = random.uniform(0.5,1.5)
@@ -48,14 +63,16 @@ def stochrickvect():
 
 #This is vectorised because instead of indexing with population and years 
 #The improved version just vecotrises the function by only using year and then 
-#the model just runs the whole way down each column 
+#the model just runs the whole way down each column as oppose to 
 
+# Comapares times of the ricker model 
 start_time = time.time()
 stochrick()
 runningtime = time.time() - start_time
 print("Stochastic Ricker takes:", runningtime)
 
-
+# Comapres times of the vectorised ricker model 
+# THIS IS MUCH QUICKER 
 start_time = time.time()
 stochrickvect()
 runningtime = time.time() - start_time

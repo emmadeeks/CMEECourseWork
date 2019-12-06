@@ -1,3 +1,12 @@
+#!/usr/bin/env Rscript
+
+#Author: Emma Deeks ead19@imperial.ac.uk
+#Script: SQLin.R
+#Desc: EScript to demonstrate how data can be used to access update and manage databases easily
+#Arguments: Has default data entry
+#Outputs: TNo output as dataframes removed from global environment after script is run
+#Date: Oct 2019 
+
 #install the sqlite package
 install.packages('sqldf')
 
@@ -59,3 +68,4 @@ dbReadTable(db, "Resource")    # The data in a table
 # the three data frames are removed from R’s environment.
 dbDisconnect(db)            # Close connection
 rm(list = c("Resource"))   # Remove data frames
+

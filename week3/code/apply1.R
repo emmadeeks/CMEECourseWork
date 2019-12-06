@@ -1,3 +1,12 @@
+#!/usr/bin/env Rscript 
+
+#Author: Emma Deeks ead19@imperial.ac.uk
+#Script: apply1.R
+#Desc: Builds a random matrix
+#Arguments: No input
+#Outputs: Calculates mean of each row in matrix
+#Date: Oct 2019  
+
 #Function: Builds a random matrix 
 #and makes a mean of each row in that matrix. 
 

@@ -1,4 +1,11 @@
+#!/usr/bin/env python3
 
+#Author: Emma Deeks ead19@imperial.ac.uk
+#Script: blackbirds.py
+#Desc:  Blackbirds practical that uses regex to output Kingdom, Phylum and Species of a csv of blackbird species, phylums and kingdoms
+#Arguments: no input 
+#Outputs: Species, kingdom and phylum of the blacbirds.txt file of each bird
+#Date: Oct 2019 
 import re
 
 """ Blackbirds practical that uses regex to output Kingdom, Phylum and Species of a csv of blackbird species, phylums and kingdoms """
@@ -34,11 +41,7 @@ Species = re.findall(r"Species\s+\w+\s+\w+", text)
 
 # For loop go through each of the three variables and prints the associate phylums, Kingdoms of that species to the screen
 # Uses the length of the species variable to get the correct number of species for the iterations of the loop
-for i in range(len(Kingdom)):
-    print (Species[i], "is in:")
-    print (Phylum[i])
-    print (Kingdom[i], "\n")
-    
+# Indexs the phylum and kingdom variables so all of them are in the same iterations 
 for i in range(len(Species)):
     print (Species[i], "is in:")
     print (Phylum[i])

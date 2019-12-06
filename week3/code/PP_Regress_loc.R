@@ -1,9 +1,19 @@
+#!/usr/bin/env Rscript
+
+#Author: Emma Deeks ead19@imperial.ac.uk
+#Script: PP_Regress.R
+#Desc: Script that calculates the regression of data when its been subsetted three times and outputs the results to a table in csv format
+#Arguments: EcolArchives-E089-51-D1.csv from data- no manual input
+#Outputs: csv file with the linear results; 'PP_Regress_loc_Results.csv' in results directory
+#Date: Oct 2019  
+
+
 MyDF <- read.csv("../data/EcolArchives-E089-51-D1.csv")
 
 ############## csv ##############
 #Creates an empty dataframe
 
-Orange = as.data.frame(matrix(nrow = 1, ncol = 8))
+Orange = as.data.frame(matrix(nrow = 1, ncol = 8)) # dataframe has 8 coluns for the third subset 
 
 #For loop that uses two inputs to the for loop which is the two things you are subsetting
 #t is the variable for the data once its been subsetted once, and predator lifestage is assigned to i
@@ -11,6 +21,8 @@ Orange = as.data.frame(matrix(nrow = 1, ncol = 8))
 #a linear regression is run on the subsette ddata
 #p is a variable then then puts the outputs of the vector in order
 #p then goes into the re made dataframe.
+
+# this is the same for loop as PP_Regress.R except with an additional subset equal to h 
 for(i in levels(MyDF$Predator.lifestage)){
   for(j in levels(MyDF$Type.of.feeding.interaction)){
     for(h in levels(MyDF$Location)){

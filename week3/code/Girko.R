@@ -1,3 +1,15 @@
+#!/usr/bin/env Rscript
+
+#Author: Emma Deeks ead19@imperial.ac.uk
+#Script: Girko.R
+#Desc: Function that returns an eclipse
+#Arguments: No input
+#Outputs: Girko.pdf in results with eclipse
+#Date: Oct 2019  
+
+require(ggplot2)
+
+# Function that builds the ecipse 
 build_ellipse <- function(hradius, vradius){ # function that returns an ellipse
   npoints = 250
   a <- seq(0, 2 * pi, length = npoints + 1)
@@ -5,7 +17,6 @@ build_ellipse <- function(hradius, vradius){ # function that returns an ellipse
   y <- vradius * sin(a)  
   return(data.frame(x = x, y = y))
 }
-
 
 
 
@@ -38,6 +49,7 @@ p <- p + geom_vline(aes(xintercept = 0))
 # finally, add the ellipse
 p <- p + geom_polygon(data = ellDF, aes(x = Real, y = Imaginary, alpha = 1/20, fill = "red"))
 
+#Saves the variable of the plot to a pdf
 pdf("../results/Girko.pdf")
 p
 dev.off()
