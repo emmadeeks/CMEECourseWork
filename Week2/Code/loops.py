@@ -1,3 +1,14 @@
+#!/usr/bin/env python3
+
+#Author: Emma Deeks ead19@imperial.ac.uk
+#Script: loops.py
+#Desc: A series of for and while loops
+#Arguments: No input 
+#Outputs: output of "Geronimo! infinite loop!"
+#Date: Oct 2019 
+
+""" A series of for and while loops which outputs a infinate loop of Geronimo! """
+
 # FOR loops in python
 
 #Prints 1 5 times 

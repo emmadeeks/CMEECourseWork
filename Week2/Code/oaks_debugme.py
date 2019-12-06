@@ -1,3 +1,14 @@
+#!/usr/bin/env python3
+
+#Author: Emma Deeks ead19@imperial.ac.uk
+#Script: oaks_debugme.py
+#Desc: A script with a bug that was corrected with debugging
+#Arguments: File with tree species; Note: must enter species name exactly
+#Outputs: File with only oak species found in list inputted
+#Date: Oct 2019 
+
+""" A script with a bug that was corrected with debugging """
+
 import csv
 import sys
 import doctest
@@ -25,6 +36,7 @@ def is_an_oak(name):
         return False
 
 def main(argv): 
+    """ Main entry point of the program """ 
     f = open('../data/TestOaksData.csv','r')
     i =f.readline() 
     p = f.readlines()[0:] #Excludes header line of file
@@ -45,6 +57,7 @@ def main(argv):
 
 
 if (__name__ == "__main__"):
+    """Makes sure the "main" function is called from command line"""  
     status = main(sys.argv)
     print(is_an_oak.__doc__) #Allows for doctests 
     doctest.testmod() 

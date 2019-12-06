@@ -1,6 +1,13 @@
 #!/usr/bin/env python3 
 
-"""Some functions eemplifying the use of control statements"""
+#Author: Emma Deeks ead19@imperial.ac.uk
+#Script: sysargv.py
+#Desc: Exercise of the sys.argv module which contains the names of the argument variables in the current script
+#Arguments: No input
+#Outputs: Prints doctests
+#Date: Oct 2019 
+
+"""Some functions exemplifying the use of control statements"""
 
 __author__ = 'Emma Deeks (ead19@ic.ac.uk)'
 __version__ = '0.0.1'
@@ -10,7 +17,7 @@ import sys # Module to interface our program with the operating system
 import doctest #Import the doctest module 
 
 def even_or_odd(x=0): # if not specified, x should take value 0.
-    """Find whether a number x is even or odd.
+    """Find whether a number x is even or odd. These are doctests 
 
     >>> even_or_odd(10)
     '10 is Even!'
@@ -33,13 +40,17 @@ def even_or_odd(x=0): # if not specified, x should take value 0.
         return "%d is Even!" % x
     return "%d is Odd!" % x
 
-#def main(argv):
-#    print(even_or_odd(22))
-#    print(even_or_odd(33))
-#    return 0
+# In this function it sets the main module and gives the defined function inputs to test 
+def main(argv):
+    """ Main entry point of the program """ 
+    print(even_or_odd(22))
+    print(even_or_odd(33))
+    return 0
 
-# if (__name__ == "__main__"):
-#     status = main(sys.argv)
+if (__name__ == "__main__"):
+    """Makes sure the "main" function is called from command line"""  
+    status = main(sys.argv)
+    print(even_or_odd.__doc__) #Allows for doctests 
+    doctest.testmod() 
 ############################################
 
-doctest.testmod()
