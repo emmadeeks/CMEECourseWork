@@ -1,10 +1,11 @@
 """ Extension practical of Python week 7 """
 
-import networkx as nx
+
+import networkx as nx ### Import package for network 
 import csv 
 import pandas
 import scipy as sc
-import matplotlib.pylab as p
+import matplotlib.pylab as p ## Import 
 import numpy as np
 
 edges = pandas.read_csv('../data/QMEE_Net_Mat_edges.csv', header=0)

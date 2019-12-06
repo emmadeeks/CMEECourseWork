@@ -1,8 +1,15 @@
 #!/usr/bin/env python3 
 
-"""Description of this program or application. You can use several lines"""
+#Author: Emma Deeks ead19@imperial.ac.uk
+#Script: control_flow.py
+#Desc: Similar to boilerplate.py in structure as its a python programme but adds docstrings and a series of functions
+#Arguments: No input
+#Outputs: Outputs of all functions in script
+#Date: Oct 2019 
 
-__appname__ = '[boilerplate]'
+""" Similar to boilerplate.py in structure as its a python programme but adds docstrings and a series of functions """
+
+__appname__ = '[control_flow.py]'
 __author__ = 'Emma Deeks (ead19@ic.ac.uk)'
 __version__ = '0.0.1'
 __licence__ = "License for this code/program"
@@ -12,7 +19,7 @@ import sys # Module to interface our program with the operating system
 
 def even_or_odd(x=0): # if not specified, x should take value 0.
 
-    """Find whether a number x is even or odd."""
+    """Finds whether a number x is even or odd."""
     if x % 2 == 0: #The conditional if
         return "%d is Even!" % x
     return "%d is Odd!" % x
@@ -51,6 +58,7 @@ def find_all_primes(x=22):
     return allprimes
 
 def main(argv):
+    """ Main entry point of the program that returns output of all the functions """
     print(even_or_odd(22))
     print(even_or_odd(33))
     print(largest_divisor_five(120))
@@ -63,9 +71,6 @@ def main(argv):
 if (__name__ == "__main__"):
     status = main(sys.argv)
     sys.exit(status)
-
-## constants ##
-
 
 ## functions ##
 def main(argv):

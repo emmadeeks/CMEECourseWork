@@ -1,3 +1,13 @@
+#!/usr/bin/env python3
+
+#Author: Emma Deeks ead19@imperial.ac.uk
+#Script: lc2.py
+#Desc: Uses list comprehensions and for loops
+#Arguments: No input 
+#Outputs: Creates a list of month and rainfall tuples when the amount of rain was; 
+# Greater than 100mm and Less than 50mm from a list of rainfall averages
+#Date: Oct 2019 
+
 # Average UK Rainfall (mm) for 1910 by month
 # http://www.metoffice.gov.uk/climate/uk/datasets
 rainfall = (('JAN',111.4),
@@ -25,11 +35,11 @@ Less than 50mm """
 #List comprehension that returns months of rainfall when it was over or 
 # equal to 100mm
 x = set([i for i in rainfall if (i[1]) >= 100])
-print(x)
+print(" Months of rainfall when it was over or equal to 100mm using comprehension \n", x, "\n")
 
 # List comprehension that returns months of rainfall when it was under 50mm
 x = set([i for i in rainfall if (i[1]) <= 50])
-print(x)
+print(" Months of rainfall when it was under 50mm using comprehension\n", x, "\n")
 
 # For loop that returns months of rainfall when it was over or 
 # equal to 100mm
@@ -37,7 +47,7 @@ List_of_rain = []
 for w in rainfall:
     if (w[1]) >= 100:
         List_of_rain.append(w)
-print(List_of_rain)
+print(" Months of rainfall when it was over or equal to 100mm using for loop \n", List_of_rain, "\n")
 
 # For loop that returns months of rainfall when it was under 50mm
 List_of_rain = []
@@ -45,4 +55,4 @@ for w in rainfall:
     if (w[1]) <= 50:
         List_of_rain.append(w)
 for a in List_of_rain:
-    print(a)
+    print(" Months of rainfall when it was under 50mm using for loop \n", a, "\n")

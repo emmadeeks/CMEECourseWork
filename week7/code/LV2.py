@@ -22,9 +22,9 @@ if len(sys.argv)== 5:
     e = float(sys.argv[4])
 else: 
     print("Using default arguments:")
-    r = 1.
+    r = 3
     a = 0.1 
-    z = 1.5
+    z = 1
     e = 0.75
 
 K = 35
