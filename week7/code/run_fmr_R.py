@@ -1,4 +1,12 @@
-#!/usr/bin/env python3 
+#!/usr/bin/env Rscript 
+
+#Author: Emma Deeks ead19@imperial.ac.uk
+#Script: run_fmr_R.py
+#Desc:  runs the fmr.R script through python using subprocess
+#Arguments: no input 
+#Outputs: output of fmr.R
+#Date: Oct 2019 
+
 #### Add shebang to make the programme excuable from a different call point
 ### R has an R shebang at the top of its script as well
 import subprocess

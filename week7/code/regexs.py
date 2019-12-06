@@ -1,3 +1,12 @@
+#!/usr/bin/env python3
+
+#Author: Emma Deeks ead19@imperial.ac.uk
+#Script: regexs.py
+#Desc:  Regex exercises 
+#Arguments: no input 
+#Outputs: outputs of regex excercises 
+#Date: Oct 2019 
+
 """ Script that utilisies regex and gives includes example exercises """
 
 # Sets a variable 

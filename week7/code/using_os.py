@@ -1,3 +1,12 @@
+#!/usr/bin/env python3
+
+#Author: Emma Deeks ead19@imperial.ac.uk
+#Script: using_os.py
+#Desc:  Illustrates hhow to use os and subprocess, utilises subprocess.os.walk
+#Arguments: No input
+#Outputs: Contents of home directory 
+#Date: Oct 2019 
+
 """ Illustrates hhow to use os and subprocess, utilises subprocess.os.walk"""
 # Imports the appropirate packages 
 import subprocess

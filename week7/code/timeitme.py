@@ -1,7 +1,16 @@
+#!/usr/bin/env python3
+
+#Author: Emma Deeks ead19@imperial.ac.uk
+#Script: timeitme.py
+#Desc:  A script that times loops vs comprehension to see which is faster using timeitme and profileme2
+#Arguments: No input
+#Outputs: time results of loops verses comprehensions 
+#Date: Oct 2019 
+
 ##############################################################################
 # loops vs. list comprehensions: which is faster?
 ##############################################################################
-""" A function that times loops vs comprehension to see which is faster """
+""" A script that times loops vs comprehension to see which is faster """
 iters = 1000000
 
 import timeit 
@@ -10,8 +19,6 @@ from profileme import my_squares as my_squares_loops
 
 from profileme2 import my_squares as my_squares_lc 
 
-# %timeit my_squares_loops(iters)
-# %timeit my_squares_lc(iters)
 
 ##############################################################################
 # loops vs. the join method for strings: which is faster?
