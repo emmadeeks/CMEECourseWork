@@ -5,7 +5,7 @@ name <- "Emma Deeks"
 preferred_name <- "Emma"
 email <- "ead19@imperial.ac.uk"
 username <- "edeeks"
-personal_speciation_rate <- 0.002 # will be assigned to each person individually in class and should be between 0.002 and 0.007
+personal_speciation_rate <- 0.003517 # will be assigned to each person individually in class and should be between 0.002 and 0.007
 
 # Question 1
 #Each number in a community is a individual but the different numbers 
@@ -138,6 +138,7 @@ neutral_time_series_speciation <- function(community,speciation_rate,duration){
 # Question 12
 
 question_12 <- function(){
+  graphics.off()
   x <- c()
   y <- c()
   y2 <- c()
@@ -167,107 +168,85 @@ octaves <- function(abundance_vector) {
 
 # Question 15
 sum_vect <- function(x, y) {
-  if (length(x) < length(y)){
-    x <- c(x, rep(0, length(y)- length(x)))
-  } else if (length(x) > length(y)) {
-    y <- c(x, rep(0, length(x)-length(y)))
-  }
- x + y
+  diff <- length(x)-length(y)
+  if (diff > 0) {
+    y <- c(y, rep(0, abs(diff))) }
+  if (diff < 0) {
+    x <- c(x, rep(0, abs(diff))) }
+  vector_sum <- x + y
+  return(vector_sum)
 }
 
 # Question 16 
-question_16 <- function()  {
+question_16 <- function(){
+  graphics.off()
+  richnessmax <- c()
+  richnessmin <- c()
+  octave_to_max <- c()
+  octave_to_min <- c()
   duration = 200
+  generation = 2000
   speciation_rate = 0.1
-  octave_min <- c()
-  octave_max <- c()
-  octave_min_use <- c()
-  octave_max_use <- c()
-  richness_community <- init_community_max(100)
-  richness_min_community <- init_community_min(100)
-  for (x in 1:duration){
-    richness_community <- neutral_generation_speciation(richness_community, speciation_rate)
+  richnessmax <- init_community_max(100)
+  richnessmin <- init_community_min(100)
+  for (i in 1:as.integer(duration)) {
+  richnessmax <- neutral_generation_speciation(richnessmax, speciation_rate)
+  richnessmin <- neutral_generation_speciation(richnessmin, speciation_rate)
   }
-  for (x in 1:duration){
-    richness_min_community <- neutral_generation_speciation(richness_min_community, speciation_rate)
+  octave_max <- octaves(species_abundance(richnessmax))
+  octave_min <- octaves(species_abundance(richnessmin))
+  counter <- 0 
+  for (i in 1:as.integer(generation)) {
+    richnessmax <- neutral_generation_speciation(richnessmax, speciation_rate)
+    richnessmin <- neutral_generation_speciation(richnessmin, speciation_rate)
+    if (i %% 20==0){
+      counter<- counter + 1
+      octave_max <- octaves(species_abundance(richnessmax))
+      octave_min <- octaves(species_abundance(richnessmin))
+      octave_to_max <- sum_vect(octave_to_max, octave_max)
+      octave_to_min <- sum_vect(octave_to_min, octave_min)
+    }
   }
-  octave_max <- octaves(species_abundance(richness_community))
-  octave_min <- octaves(species_abundance(richness_min_community))
-  for(i in 1:2000) {
-    richness_max_community_2000 <- neutral_generation_speciation(richness_community, speciation_rate)
-    if(i %% 20==0) {
-      octave_min <- octaves(species_abundance(richness_max_community_2000))
-      octave_min_use <- sum_vect(octave_min_use, octave_min)
-      cat(paste0("iteration: ", i, "\n"))
-    } # Just for waiting a bit in this example
-  }
-  for(i in 1:2000) {
-    richness_min_community_2000 <- neutral_generation_speciation(richness_min_community, speciation_rate)
-    if(i %% 20==0) {
-      octave_max <- octaves(species_abundance(richness_min_community_2000))
-      octave_max_use <- sum_vect(octave_max_use, octave_max)
-      cat(paste0("iteration: ", i, "\n"))
-    } # Just for waiting a bit in this example
-  }
-  average_min <- octave_min_use/100
-  average_max <- octave_max_use/100
-  barplot(octave_min)
-  barplot(octave_max)
-  return("type your written answer here")
+  averagemax <- octave_to_max / counter
+  averagemin <- octave_to_min / counter
+  par(mfrow=c(1,2))
+  barplot(averagemax)
+  barplot(averagemin)
 }
 
-# Question 17
-cluster_run <- function(speciation_rate, size, wall_time, interval_rich, interval_oct, burn_in_generations, output_file_name)  {
-  inital_com <- init_community_min(size)
-  t1 <- Sys.time()
-  for (i in 1:wall_time){
-  initial_com <- neutral_generation_speciation(inital_com, speciation_rate)
-    for(i in 1:burn_in_generations) {
-      initial_com <- neutral_generation_speciation(initial_com, speciation_rate)
-      if(i %% interval_rich==0) {
-        octave_min <- species_abundance(initial_com)
-        octave_min_use <- sum_vect(octave_min_use, octave_min)
-        cat(paste0("iteration: ", i, "\n"))
-      if(i %% interval_oct==0){
-        octave <- list(octaves(species_abundance(initial_com)))
-      }
-    } # Just for waiting a bit in this example
-  }
-  end <- Sys.time()
-  time_taken <- print(end-t1)
-  
-  }
-}
+
 
 # Question 17
 cluster_run <- function(speciation_rate, size, wall_time, interval_rich, interval_oct,
                         burn_in_generations, output_file_name)  {
-  time_start <- (proc.time()[3]) # the computer time at the very start of the function
   community <- init_community_min(size)
-  # want to run the time series without putting a number in for duration,
-  #instead, want to run until run_time equals wall time
+  start_time <- (proc.time()[3])
   counter <- 0
-  species_richnes_vector <- c()
   octave_data <- list()
-  run_time <- (proc.time()[3] - time_start)/60
+  count_octave <- 0
+  richness <- c()
+  run_time <- (proc.time()[3] - start_time)/60
   while (run_time < wall_time) {
     community <- neutral_generation_speciation(community, speciation_rate)
     counter <- counter + 1
-    #print(counter) - just to check if something is happening
-    run_time <- (proc.time()[3] - time_start)/60
+    run_time <- (proc.time()[3] - start_time)/60
     if (counter %% interval_rich == 0 && counter <= burn_in_generations) {
-      species_richnes_vector <- cbind(species_richnes_vector, species_richness(community))
+      richness <- c(richness, species_richness(community))
     }
     if (counter %% interval_oct == 0) {
-      octave_temp <- octaves(species_abundance(community))
-      octave_data[counter] <- octave_temp
+      count_octave <- count_octave + 1
+      octave1 <- octaves(species_abundance(community))
+      octave_data[[count_octave]] <- (octave1)
     }
   }
-  time_end <- proc.time()[3] - time_start
-  save(species_richnes_vector, octave_data, community, time_end, speciation_rate,
-       size, wall_time, interval_rich, interval_oct, burn_in_generations,  file = output_file_name)
+  time_end <- (proc.time()[3] - start_time)
+  save(richness, octave_data, community, time_end, speciation_rate,
+       size, wall_time, interval_rich, interval_oct, burn_in_generations, file = output_file_name)
 }
+
 # Questions 18 and 19 involve writing code elsewhere to run your simulations on the cluster
+
+
 
 # Question 20 
 process_cluster_results <- function()  {
@@ -276,64 +255,129 @@ process_cluster_results <- function()  {
   return(combined_results)
 }
 
+
+########### FRACTALS ############
 # Question 21
 question_21 <- function()  {
-  return("type your written answer here")
+  a <- list('1.89', "Using the Koch Curve equation, I set the the Width of the square at 3, because it is three 'squares' long
+            and the size as 8 as there are 8 squares of the subunit. I then divided log of size (8) by the log of width (3) to get 1.89")
+  return(a)
 }
 
 # Question 22
 question_22 <- function()  {
-  return("type your written answer here")
+  a <- list("2.73", "Using the box method for working out the dimension, the number 
+            of hypercubes was set as 20 and the hypercube length set as a 1/3 as that was 
+            the fraction where the 'hole' in the centre of the cube was excluded. the equation was log(20)/log(1/3) and log(1)")
+  return(a)
 }
 
 # Question 23
 chaos_game <- function()  {
-  # clear any existing graphs and plot your graph within the R window
-  return("type your written answer here")
+  A = c(0,0)
+  B = c(3,4)
+  C = c(4,1)
+  X = c(0,0)
+  points <- list(A, B, C)
+  plot(x = X[1], y = X[2], cex = 0.5)
+  for (i in 1:10000){
+    new <- sample(points, 1)
+    newnum <- c(as.numeric(new[[1]][1]), as.numeric(new[[1]][2]))
+    Xnew <- ((newnum - X)/2)
+    X <- Xnew + X
+    points(x = X[1], y = X[2], cex = 0.5)
+  }
+  return("This makes a fractal triangle")
 }
 
 # Question 24
-turtle <- function(start_position, direction, length)  {
-  
-  return() # you should return your endpoint here.
+
+turtle <- function(start_position, direction, length){
+  newx <- cos(direction) * length 
+  newy <- sin(direction) * length
+  newpoints <- c(newx,newy)
+  newpositions <- c(newpoints + start_position)
+  segments(start_position[1], start_position[2], newpositions[1], newpositions[2])
+  return(newpositions) # you should return your endpoint here.
 }
 
 # Question 25
-elbow <- function(start_position, direction, length)  {
-  
+elbow <- function(start_position, direction, length){
+  first <- turtle(start_position, direction, length)
+  turtle(first, (direction - pi/4), length*0.95)
 }
 
 # Question 26
-spiral <- function(start_position, direction, length)  {
+spiral <- function(start_position, direction, length, limit){
+  first <- turtle(start_position, direction, length)
+  if (length > limit) {
+  spiral(first, (direction - pi/4), length*0.95, limit)
+  }
   return("type your written answer here")
 }
 
 # Question 27
-draw_spiral <- function()  {
-  # clear any existing graphs and plot your graph within the R window
-  
+draw_spiral <- function(start_position, direction, length, limit = 0.1)  {
+  first <- turtle(start_position, direction, length)
+  if (length > limit) {
+  spiral(first, (direction - pi/4), length*0.95, limit)
+  }
 }
 
+
+
 # Question 28
-tree <- function(start_position, direction, length)  {
-  
+tree <- function(start_position, direction, length, limit = 0.1){
+  first <- turtle(start_position, direction, length)
+  if (length > limit) {
+    tree(first, (direction - pi/4), length*0.65, limit)
+    tree(first, (direction + pi/4), length*0.65, limit)
+  }
+  return("type your written answer here")
 }
+
+start_position2 <- c(2,2)
+graphics.off()
+plot(-50:50,-50:50, type = "n")
+tree(start_position2, 0, 10)
+
 draw_tree <- function()  {
   # clear any existing graphs and plot your graph within the R window
 }
 
 # Question 29
-fern <- function(start_position, direction, length)  {
-  
+fern <- function(start_position, direction, length, limit = 0.1){
+  first <- turtle(start_position, direction, length)
+  if (length > limit) {
+    fern(first, (direction - pi/4), length*0.38, limit)
+    fern(first, direction, length*0.87, limit)
+  }
+  return("type your written answer here")
 }
+
+
 draw_fern <- function()  {
   # clear any existing graphs and plot your graph within the R window
 }
 
 # Question 30
-fern2 <- function(start_position, direction, length)  {
-  
+
+fern2 <- function(start_position, direction, length, dir, limit = 0.1){
+  first <- turtle(start_position, direction, length)
+  if (length > limit) {
+    fern2(first, (direction + (dir * pi/4)), length*0.38, (dir*1), limit)
+    fern2(first, direction, length*0.87, (dir*-1), limit)
+  }
+  return("type your written answer here")
 }
+
+plot(0:100,-50:50, type = "n")
+fern(start_position2, 0, 10)
+
+fern2(start_position2, 0, 10, 1)
+
+fern2(start_position2, pi/2, 10, -1)
+
 draw_fern2 <- function()  {
   # clear any existing graphs and plot your graph within the R window
 }
