@@ -26,3 +26,40 @@ neutral_step_speciation(c(10,5,13), 0.8)
 neutral_generation_speciation(community, 0.2)
 neutral_time_series_speciation(community, 0.2, duration = 200)
 
+#### Question 17
+speciation_rate = 0.1
+size = 100
+wall_time = 1
+interval_rich = 1
+interval_oct = 10
+burn_in_generations = 200
+output_file_name = "my_test_file_1.rda"
+cluster_run(speciation_rate = 0.1, size = 100, wall_time = 1, interval_rich = 1, interval_oct = 10, burn_in_generations = 200, output_file_name = "my_test_file_1.rda")
+
+plot(-50:50,-50:50, type = "n")
+
+
+
+start_position2 <- c(2,2)
+graphics.off()
+plot(-50:50,-50:50, type = "n")
+fern(start_position2, 0, 10)
+
+fern2(start_position2, 0, 10)
+
+
+#Question 24
+# Question 24
+plot(-50:50,-50:50, type = "n")
+start_position <- c(1.1, 1.1)
+turtle(start_position, pi/7, 10)
+start_position <- c(0.0)
+
+#Question 25 
+elbow(start_position, 0, 10)
+
+plot(-50:50,-50:50, type = "n")
+start_position <- c(1,2)
+spiral(start_position, 0, 10)
+draw_spiral()
+draw_spiral(start_position, 0, 10)
