@@ -250,11 +250,58 @@ cluster_run <- function(speciation_rate, size, wall_time, interval_rich, interva
 
 # Question 20 
 process_cluster_results <- function()  {
-  # clear any existing graphs and plot your graph within the R window
-  combined_results <- list() #create your list output here to return
-  return(combined_results)
-}
-
+  graphics.off()
+  counter500 <- 0
+  counter1000 <- 0
+  counter2500 <- 0
+  counter5000 <- 0
+  newvect500 <- c()
+  newvect1000 <- c()
+  newvect2500 <- c()
+  newvect5000 <- c()
+  average500 <- c()
+  average1000 <- c()
+  average2500 <- c()
+  average5000 <- c()
+  combined_results <- list()
+  for (i in 1:8){
+    load(file = gsub(" ", "", paste("Thursday_test_2_", i, ".rda")))
+    toremove <- burn_in_generations/interval_oct
+    datatouse <- head(octave_data, -toremove)
+    sumocataves <- c()
+    for (p in length(datatouse)){
+      sumocataves <- sum_vect(sumocataves, datatouse[[p]])
+    }
+    if (size == 500){
+        counter500 <- counter500 + length(sumocataves)
+        newvect500 <- sum_vect(newvect500, sumocataves)
+    }
+    if (size == 1000){
+        counter1000 <- counter500 + length(sumocataves)
+        newvect1000 <- sum_vect(newvect1000, sumocataves)
+    }
+    if (size == 2500){
+        counter2500 <- counter2500 + length(sumocataves)
+        newvect2500 <- sum_vect(newvect2500, sumocataves)
+    }
+      if (size == 5000){
+        counter5000 <- counter5000 + length(sumocataves)
+        newvect5000 <- sum_vect(newvect5000, sumocataves)
+      }
+    }
+    average500 <- newvect500 / counter500
+    average1000 <- newvect1000 / counter1000
+    average2500 <- newvect2500 / counter2500
+    average5000 <- newvect5000 / counter5000
+    par(mfrow=c(2,2))
+    barplot(average500)
+    barplot(average1000)
+    barplot(average2500)
+    barplot(average5000)
+    # clear any existing graphs and plot your graph within the R window
+    combined_results <- list(average500, average1000, average2500, average5000) #create your list output here to return
+    return(combined_results)
+  }
 
 ########### FRACTALS ############
 # Question 21
