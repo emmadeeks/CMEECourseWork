@@ -11,3 +11,4 @@ __pycache__
 .Rhistory
 *.rda
 *.sh.*
+project/data 
