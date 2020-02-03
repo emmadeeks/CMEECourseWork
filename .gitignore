@@ -14,3 +14,4 @@ __pycache__
 project/data 
 project/data/Chagos_ALL_acoustic_2019.txt 
 project/data/shape_files
+. -size +50M
