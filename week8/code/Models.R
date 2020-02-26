@@ -9,6 +9,7 @@ require('minpack.lm')
 data <- read.csv('modified_CRat.csv')
 head(data)
 
+<<<<<<< HEAD
 
 
 
@@ -47,6 +48,14 @@ lines(Lengths, Predic2PlotQua, col = 'red', lwd = 2.5)
 
 
 # Get the dimensionsof the curve 
+=======
+#Subset data with a nice looking curve to model with 
+Data2Fit <- subset(data, ID == 39982) #One curve
+# Plot the curve 
+plot(Data2Fit$ResDensity, Data2Fit$N_TraitValue)
+
+# Get the dimensions of the curve 
+>>>>>>> 0d7590ae85f1493548f944ace5922e4c47068ab7
 dim(Data2Fit) # Get dimensions of curve
 
 #Holling type II functional response
@@ -55,7 +64,15 @@ powMod <- function(x, a, h) { #These are parameters
   return( (a*x ) / (1+ (h*a*x))) # This is the equation
 }
 
+<<<<<<< HEAD
 
+=======
+#This is basically cutting the last points of the graph off 
+# After the highest point 
+# Because a needs to fit to just the slope
+a.line <- subset(Data2Fit, ResDensity <= mean(ResDensity))
+plot(a.line$ResDensity, a.line$N_TraitValue)
+>>>>>>> 0d7590ae85f1493548f944ace5922e4c47068ab7
 
 #plot slope/ linear regressopn of cut slope 
 lm <- summary(lm(N_TraitValue ~ ResDensity, a.line))
@@ -119,7 +136,11 @@ GenMod <- function(x, a, h, q) { #These are parameters
   return( (a* x^(q+1) ) / (1+ (h*a*x^(q+1))))
 }
 
+<<<<<<< HEAD
 GenFit <- nlsLM(N_TraitValue ~ GenMod(ResDensity, a, h, q), data = Data2Fit, start = list(a=a, h=h, q=1))
+=======
+GenFit <- nlsLM(N_TraitValue ~ GenMod(ResDensity, a, h, q), data = Data2Fit, start = list(a=a, h=h, q= q))
+>>>>>>> 0d7590ae85f1493548f944ace5922e4c47068ab7
 Predic2PlotGen <- GenMod(Lengths,coef(GenFit)["a"],coef(GenFit)["h"], coef(GenFit)["q"])
 plot(Data2Fit$ResDensity, Data2Fit$N_TraitValue)
 lines(Lengths, Predic2PlotGen, col = 'green', lwd = 2.5)

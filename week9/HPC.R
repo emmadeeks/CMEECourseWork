@@ -12,7 +12,11 @@ personal_speciation_rate <- 0.003517 # will be assigned to each person individua
 # represents different species- species richness outputs the number 
 #of different numbers/species
 species_richness <- function(community){
+<<<<<<< HEAD
   length(unique(community)) #Returns unique numbers in the list of numbers or 'community' 
+=======
+  length(unique(community))
+>>>>>>> 0d7590ae85f1493548f944ace5922e4c47068ab7
 }
 
 
@@ -20,7 +24,11 @@ species_richness <- function(community){
 # This gives the maximum number of different specis in a community which
 # is specified but the 'size' within the function- gives sequence
 init_community_max <- function(size){
+<<<<<<< HEAD
   seq(size) # lists the maximal number of different species in a community by listing all numbers until size
+=======
+  seq(size)
+>>>>>>> 0d7590ae85f1493548f944ace5922e4c47068ab7
 }
 
 # Question 3
@@ -28,23 +36,37 @@ init_community_max <- function(size){
 # for your simulation of a certain size with the mimum possible number of species
 # Gives total number of individuals for given size 
 init_community_min <- function(size){
+<<<<<<< HEAD
   c(rep(1, size)) # Lowest possible number of possible species- just one for size
+=======
+  c(rep(1, size))
+>>>>>>> 0d7590ae85f1493548f944ace5922e4c47068ab7
 }
 
 # Question 4
 # Chooses random number according to uniform distribution between i and max vallue
 # chooses second random number and returns vector of length
 choose_two <- function(max_value){
+<<<<<<< HEAD
   sample(1:max_value, 2) #chooses 2 random numbers between 1 and the inputted value
+=======
+  sample(1:max_value, 2)
+>>>>>>> 0d7590ae85f1493548f944ace5922e4c47068ab7
 }
 
 # Question 5
 # performs a single step of a simple neutral model simulation WITHOUT SPECIATION
 # on a commmunity vector. picks idividual to die and replaces with reproduction
 # Are not same individual but could be of the same species. returns community states with equal probability
+<<<<<<< HEAD
 neutral_step <- function(community){ 
   first <- choose_two(length(community)) # Uses choose_two function to choose random numbers from normal distribution
   community[first[1]] <- community[first[2]] #replaces dead invidivual with new individual
+=======
+neutral_step <- function(community){
+  first <- choose_two(length(community))
+  community[first[1]] <- community[first[2]]
+>>>>>>> 0d7590ae85f1493548f944ace5922e4c47068ab7
   return(community)
 }
 
@@ -58,9 +80,15 @@ neutral_step <- function(community){
 # e.g. 10 indivudals = 5 neutral steps correspond to 5 births and 5 deaths 
 # Funcion outputs vector giving community state after a generation has passed
 neutral_generation <- function(community){
+<<<<<<< HEAD
   steps <- round(jitter(length(community)/2, amount = 0.1)) #sets a jitter round the length of communty/2 by 0.1
   for (i in 1:steps){ #compute neutral_step function on community with jittered rounding
     community <- neutral_step(community) #going through community and replacing the old community as you loop through the steps
+=======
+  steps <- round(jitter(length(community)/2, amount = 0.1))
+  for (i in 1:steps){
+    community <- neutral_step(community)
+>>>>>>> 0d7590ae85f1493548f944ace5922e4c47068ab7
   }
   return(community)
 }
@@ -71,6 +99,7 @@ neutral_generation <- function(community){
 # inputs community and number of generations 
 # gives species richness at each generation of simulation
 neutral_time_series <- function(community, duration){
+<<<<<<< HEAD
   richness <- c() # empty vector to store richness in 
   for (i in 1:duration){ # number of generations
     community <- neutral_generation(community) # computes the neutral generation of that community
@@ -78,6 +107,15 @@ neutral_time_series <- function(community, duration){
     richness <- c(richness, p) #inputs richness into vector as it runs iteraively rhought the duration 
   }
   return(richness) # returns time series of species richness
+=======
+  richness <- c()
+  for (i in 1:duration){
+    community <- neutral_generation(community)
+    p <- species_richness(community)
+    richness <- c(richness, p)
+  }
+  return(richness)
+>>>>>>> 0d7590ae85f1493548f944ace5922e4c47068ab7
 }
 
 
@@ -85,6 +123,7 @@ neutral_time_series <- function(community, duration){
 # Plots time series of neutral time series from initial conidition of maximum diversity
 # not inputs 
 question_8 <- function(){
+<<<<<<< HEAD
   graphics.off()
   x <- c() #initialised vectors 
   duration = 200 #defines the generation time 
@@ -92,6 +131,18 @@ question_8 <- function(){
   x <- 1:duration # sets the x axis to the generation length 
   plot(x,richness, xlab = "Generations", ylab = "Species richness", cex.main = 0.9, main = "Time series of a neutral model simulation", cex = 1, pch = 20, cex.axis = 0.95, col = "dark red") #plots the generations against the richness 
   return("After approximately 70 generations of the neutral_time_series simulation the species richness decreases to 1 and remains. In the neutral_generation function the inputted community is halved each step and so during the neutral_time_series this inputted community is repeatededly halved until it reaches one, there are also no new inputs into the system, e.g. speciation.")
+=======
+  x <- c()
+  y <- c()
+  duration = 200
+  richness <- neutral_time_series(init_community_max(100), duration)
+  for (i in 1:duration){
+    x <- c(x, i)
+    y <- c(y, richness[i])
+  }
+  plot(x,y)
+  return("type your written answer here")
+>>>>>>> 0d7590ae85f1493548f944ace5922e4c47068ab7
 }
 
 # Question 9
@@ -99,6 +150,7 @@ question_8 <- function(){
 # speciation replaces dead indidivual with new species witht he probably of the given speciation rate 
 # if probability not met the dead indiivual is replaced with the offspring of another inidividual like neutral step
 # speciation rate is an input parameter 
+<<<<<<< HEAD
 neutral_step_speciation <- function(community,speciation_rate){ 
   newspecies <- runif(1, min = 0, max = 1) #selects 'new species between 1 and 0 to use
   if(newspecies > speciation_rate){ # if that new species is greater than the speciation rate
@@ -119,10 +171,31 @@ neutral_generation_speciation <- function(community,speciation_rate)  {
     community <- neutral_step_speciation(community, speciation_rate) # applies new function which also includes speciation
   }
   return(community) 
+=======
+neutral_step_speciation <- function(community,speciation_rate){
+  newspecies <- runif(1, min = 0, max = 1)
+  if(newspecies > speciation_rate){
+    community <- neutral_step(community)
+  } else {
+    choices <- choose_two(length(community))
+    community[choices[1]] <- max(community)+1
+  }
+  return(community)
+}
+
+# Question 10
+neutral_generation_speciation <- function(community,speciation_rate)  {
+  steps <- round(jitter(length(community)/2, amount = 0.1))
+  for (i in 1:steps){
+    community <- neutral_step_speciation(community, speciation_rate)
+  }
+  return(community)
+>>>>>>> 0d7590ae85f1493548f944ace5922e4c47068ab7
 }
 
 
 # Question 11
+<<<<<<< HEAD
 # important to notes at the generations go through the newly generation community 
 # produced from neutral_generation_speciaton is then fed back into the function 
 neutral_time_series_speciation <- function(community,speciation_rate,duration){
@@ -131,12 +204,21 @@ neutral_time_series_speciation <- function(community,speciation_rate,duration){
     community <- neutral_generation_speciation(community, speciation_rate) #calculate the community according to speciation rate
     p <- species_richness(community) #calculate the species richness of these updates communities 
     richness <- c(richness, p) # new richness is appended to a vector of species richnesses throughout the generations 
+=======
+neutral_time_series_speciation <- function(community,speciation_rate,duration){
+  richness <- c()
+  for (i in 1:as.integer(duration)){
+    community <- neutral_generation_speciation(community, speciation_rate)
+    p <- species_richness(community)
+    richness <- c(richness, p)
+>>>>>>> 0d7590ae85f1493548f944ace5922e4c47068ab7
   }
   return(richness)
 }
 
 
 # Question 12
+<<<<<<< HEAD
 # This function performs a newutral theory simulation with speciation and plots the species richness
 # against time, two time series are plotted, one times series with the maximum diversity at initial state 
 # Another time series with the mininmal diversity at inital state
@@ -160,10 +242,29 @@ question_12 <- function(){
          horiz = F)
   lines(richness2, col = 'blue', lwd = 2) # add the second line with is richness at minimal diversity 
   return("Despite the two initial conditions being maximal diversity and minimal diversity both plots reached the same species richness after a relatively short amount of generations. This is likely because selection pressures and competition within that environment will drive populations to the same level of richness despite the starting conditions as the carrying capacity of that system is not affected by intial communities")
+=======
+
+question_12 <- function(){
+  graphics.off()
+  x <- c()
+  y <- c()
+  y2 <- c()
+  duration = 200
+  speciation_rate = 0.1
+  richness <- neutral_time_series_speciation(init_community_max(100), speciation_rate, duration)
+  richness2 <- neutral_time_series_speciation(init_community_min(100), speciation_rate, duration)
+  x <- c(duration)
+  y <- c(richness)
+  y2 <- c(richness2)
+  plot(y, col = 'red', type = 'l')
+  lines(y2, col = 'blue')
+  return("type your written answer here")
+>>>>>>> 0d7590ae85f1493548f944ace5922e4c47068ab7
 }
 
 
 # Question 13
+<<<<<<< HEAD
 # This calculates species abundance by calculating how requently each number or species in the 
 #inputted community appears 
 species_abundance <- function(community)  {
@@ -190,10 +291,31 @@ sum_vect <- function(x, y) {
   if (diff < 0) { # if difference is less than 0 fill x vector with zeros to bring up to difference
     x <- c(x, rep(0, abs(diff))) }
   vector_sum <- x + y # than add the two vectors and return the summed vector
+=======
+species_abundance <- function(community)  {
+  w = table(community)
+  sort(w, decreasing = TRUE)
+}
+
+# Question 14
+octaves <- function(abundance_vector) {
+  tabulate(floor(log2(abundance_vector))+1)
+}
+
+# Question 15
+sum_vect <- function(x, y) {
+  diff <- length(x)-length(y)
+  if (diff > 0) {
+    y <- c(y, rep(0, abs(diff))) }
+  if (diff < 0) {
+    x <- c(x, rep(0, abs(diff))) }
+  vector_sum <- x + y
+>>>>>>> 0d7590ae85f1493548f944ace5922e4c47068ab7
   return(vector_sum)
 }
 
 # Question 16 
+<<<<<<< HEAD
 # runs a neutral model simualtion using the same parameters as question 12 for a burn in period 
 # of 200 generations and records species abundance in a octave vector 
 # continue simulation from where it left off for 2000 generations and record species abundance 
@@ -234,11 +356,48 @@ question_16 <- function(){
   title(main = "Minimum initial community", line=0.5, cex.main=0.9)
   mtext("Species abundance octaves through 2000 generations with 2 different initial starting communities", outer=TRUE,  cex=1.5, line=-2)#plot the average 
   return("Like in question 12, the initial condition of the system does not appear to matter, after a certain amount of generations, or, the burn in generations, species richness will be equal irrelvant of the initial community ")
+=======
+question_16 <- function(){
+  graphics.off()
+  richnessmax <- c()
+  richnessmin <- c()
+  octave_to_max <- c()
+  octave_to_min <- c()
+  duration = 200
+  generation = 2000
+  speciation_rate = 0.1
+  richnessmax <- init_community_max(100)
+  richnessmin <- init_community_min(100)
+  for (i in 1:as.integer(duration)) {
+  richnessmax <- neutral_generation_speciation(richnessmax, speciation_rate)
+  richnessmin <- neutral_generation_speciation(richnessmin, speciation_rate)
+  }
+  octave_max <- octaves(species_abundance(richnessmax))
+  octave_min <- octaves(species_abundance(richnessmin))
+  counter <- 0 
+  for (i in 1:as.integer(generation)) {
+    richnessmax <- neutral_generation_speciation(richnessmax, speciation_rate)
+    richnessmin <- neutral_generation_speciation(richnessmin, speciation_rate)
+    if (i %% 20==0){
+      counter<- counter + 1
+      octave_max <- octaves(species_abundance(richnessmax))
+      octave_min <- octaves(species_abundance(richnessmin))
+      octave_to_max <- sum_vect(octave_to_max, octave_max)
+      octave_to_min <- sum_vect(octave_to_min, octave_min)
+    }
+  }
+  averagemax <- octave_to_max / counter
+  averagemin <- octave_to_min / counter
+  par(mfrow=c(1,2))
+  barplot(averagemax)
+  barplot(averagemin)
+>>>>>>> 0d7590ae85f1493548f944ace5922e4c47068ab7
 }
 
 
 
 # Question 17
+<<<<<<< HEAD
 # this is similar to question 16 but starts a simulation off with only minimal community size 
 # and has many more input parameters. this functions applies the neutral generation speciation function 
 # for a predefined amount of walltime. then store species richness as intervals of interval_rich
@@ -288,6 +447,47 @@ process_cluster_results <- function()  {
   counter2500 <- 0
   counter5000 <- 0
   newvect500 <- c() # set empty vectors 
+=======
+cluster_run <- function(speciation_rate, size, wall_time, interval_rich, interval_oct,
+                        burn_in_generations, output_file_name)  {
+  community <- init_community_min(size)
+  start_time <- (proc.time()[3])
+  counter <- 0
+  octave_data <- list()
+  count_octave <- 0
+  richness <- c()
+  run_time <- (proc.time()[3] - start_time)/60
+  while (run_time < wall_time) {
+    community <- neutral_generation_speciation(community, speciation_rate)
+    counter <- counter + 1
+    run_time <- (proc.time()[3] - start_time)/60
+    if (counter %% interval_rich == 0 && counter <= burn_in_generations) {
+      richness <- c(richness, species_richness(community))
+    }
+    if (counter %% interval_oct == 0) {
+      count_octave <- count_octave + 1
+      octave1 <- octaves(species_abundance(community))
+      octave_data[[count_octave]] <- (octave1)
+    }
+  }
+  time_end <- (proc.time()[3] - start_time)
+  save(richness, octave_data, community, time_end, speciation_rate,
+       size, wall_time, interval_rich, interval_oct, burn_in_generations, file = output_file_name)
+}
+
+# Questions 18 and 19 involve writing code elsewhere to run your simulations on the cluster
+
+
+
+# Question 20 
+process_cluster_results <- function()  {
+  graphics.off()
+  counter500 <- 0
+  counter1000 <- 0
+  counter2500 <- 0
+  counter5000 <- 0
+  newvect500 <- c()
+>>>>>>> 0d7590ae85f1493548f944ace5922e4c47068ab7
   newvect1000 <- c()
   newvect2500 <- c()
   newvect5000 <- c()
@@ -295,6 +495,7 @@ process_cluster_results <- function()  {
   average1000 <- c()
   average2500 <- c()
   average5000 <- c()
+<<<<<<< HEAD
   combined_results <- list() # set the list of the vectors of octaves 
   for (i in 1:100){ # the amount of iterations 
     load(file = gsub(" ", "", paste("EDIteration:", i, ".rda"))) # load any file starting with ED and with number of iteration in 
@@ -345,6 +546,50 @@ process_cluster_results <- function()  {
 
 # Question 21
 # This function returns the calculated fractal dimension of an object and a string explaining the workings. 
+=======
+  combined_results <- list()
+  for (i in 1:8){
+    load(file = gsub(" ", "", paste("Thursday_test_2_", i, ".rda")))
+    toremove <- burn_in_generations/interval_oct
+    datatouse <- head(octave_data, -toremove)
+    sumocataves <- c()
+    for (p in length(datatouse)){
+      sumocataves <- sum_vect(sumocataves, datatouse[[p]])
+    }
+    if (size == 500){
+        counter500 <- counter500 + length(sumocataves)
+        newvect500 <- sum_vect(newvect500, sumocataves)
+    }
+    if (size == 1000){
+        counter1000 <- counter500 + length(sumocataves)
+        newvect1000 <- sum_vect(newvect1000, sumocataves)
+    }
+    if (size == 2500){
+        counter2500 <- counter2500 + length(sumocataves)
+        newvect2500 <- sum_vect(newvect2500, sumocataves)
+    }
+      if (size == 5000){
+        counter5000 <- counter5000 + length(sumocataves)
+        newvect5000 <- sum_vect(newvect5000, sumocataves)
+      }
+    }
+    average500 <- newvect500 / counter500
+    average1000 <- newvect1000 / counter1000
+    average2500 <- newvect2500 / counter2500
+    average5000 <- newvect5000 / counter5000
+    par(mfrow=c(2,2))
+    barplot(average500)
+    barplot(average1000)
+    barplot(average2500)
+    barplot(average5000)
+    # clear any existing graphs and plot your graph within the R window
+    combined_results <- list(average500, average1000, average2500, average5000) #create your list output here to return
+    return(combined_results)
+  }
+
+########### FRACTALS ############
+# Question 21
+>>>>>>> 0d7590ae85f1493548f944ace5922e4c47068ab7
 question_21 <- function()  {
   a <- list('1.89', "Using the Koch Curve equation, I set the the Width of the square at 3, because it is three 'squares' long
             and the size as 8 as there are 8 squares of the subunit. I then divided log of size (8) by the log of width (3) to get 1.89")
@@ -352,7 +597,10 @@ question_21 <- function()  {
 }
 
 # Question 22
+<<<<<<< HEAD
 # This question outputs the fractal dimension of a object and a string explaining how I worked it out 
+=======
+>>>>>>> 0d7590ae85f1493548f944ace5922e4c47068ab7
 question_22 <- function()  {
   a <- list("2.73", "Using the box method for working out the dimension, the number 
             of hypercubes was set as 20 and the hypercube length set as a 1/3 as that was 
@@ -361,6 +609,7 @@ question_22 <- function()  {
 }
 
 # Question 23
+<<<<<<< HEAD
 # Function that plots a fractal triangle 
 chaos_game <- function()  {
   graphics.off()
@@ -390,10 +639,38 @@ turtle <- function(start_position, direction, length, colour= "black"){ #default
   newpoints <- c(newx,newy) #put into a vector of new points
   newpositions <- c(newpoints + start_position) # create vector of new points added to the startposition 
   segments(start_position[1], start_position[2], newpositions[1], newpositions[2], col = colour, lwd = 1) #plot the start posiiton and then the new poisitions using segments to create a line 
+=======
+chaos_game <- function()  {
+  A = c(0,0)
+  B = c(3,4)
+  C = c(4,1)
+  X = c(0,0)
+  points <- list(A, B, C)
+  plot(x = X[1], y = X[2], cex = 0.5)
+  for (i in 1:10000){
+    new <- sample(points, 1)
+    newnum <- c(as.numeric(new[[1]][1]), as.numeric(new[[1]][2]))
+    Xnew <- ((newnum - X)/2)
+    X <- Xnew + X
+    points(x = X[1], y = X[2], cex = 0.5)
+  }
+  return("This makes a fractal triangle")
+}
+
+# Question 24
+
+turtle <- function(start_position, direction, length){
+  newx <- cos(direction) * length 
+  newy <- sin(direction) * length
+  newpoints <- c(newx,newy)
+  newpositions <- c(newpoints + start_position)
+  segments(start_position[1], start_position[2], newpositions[1], newpositions[2])
+>>>>>>> 0d7590ae85f1493548f944ace5922e4c47068ab7
   return(newpositions) # you should return your endpoint here.
 }
 
 # Question 25
+<<<<<<< HEAD
 # Function that calls turtle function twice and plots two lines that join together with an angle between them 
 elbow <- function(start_position, direction, length, colour = "black"){
   first <- turtle(start_position, direction, length, colour) #calls turtle function once and saves output to variable
@@ -418,11 +695,34 @@ draw_spiral <- function(){
   graphics.off()
   plot(-10:30,-20:20, type = "n", cex.main = 1, main = "Spiral function output", xlab = "",ylab = "", axes = 0) # initalise empty new plot
   spiral(c(0,0), 1, 10) #call spiral function 
+=======
+elbow <- function(start_position, direction, length){
+  first <- turtle(start_position, direction, length)
+  turtle(first, (direction - pi/4), length*0.95)
+}
+
+# Question 26
+spiral <- function(start_position, direction, length, limit){
+  first <- turtle(start_position, direction, length)
+  if (length > limit) {
+  spiral(first, (direction - pi/4), length*0.95, limit)
+  }
+  return("type your written answer here")
+}
+
+# Question 27
+draw_spiral <- function(start_position, direction, length, limit = 0.1)  {
+  first <- turtle(start_position, direction, length)
+  if (length > limit) {
+  spiral(first, (direction - pi/4), length*0.95, limit)
+  }
+>>>>>>> 0d7590ae85f1493548f944ace5922e4c47068ab7
 }
 
 
 
 # Question 28
+<<<<<<< HEAD
 # function that, instead of calling itself once like spiral, calls its self twice
 # plots a tree in a pre-exsisting plot
 tree <- function(start_position, direction, length, colour = "black"){
@@ -431,10 +731,18 @@ tree <- function(start_position, direction, length, colour = "black"){
   if (length > limit) { #having a limit stops function crashing 
     tree(first, (direction - pi/4), length*0.65, colour) # calls function twice is different directions 
     tree(first, (direction + pi/4), length*0.65, colour)
+=======
+tree <- function(start_position, direction, length, limit = 0.1){
+  first <- turtle(start_position, direction, length)
+  if (length > limit) {
+    tree(first, (direction - pi/4), length*0.65, limit)
+    tree(first, (direction + pi/4), length*0.65, limit)
+>>>>>>> 0d7590ae85f1493548f944ace5922e4c47068ab7
   }
   return("type your written answer here")
 }
 
+<<<<<<< HEAD
 # Function that calls the tree function and initalises an empty plot 
 draw_tree <- function()  {
   graphics.off()
@@ -454,10 +762,30 @@ fern <- function(start_position, direction, length, colour = "dark green"){
     fern(first, (direction - pi/4), length*0.38, colour) #this branch is going 45 degrees to the left 
     fern(first, direction, length*0.87, colour) #this branch is going stright on 
   }
+=======
+start_position2 <- c(2,2)
+graphics.off()
+plot(-50:50,-50:50, type = "n")
+tree(start_position2, 0, 10)
+
+draw_tree <- function()  {
+  # clear any existing graphs and plot your graph within the R window
+}
+
+# Question 29
+fern <- function(start_position, direction, length, limit = 0.1){
+  first <- turtle(start_position, direction, length)
+  if (length > limit) {
+    fern(first, (direction - pi/4), length*0.38, limit)
+    fern(first, direction, length*0.87, limit)
+  }
+  return("type your written answer here")
+>>>>>>> 0d7590ae85f1493548f944ace5922e4c47068ab7
 }
 
 
 draw_fern <- function()  {
+<<<<<<< HEAD
   graphics.off()
   plot(0:65,-35:30, type = "n", xlab = "",ylab = "", axes = 0, cex.main = 1, main = "Fern function output") # initalise empty new plot
   fern(c(0,0), 0, 8) #call tree function 
@@ -473,19 +801,44 @@ fern2 <- function(start_position, direction, length, dir, colour = "dark green")
   if (length > limit) {
     fern2(first, (direction + (dir * pi/4)), length*0.38, (dir*1)) #by multiplying dir by 1 it will alternate between plus and minus state
     fern2(first, direction, length*0.87, (dir*-1)) # this also changes changes
+=======
+  # clear any existing graphs and plot your graph within the R window
+}
+
+# Question 30
+
+fern2 <- function(start_position, direction, length, dir, limit = 0.1){
+  first <- turtle(start_position, direction, length)
+  if (length > limit) {
+    fern2(first, (direction + (dir * pi/4)), length*0.38, (dir*1), limit)
+    fern2(first, direction, length*0.87, (dir*-1), limit)
+>>>>>>> 0d7590ae85f1493548f944ace5922e4c47068ab7
   }
   return("type your written answer here")
 }
 
+<<<<<<< HEAD
 draw_fern2 <- function()  {
   graphics.off()
   plot(-50:50,-5:95, type = "n", xlab = "",ylab = "", axes = 0, cex.main = 1, main = "Fern2 function output") 
   fern2(c(0,0), pi/2, 10, -1)
+=======
+plot(0:100,-50:50, type = "n")
+fern(start_position2, 0, 10)
+
+fern2(start_position2, 0, 10, 1)
+
+fern2(start_position2, pi/2, 10, -1)
+
+draw_fern2 <- function()  {
+  # clear any existing graphs and plot your graph within the R window
+>>>>>>> 0d7590ae85f1493548f944ace5922e4c47068ab7
 }
 
 # Challenge questions - these are optional, substantially harder, and a maximum of 16% is available for doing them.  
 
 # Challenge question A
+<<<<<<< HEAD
 # Function that plots the mean species richness as a function of time (measured in generations)
 # across a large number of repeat simulations using the same parameters as in question 16
 # the averages are then plotted with a 97.2% confidence interval on the species richness at each point in time 
@@ -806,5 +1159,39 @@ for(i in 1:6){
 }
 }
 
+=======
+Challenge_A <- function() {
+  # clear any existing graphs and plot your graph within the R window
+}
+
+# Challenge question B
+Challenge_B <- function() {
+  # clear any existing graphs and plot your graph within the R window
+}
+
+# Challenge question C
+Challenge_C <- function() {
+  # clear any existing graphs and plot your graph within the R window
+}
+
+# Challenge question D
+Challenge_D <- function() {
+  # clear any existing graphs and plot your graph within the R window
+  return("type your written answer here")
+}
+
+# Challenge question E
+Challenge_E <- function() {
+  # clear any existing graphs and plot your graph within the R window
+  return("type your written answer here")
+}
+
+# Challenge question F
+Challenge_F <- function() {
+  # clear any existing graphs and plot your graph within the R window
+  return("type your written answer here")
+}
+
+>>>>>>> 0d7590ae85f1493548f944ace5922e4c47068ab7
 # Challenge question G should be written in a separate file that has no dependencies on any functions here.
 

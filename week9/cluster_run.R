@@ -1,5 +1,6 @@
 rm(list=ls()) # good practice 
 graphics.off()
+<<<<<<< HEAD
 # Question 1
 #Each number in a community is a individual but the different numbers 
 # represents different species- species richness outputs the number 
@@ -29,15 +30,34 @@ init_community_min <- function(size){
 # chooses second random number and returns vector of length
 choose_two <- function(max_value){
   sample(1:max_value, 2) #chooses 2 random numbers between 1 and the inputted value
+=======
+source("HPC.R")
+species_richness <- function(community){
+  length(unique(community))
+}
+
+init_community_min <- function(size){
+  c(rep(1, size))
+}
+
+choose_two <- function(max_value){
+  sample(1:max_value, 2)
+>>>>>>> 0d7590ae85f1493548f944ace5922e4c47068ab7
 }
 
 # Question 5
 # performs a single step of a simple neutral model simulation WITHOUT SPECIATION
 # on a commmunity vector. picks idividual to die and replaces with reproduction
 # Are not same individual but could be of the same species. returns community states with equal probability
+<<<<<<< HEAD
 neutral_step <- function(community){ 
   first <- choose_two(length(community)) # Uses choose_two function to choose random numbers from normal distribution
   community[first[1]] <- community[first[2]] #replaces dead invidivual with new individual
+=======
+neutral_step <- function(community){
+  first <- choose_two(length(community))
+  community[first[1]] <- community[first[2]]
+>>>>>>> 0d7590ae85f1493548f944ace5922e4c47068ab7
   return(community)
 }
 
@@ -51,9 +71,15 @@ neutral_step <- function(community){
 # e.g. 10 indivudals = 5 neutral steps correspond to 5 births and 5 deaths 
 # Funcion outputs vector giving community state after a generation has passed
 neutral_generation <- function(community){
+<<<<<<< HEAD
   steps <- round(jitter(length(community)/2, amount = 0.1)) #sets a jitter round the length of communty/2 by 0.1
   for (i in 1:steps){ #compute neutral_step function on community with jittered rounding
     community <- neutral_step(community) #going through community and replacing the old community as you loop through the steps
+=======
+  steps <- round(jitter(length(community)/2, amount = 0.1))
+  for (i in 1:steps){
+    community <- neutral_step(community)
+>>>>>>> 0d7590ae85f1493548f944ace5922e4c47068ab7
   }
   return(community)
 }
@@ -64,6 +90,7 @@ neutral_generation <- function(community){
 # inputs community and number of generations 
 # gives species richness at each generation of simulation
 neutral_time_series <- function(community, duration){
+<<<<<<< HEAD
   richness <- c() # empty vector to store richness in 
   for (i in 1:duration){ # number of generations
     community <- neutral_generation(community) # computes the neutral generation of that community
@@ -71,6 +98,15 @@ neutral_time_series <- function(community, duration){
     richness <- c(richness, p) #inputs richness into vector as it runs iteraively rhought the duration 
   }
   return(richness) # returns time series of species richness
+=======
+  richness <- c()
+  for (i in 1:duration){
+    community <- neutral_generation(community)
+    p <- species_richness(community)
+    richness <- c(richness, p)
+  }
+  return(richness)
+>>>>>>> 0d7590ae85f1493548f944ace5922e4c47068ab7
 }
 
 
@@ -78,11 +114,23 @@ neutral_time_series <- function(community, duration){
 # Plots time series of neutral time series from initial conidition of maximum diversity
 # not inputs 
 question_8 <- function(){
+<<<<<<< HEAD
   x <- c() #initialised vectors 
   duration = 200 #defines the generation time 
   richness <- neutral_time_series(init_community_max(100), duration) #runs neutral time series for maximal diversity
   x <- 1:duration # sets the x axis to the generation length 
   plot(x,richness) #plots the generations against the richness 
+=======
+  x <- c()
+  y <- c()
+  duration = 200
+  richness <- neutral_time_series(init_community_max(100), duration)
+  for (i in 1:duration){
+    x <- c(x, i)
+    y <- c(y, richness[i])
+  }
+  plot(x,y)
+>>>>>>> 0d7590ae85f1493548f944ace5922e4c47068ab7
   return("type your written answer here")
 }
 
@@ -91,6 +139,7 @@ question_8 <- function(){
 # speciation replaces dead indidivual with new species witht he probably of the given speciation rate 
 # if probability not met the dead indiivual is replaced with the offspring of another inidividual like neutral step
 # speciation rate is an input parameter 
+<<<<<<< HEAD
 neutral_step_speciation <- function(community,speciation_rate){ 
   newspecies <- runif(1, min = 0, max = 1) #selects 'new species between 1 and 0 to use
   if(newspecies > speciation_rate){ # if that new species is greater than the speciation rate
@@ -111,10 +160,31 @@ neutral_generation_speciation <- function(community,speciation_rate)  {
     community <- neutral_step_speciation(community, speciation_rate) # applies new function which also includes speciation
   }
   return(community) 
+=======
+neutral_step_speciation <- function(community,speciation_rate){
+  newspecies <- runif(1, min = 0, max = 1)
+  if(newspecies > speciation_rate){
+    community <- neutral_step(community)
+  } else {
+    choices <- choose_two(length(community))
+    community[choices[1]] <- max(community)+1
+  }
+  return(community)
+}
+
+# Question 10
+neutral_generation_speciation <- function(community,speciation_rate)  {
+  steps <- round(jitter(length(community)/2, amount = 0.1))
+  for (i in 1:steps){
+    community <- neutral_step_speciation(community, speciation_rate)
+  }
+  return(community)
+>>>>>>> 0d7590ae85f1493548f944ace5922e4c47068ab7
 }
 
 
 # Question 11
+<<<<<<< HEAD
 # important to notes at the generations go through the newly generation community 
 # produced from neutral_generation_speciaton is then fed back into the function 
 neutral_time_series_speciation <- function(community,speciation_rate,duration){
@@ -123,12 +193,21 @@ neutral_time_series_speciation <- function(community,speciation_rate,duration){
     community <- neutral_generation_speciation(community, speciation_rate) #calculate the community according to speciation rate
     p <- species_richness(community) #calculate the species richness of these updates communities 
     richness <- c(richness, p) # new richness is appended to a vector of species richnesses throughout the generations 
+=======
+neutral_time_series_speciation <- function(community,speciation_rate,duration){
+  richness <- c()
+  for (i in 1:as.integer(duration)){
+    community <- neutral_generation_speciation(community, speciation_rate)
+    p <- species_richness(community)
+    richness <- c(richness, p)
+>>>>>>> 0d7590ae85f1493548f944ace5922e4c47068ab7
   }
   return(richness)
 }
 
 
 # Question 12
+<<<<<<< HEAD
 # This function performs a newutral theory simulation with speciation and plots the species richness
 # against time, two time series are plotted, one times series with the maximum diversity at initial state 
 # Another time series with the mininmal diversity at inital state
@@ -142,11 +221,29 @@ question_12 <- function(){
   x = 1:201 #set x axis as generations plus 1 to see end of plot clearly 
   plot(y = richness, x = x, ylim = c(0,100), col = 'red', type = 'l') #plot richness against generations
   lines(richness2, col = 'blue') # add the second line with is richness at minimal diversity 
+=======
+
+question_12 <- function(){
+  graphics.off()
+  x <- c()
+  y <- c()
+  y2 <- c()
+  duration = 200
+  speciation_rate = 0.1
+  richness <- neutral_time_series_speciation(init_community_max(100), speciation_rate, duration)
+  richness2 <- neutral_time_series_speciation(init_community_min(100), speciation_rate, duration)
+  x <- c(duration)
+  y <- c(richness)
+  y2 <- c(richness2)
+  plot(y, col = 'red', type = 'l')
+  lines(y2, col = 'blue')
+>>>>>>> 0d7590ae85f1493548f944ace5922e4c47068ab7
   return("type your written answer here")
 }
 
 
 # Question 13
+<<<<<<< HEAD
 # This calculates species abundance by calculating how requently each number or species in the 
 #inputted community appears 
 species_abundance <- function(community)  {
@@ -173,10 +270,31 @@ sum_vect <- function(x, y) {
   if (diff < 0) { # if difference is less than 0 fill x vector with zeros to bring up to difference
     x <- c(x, rep(0, abs(diff))) }
   vector_sum <- x + y # than add the two vectors and return the summed vector
+=======
+species_abundance <- function(community)  {
+  w = table(community)
+  sort(w, decreasing = TRUE)
+}
+
+# Question 14
+octaves <- function(abundance_vector) {
+  tabulate(floor(log2(abundance_vector))+1)
+}
+
+# Question 15
+sum_vect <- function(x, y) {
+  diff <- length(x)-length(y)
+  if (diff > 0) {
+    y <- c(y, rep(0, abs(diff))) }
+  if (diff < 0) {
+    x <- c(x, rep(0, abs(diff))) }
+  vector_sum <- x + y
+>>>>>>> 0d7590ae85f1493548f944ace5922e4c47068ab7
   return(vector_sum)
 }
 
 # Question 16 
+<<<<<<< HEAD
 # runs a neutral model simualtion using the same parameters as question 12 for a burn in period 
 # of 200 generations and records species abundance in a octave vector 
 # continue simulation from where it left off for 2000 generations and record species abundance 
@@ -214,11 +332,48 @@ question_16 <- function(){
   barplot(averagemax)
   barplot(averagemin) #plot the average 
   return("does the initial condition of the system matter? why is this?")
+=======
+question_16 <- function(){
+  graphics.off()
+  richnessmax <- c()
+  richnessmin <- c()
+  octave_to_max <- c()
+  octave_to_min <- c()
+  duration = 200
+  generation = 2000
+  speciation_rate = 0.1
+  richnessmax <- init_community_max(100)
+  richnessmin <- init_community_min(100)
+  for (i in 1:as.integer(duration)) {
+    richnessmax <- neutral_generation_speciation(richnessmax, speciation_rate)
+    richnessmin <- neutral_generation_speciation(richnessmin, speciation_rate)
+  }
+  octave_max <- octaves(species_abundance(richnessmax))
+  octave_min <- octaves(species_abundance(richnessmin))
+  counter <- 0 
+  for (i in 1:as.integer(generation)) {
+    richnessmax <- neutral_generation_speciation(richnessmax, speciation_rate)
+    richnessmin <- neutral_generation_speciation(richnessmin, speciation_rate)
+    if (i %% 20==0){
+      counter<- counter + 1
+      octave_max <- octaves(species_abundance(richnessmax))
+      octave_min <- octaves(species_abundance(richnessmin))
+      octave_to_max <- sum_vect(octave_to_max, octave_max)
+      octave_to_min <- sum_vect(octave_to_min, octave_min)
+    }
+  }
+  averagemax <- octave_to_max / counter
+  averagemin <- octave_to_min / counter
+  par(mfrow=c(1,2))
+  barplot(averagemax)
+  barplot(averagemin)
+>>>>>>> 0d7590ae85f1493548f944ace5922e4c47068ab7
 }
 
 
 
 # Question 17
+<<<<<<< HEAD
 # this is similar to question 16 but starts a simulation off with only minimal community size 
 # and has many more input parameters. this functions applies the neutral generation speciation function 
 # for a predefined amount of walltime. then store species richness as intervals of interval_rich
@@ -263,6 +418,44 @@ whichsize <- function(iter) {
     size = 500
   }
   if (iter %% 4 == 1){ # if iter has remainder one than set size to 1000
+=======
+cluster_run <- function(speciation_rate, size, wall_time, interval_rich, interval_oct,
+                        burn_in_generations, output_file_name)  {
+  community <- init_community_min(size)
+  start_time <- (proc.time()[3])
+  counter <- 0
+  octave_data <- list()
+  count_octave <- 0
+  richness <- c()
+  run_time <- (proc.time()[3] - start_time)/60
+  while (run_time < wall_time) {
+    community <- neutral_generation_speciation(community, speciation_rate)
+    counter <- counter + 1
+    run_time <- (proc.time()[3] - start_time)/60
+    if (counter %% interval_rich == 0 && counter <= burn_in_generations) {
+      richness <- c(richness, species_richness(community))
+    }
+    if (counter %% interval_oct == 0) {
+      count_octave <- count_octave + 1
+      octave1 <- octaves(species_abundance(community))
+      octave_data[[count_octave]] <- (octave1)
+    }
+  }
+  time_end <- (proc.time()[3] - start_time)
+  save(richness, octave_data, community, time_end, speciation_rate,
+       size, wall_time, interval_rich, interval_oct, burn_in_generations, file = output_file_name)
+}
+
+
+iter <- as.numeric(Sys.getenv("PBS_ARRAY_INDEX"))
+set.seed(iter)
+
+whichsize <- function(iter) {
+  if (iter %% 4 == 0){
+    size = 500
+  }
+  if (iter %% 4 == 1){
+>>>>>>> 0d7590ae85f1493548f944ace5922e4c47068ab7
     size = 1000
   }
   if (iter %% 4 == 2){
@@ -275,6 +468,7 @@ whichsize <- function(iter) {
 }
 
 
+<<<<<<< HEAD
 newiter <- whichsize(iter) # calculate which size to use as input to cluster run 
 myfilename <- paste("EDIteration:", iter, ".rda", sep = "") #set the filename with iteration number in it 
 octpar = newiter/10 # set the interval oct time 
@@ -282,6 +476,12 @@ burngen = 8*newiter # set the burn in generations
 
 # run the cluster run 
 cluster_run(speciation_rate = 0.003517, size = newiter, wall_time = 690, interval_rich = 1, interval_oct = octpar, burn_in_generations = burngen, output_file_name = myfilename)
+=======
+newiter <- whichsize(iter)
+myfilename <- paste("EDIteration:", iter, ".rda", sep = "")
+
+cluster_run(speciation_rate = 0.003517, size = newiter, wall_time = 10, interval_rich = 1, interval_oct = 10, burn_in_generations = 200, output_file_name = myfilename)
+>>>>>>> 0d7590ae85f1493548f944ace5922e4c47068ab7
 
 
 
