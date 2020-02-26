@@ -1,7 +1,7 @@
 rm(list=ls()) #Clear global environment 
 #Set working directory
-setwd("/Users/emmadeeks/Desktop/CMEECourseWork/week8/data")
-
+#setwd("/Users/emmadeeks/Desktop/CMEECourseWork/week8/data")
+setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
 # Get thee required packages
 require('minpack.lm')
 library('dplyr')
@@ -9,7 +9,7 @@ library('tidyr')
 
 
 ######################################## PREPARES DATA ###################
-#Explore the data 
+#Load in data
 data <- read.csv('modified_CRat.csv', header = TRUE) #reads in data
 
 data <- data[, -1] #removes first column 
@@ -17,46 +17,61 @@ data <- data[, -1] #removes first column
 data2 <- data %>%
   nest(data= -ID) #this is experimenting with nesting, by nesting the data i can suset the day by ID and go into that
 
+########################  CREATE FUNCTION FOR OBTAINING INITIAL START VALUES ###########
 
-obtaining_start_values <- function(data){
-h <- c()
-removeddata <- c()
-CurveData <- c()
-lm <- c()
-a <- c()
-### Identify the peak of the curve (This is equal to the peak handling time)
-### Store the peak handling time in a variable (h)
-h <- max(data$N_TraitValue)
-### Remove points after this value in order to fit models to the growth period
-# Store x value for corresponding peak y value
-removeddata = data$ResDensity[which.max(data$N_TraitValue)]
-# Subset the data to contain only x values lower than this point
-CurveData <- subset(data, ResDensity < removeddata)
-### Calculate the linear regression of the cut slope
-lm <- summary(lm(N_TraitValue ~ ResDensity, CurveData))
-### Extract the value for the gradient, which is equal to the search rate
-a <- lm$coefficients[2]
-return(c(a, h))
-} 
-
-############# INPUTTING STARTING VALUES INTO 
-finalframe = as.data.frame(matrix(nrow = 1, ncol = 3))
-for(i in 1:length(data2$ID)){
-  toadd <- c()
-  datatry <- data2$data[[i]]
-  ID <- data2$ID[[i]]
-  okay <- obtaining_start_values(datatry)
-  toadd <- c(ID, okay[1], okay[2])
-  finalframe <- rbind(finalframe, toadd)
+# A function that is designed to find the initial starting values before optimisation 
+# 
+obtaining_start_values <- function(data) {
+  ### Store the maximum handling time into a variable called h 
+  # Store maximum y value
+  h <- max(data$N_TraitValue)
+  ### Remove points after this maximum handling time to fit models to the growth period
+  # Find mean y value
+  meanTraitValue <- mean(data$N_TraitValue)
+  # Find the maximum y value
+  maxTraitValue <- max(data$N_TraitValue)
+  # Subset the data to contain only x values lower than the mean and maximum traitvalues 
+  DataBelowMean <- subset(data, N_TraitValue < meanTraitValue)
+  DataBelowMax <- subset(data, N_TraitValue < maxTraitValue)
+  ### Calculate the linear regression of the cut slopes
+  lmMean <- summary(lm(N_TraitValue ~ ResDensity, DataBelowMean))
+  lmMax <- summary(lm(N_TraitValue ~ ResDensity, DataBelowMax))
+  ### Store the search rate
+  # Store the best value for the gradient
+  if (lmMean$r.squared >= lmMax$r.squared){
+    a <- lmMean$coefficients[2]
+  } else {a <- lmMax$coefficients[2]}
+  ### Store a and h values in a list to return
+  ah <- c(a, h)
+  ### Return the a and h values
+  return(ah)
 }
 
-datatouse <- finalframe[-1, ]  
 
-datcol<-c("ID","a","h")
+
+############# INPUTTING STARTING VALUES INTO ##########################
+
+# This for loop applies the function on the data read in to find initial starting values 
+
+finalframe = as.data.frame(matrix(nrow = 1, ncol = 3)) # Make dataframe to put starting values into 
+
+
+for(i in 1:length(data2$ID)){
+  toadd <- c() # intiialise empty vector 
+  datatry <- data2$data[[i]] #index the data and save to variable- indexing withing nested data
+  ID <- data2$ID[[i]] #save the id 
+  okay <- obtaining_start_values(datatry) #apply the function on datatry
+  toadd <- c(ID, okay[1], okay[2]) #create vector of values to add to dataframe 
+  finalframe <- rbind(finalframe, toadd) # bind rows 
+}
+
+datatouse <- finalframe[-1, ]  # remove first row 
+
+datcol<-c("ID","a","h") #add labels 
 colnames(datatouse) <- datcol
-#datatouse <- na.omit(datatouse)
 
-####################################### DEFINING FUNCTIONS OF MODELS ##############
+
+######################### DEFINING FUNCTIONS OF MODELS ##############
 
 #Holling type II functional response
 #This is making a function of the second model we looked at 
@@ -72,85 +87,18 @@ GenMod <- function(x, a, h, q) { #These are parameters
 }
 
 
-
-################ CORRECT FOR LOOP FOR RUNNING THROUGH ALL FUNCTIONS MAYBE #########
-# nest the data to id 
-#data2 <- data %>%
- # nest(-ID)
-
 data2 <- merge(data2, datatouse, by= "ID")
-
-#create a vector with model names 
-modelvec<-c("PowFit","QuaFit","GenFit") 
-
-# create two new columns and convert into a data frame with the AICs and BICs 
-modelvec<-data.frame("Model"=modelvec,
-                     "AIC"=rep(NA,length(modelvec)),
-                     "BIC"=rep(NA,length(modelvec)))
-
-#paraopt = as.data.frame(matrix(nrow = 1, ncol = 7), stringsAs)
-# Create new data frame to store values
-paraopt <- c("ID", "a", "h", "minAIC", "minBIC", "AIC", "BIC")
-paraopt<-data.frame("ID"= NA,
-                    "a"= NA,
-                    "h"= NA, "minAIC"= NA, "minBIC"= NA, "AIC"= NA, "BIC"= NA, stringsAsFactors = T)
-
-#col <- c("ID", "a", "h", "min AIC", "min BIC", "AIC", "BIC")
-#colnames(paraopt) <- col
-#paraopt <- paraopt[-1 , ]
-
-
-for(i in 1:length(data2$data)){
-  index <- c()
-  add <- c()
-  datatry <- data2$data[[i]] #select each data category 
-  #and fit the model to it like before in the example 
-  # use try because it stops any null values being included
-  a <- data2$a[i]
-  h <- data2$h[i]
-  q = -1
-  PowFit <- try(nlsLM(N_TraitValue ~ powMod(ResDensity, a, h), data = datatry, start = list(a=a, h=h)), silent=T)
-  QuaFit <- try(lm(N_TraitValue ~ poly(ResDensity,2), data = datatry), silent=T)
-  GenFit <- try(nlsLM(N_TraitValue ~ GenMod(ResDensity, a, h, q), data = datatry, start = list(a=a, h=h, q= q)), silent=T)
-  #CubFit <- try(lm(N_TraitValue ~ poly(ResDensity,3), data = datatry), silent = T)
-  #select each index of the modelvec dataframe, one for each model 
-  # if the powfit is an error then repeat two more times, if it isnt an error then output the two AIC values 
-  modelvec[1,2]<-ifelse(class(PowFit)=="try-error",rep(NA,1), (AIC(PowFit)))
-  modelvec[2,2]<-ifelse(class(QuaFit)=="try-error",rep(NA,1), (AIC(QuaFit)))
-  modelvec[3,2]<-ifelse(class(GenFit)=="try-error",rep(NA,1), (AIC(GenFit)))
-  #modelvec[4,2]<-ifelse(class(PowFit)=="try-error",rep(NA,1), (AIC(CubFit)))
-  modelvec[1,3]<-ifelse(class(PowFit)=="try-error",rep(NA,1), (BIC(PowFit)))
-  modelvec[2,3]<-ifelse(class(QuaFit)=="try-error",rep(NA,1), (BIC(QuaFit)))
-  modelvec[3,3]<-ifelse(class(GenFit)=="try-error",rep(NA,1), (BIC(GenFit)))
-  #modelvec[4,3]<-ifelse(class(GenFit)=="try-error",rep(NA,1), (BIC(CubFit)))
-  okAIC <- modelvec[which(modelvec$AIC==min(modelvec$AIC,na.rm = T)), 1]
-  okBIC <- modelvec[which(modelvec$BIC==min(modelvec$BIC,na.rm = T)), 1]
-  okAIC <- as.character(okAIC[1][[1]])
-  okBIC <- as.character(okBIC[1][[1]])
-  #index <- apply(modelvec,2, min)
-  minAIC <- min(modelvec[,2], na.rm=T)
-  minBIC <- min(modelvec[,3], na.rm=T)
-  add <- c(data2$ID[[i]], a, h, okAIC, okBIC, minAIC, minBIC)
-  #add <- ifelse(okAIC[1]==length(1), c(data2$ID[[i]], a, h, okAIC[1], okBIC[1], index[2], index[3]), )
-  #tryCatch(, warning = function(c) print(paste("warning on id", i)))
-  paraopt <- rbind(paraopt, add)
-  #cat(paste0("id: ",data2$ID[[i]]," ; min AIC:",modelvec[which(modelvec$AIC==min(modelvec$AIC,na.rm = T)),1]," ; min BIC:",modelvec[which(modelvec$BIC==min(modelvec$BIC,na.rm = T)),1],"\n"))
-  
-}
-
-
-
-
 
 
 
 ############## OPTIMISING STARTING VALUES ##################
+
+## Create empty dataframe to put optimised starting values in 
 optimising <-data.frame("ID"= NA,
                     "a"= NA,
                    "h"= NA, "minAIC"= NA, stringsAsFactors = T)
 
-#data2 <- merge(data2, datatouse, by= "ID")
-
+# for loop to optimise start values 
 for(i in 1:length(data2$data)){
   first <- data2[i,] #select each data category 
   #and fit the model to it like before in the example 
@@ -159,22 +107,36 @@ for(i in 1:length(data2$data)){
   h <- first$h #make h variable 
   datatry <- data2$data[[i]] # put subsection of data into a variable name 
   avalues <- rnorm(10, a, 10)  #distribute values randomly 
-  hvalues <- rnorm(10, h, 10)
-  id <- first$ID
-  TempTable <- data.frame("avalues" = NA, "hvalues" = NA, "AIC_Hol_values" = NA)
+  hvalues <- rnorm(10, h, 10) # randomly distribute values in order to sample best starting values 
+  id <- first$ID # get id for each ID saved 
+  TempTable1 <- data.frame("avalues" = NA, "hvalues" = NA, "AIC_values" = NA) ## Create a table for the Holling Type II model
+  TempTable2 <- data.frame("avalues" = NA, "hvalues" = NA, "AIC_values" = NA) ## Create a table for the generalised mdoel 
   for (j in 1:10){
     ### Fit models
-    AICHol <- c()
-    a <- avalues[j]
+    AICHol <- c() #initialise vectors 
+    AICGen <- c()
+    a <- avalues[j] #got hrough each of the 10 random a and h values 
     h <- hvalues[j]
+    q <- 0.78
+    # Apply model functions with try construct to catch errors 
     PowFit <- try(nlsLM(N_TraitValue ~ powMod(ResDensity, a, h), data = datatry, start = list(a=a, h=h)), silent=T)
-    # Holling II model
+    GenFit <- try(nlsLM(N_TraitValue ~ GenMod(ResDensity, a, h, q), data = datatry, start = list(a=a, h=h, q=q)), silent=T)
+    ### Tell for loop to ignore errors and input NA into table and if no error then calculate AIC of the model 
     AICHol <- ifelse(class(PowFit) == "try-error", NA, AIC(PowFit))
-    temptable <- c(a, h, AICHol)
-    TempTable <- rbind(TempTable, temptable)
+    AICGen <- ifelse(class(GenFit) == "try-error", NA, AIC(GenFit))
+    # Put values into the table in order to sample and find lowest AIC later 
+    temptable1 <- list(a, h, AICHol)
+    TempTable1 <- rbind(TempTable1, temptable1)
+    temptable2 <- list(a, h, AICGen)
+    TempTable2 <- rbind(TempTable2, temptable2)
   }
-  minAIC <- min(TempTable[,3], na.rm = T)
-  add <- c(id, a, h, minAIC)
+  # find the minimum AIC value for the optimising table 
+  TempTable1 <- rbind(TempTable1, TempTable2)
+  minAIC <- TempTable1[which.min(TempTable1$AIC_values),]
+  min1 <- minAIC[1]
+  min2 <- minAIC[2]
+  min3 <- minAIC[3]
+  add <- list(id, min1, min2, min3)
   optimising <- rbind(optimising, add)
 }
 
@@ -182,27 +144,36 @@ for(i in 1:length(data2$data)){
 
 
 ################################# OPTIMISING STARTING VALUES AND PUTTING THROUGH CODE AGAIN ############
-data <- read.csv('modified_CRat.csv', header = TRUE) #reads in data
-
-data <- data[, -1] #removes first column 
-
 
 dataagain <- data %>%
   nest(data= -ID) 
 dataoptimised <- merge(dataagain, optimising, by= "ID")
 
 
-#create a vector with model names 
-modelvec<-c("PowFit","QuaFit","GenFit") 
+# create two new columns and convert into a data frame with the AICs and BICs 
+modelvec2<-c("PowFit","QuaFit","GenFit", "CubFit")
+modelvec2<-data.frame("ID "=rep(NA),
+                     "Habitat"=rep(NA),
+                     "ResDimension"=rep(NA),
+                     "ConDimension"=rep(NA),
+                     "Model"=modelvec2,
+                     "AIC"=rep(NA),
+                     "BIC"=rep(NA))
+
+modelvec_back<-c("PowFit","QuaFit","GenFit", "CubFit") 
 
 # create two new columns and convert into a data frame with the AICs and BICs 
-modelvec<-data.frame("Model"=modelvec,
-                     "AIC"=rep(NA,length(modelvec)),
-                     "BIC"=rep(NA,length(modelvec)))
+modelvec_back<-data.frame("Model"=modelvec_back,
+                     "AIC"=rep(NA),
+                     "BIC"=rep(NA))
 
+
+# Create new data frame to store values
+optimisedtable <- c("ID", "a", "h", "minAIC", "minBIC", "AIC", "BIC", "Habitat", "Res_Dim", "Con_Dim")
 optimisedtable<-data.frame("ID"= NA,
                     "a"= NA,
-                    "h"= NA, "minAIC"= NA, "minBIC"= NA, "AIC"= NA, "BIC"= NA, stringsAsFactors = T)
+                    "h"= NA, "minAIC"= NA, "minBIC"= NA, "AIC"= NA, "BIC"= NA, "Habitat"= NA, "Res_Dim" = NA, "Con_Dim" = NA, stringsAsFactors = T)
+
 
 for(i in 1:length(dataoptimised$data)){
   index <- c()
@@ -212,77 +183,115 @@ for(i in 1:length(dataoptimised$data)){
   # use try because it stops any null values being included
   a <- dataoptimised$a[i]
   h <- dataoptimised$h[i]
-  q = -1
+  habitat <- datatry$Habitat[1]
+  res_dim <- datatry$Res_MovementDimensionality[1]
+  con_dim <- datatry$Con_MovementDimensionality[1]
+  q = 0.78
+  modelvec<-c("PowFit","QuaFit","GenFit", "CubFit")
+  modelvec<-data.frame("ID "=rep(NA),
+                       "Habitat"=rep(NA),
+                       "ResDimension"=rep(NA),
+                       "ConDimension"=rep(NA),
+                       "Model"=modelvec,
+                       "AIC"=rep(NA),
+                       "BIC"=rep(NA))
+  datatry <- dataoptimised$data[[i]] #select each data category 
+  #and fit the model to it like before in the example 
+  # use try because it stops any null values being included
+  a <- dataoptimised$a[i]
+  h <- dataoptimised$h[i]
+  q = 0.78
   PowFit <- try(nlsLM(N_TraitValue ~ powMod(ResDensity, a, h), data = datatry, start = list(a=a, h=h)), silent=T)
   QuaFit <- try(lm(N_TraitValue ~ poly(ResDensity,2), data = datatry), silent=T)
-  GenFit <- try(nlsLM(N_TraitValue ~ GenMod(ResDensity, a, h, q), data = datatry, start = list(a=a, h=h, q= q)), silent=T)
+  GenFit <- try(nlsLM(N_TraitValue ~ GenMod(ResDensity, a, h, q), data = datatry, start = list(a=a, h=h, q=q)), silent=T)
+  CubFit <- try(lm(N_TraitValue ~ poly(ResDensity,3), data = datatry), silent = T)
   #select each index of the modelvec dataframe, one for each model 
   # if the powfit is an error then repeat two more times, if it isnt an error then output the two AIC values 
-  modelvec[1,2]<-ifelse(class(PowFit)=="try-error",rep(NA,2), (AIC(PowFit)))
-  modelvec[2,2]<-ifelse(class(QuaFit)=="try-error",rep(NA,2), (AIC(QuaFit)))
-  modelvec[3,2]<-ifelse(class(GenFit)=="try-error",rep(NA,2), (AIC(GenFit)))
-  modelvec[1,3]<-ifelse(class(PowFit)=="try-error",rep(NA,2), (BIC(PowFit)))
-  modelvec[2,3]<-ifelse(class(QuaFit)=="try-error",rep(NA,2), (BIC(QuaFit)))
-  modelvec[3,3]<-ifelse(class(GenFit)=="try-error",rep(NA,2), (BIC(GenFit)))
-  okAIC <- modelvec[which(modelvec$AIC==min(modelvec$AIC,na.rm = T)), 1]
-  okBIC <- modelvec[which(modelvec$BIC==min(modelvec$BIC,na.rm = T)), 1]
+  modelvec[1,6]<-ifelse(class(PowFit)=="try-error",rep(NA,1), (AIC(PowFit)))
+  modelvec[2,6]<-ifelse(class(QuaFit)=="try-error",rep(NA,1), (AIC(QuaFit)))
+  modelvec[3,6]<-ifelse(class(GenFit)=="try-error",rep(NA,1), (AIC(GenFit)))
+  modelvec[4,6]<-ifelse(class(CubFit)=="try-error",rep(NA,1), (AIC(CubFit)))
+  modelvec[1,7]<-ifelse(class(PowFit)=="try-error",rep(NA,1), (BIC(PowFit)))
+  modelvec[2,7]<-ifelse(class(QuaFit)=="try-error",rep(NA,1), (BIC(QuaFit)))
+  modelvec[3,7]<-ifelse(class(GenFit)=="try-error",rep(NA,1), (BIC(GenFit)))
+  modelvec[4,7]<-ifelse(class(CubFit)=="try-error",rep(NA,1), (BIC(CubFit)))
+  modelvec[1:4,1] <- data2$ID[[i]]
+  modelvec[1:4,2] <- datatry$Habitat[[1]]
+  modelvec[1:4,3] <- datatry$Res_MovementDimensionality[[1]]
+  modelvec[1:4,4] <- datatry$Con_MovementDimensionality[[1]]
+  modelvec_back[1,2]<-ifelse(class(PowFit)=="try-error",rep(NA,1), (AIC(PowFit)))
+  modelvec_back[2,2]<-ifelse(class(QuaFit)=="try-error",rep(NA,1), (AIC(QuaFit)))
+  modelvec_back[3,2]<-ifelse(class(GenFit)=="try-error",rep(NA,1), (AIC(GenFit)))
+  modelvec_back[4,2]<-ifelse(class(CubFit)=="try-error",rep(NA,1), (AIC(CubFit)))
+  modelvec_back[1,3]<-ifelse(class(PowFit)=="try-error",rep(NA,1), (BIC(PowFit)))
+  modelvec_back[2,3]<-ifelse(class(QuaFit)=="try-error",rep(NA,1), (BIC(QuaFit)))
+  modelvec_back[3,3]<-ifelse(class(GenFit)=="try-error",rep(NA,1), (BIC(GenFit)))
+  modelvec_back[4,3]<-ifelse(class(CubFit)=="try-error",rep(NA,1), (BIC(CubFit)))
+  okAIC <- modelvec_back[which(modelvec_back$AIC==min(modelvec_back$AIC,na.rm = T)), 1]
+  okBIC <- modelvec_back[which(modelvec_back$BIC==min(modelvec_back$BIC,na.rm = T)), 1]
   okAIC <- as.character(okAIC[1][[1]])
   okBIC <- as.character(okBIC[1][[1]])
-  #index <- apply(modelvec,2, min)
-  minAIC <- min(modelvec[,2], na.rm=T)
-  minBIC <- min(modelvec[,3], na.rm=T)
-  add <- c(data2$ID[[i]], a, h, okAIC, okBIC, minAIC, minBIC)
-  #add <- ifelse(okAIC[1]==length(1), c(data2$ID[[i]], a, h, okAIC[1], okBIC[1], index[2], index[3]), )
-  #tryCatch(, warning = function(c) print(paste("warning on id", i)))
+  minAIC <- min(modelvec_back[,2], na.rm=T)
+  minBIC <- min(modelvec_back[,3], na.rm=T)
+  add <- list(data2$ID[[i]], a, h, minAIC, minBIC, okAIC[1], okBIC[1], habitat, res_dim, con_dim)
   optimisedtable <- rbind(optimisedtable, add)
-  #cat(paste0("id: ",data2$ID[[i]]," ; min AIC:",modelvec[which(modelvec$AIC==min(modelvec$AIC,na.rm = T)),1]," ; min BIC:",modelvec[which(modelvec$BIC==min(modelvec$BIC,na.rm = T)),1],"\n"))
+  modelvec2 <- bind_rows(modelvec2, modelvec)
+  
   
 }
 
-
-
-optimisedtable %>% group_by(optimisedtable$minAIC) %>% summarise(count=n())
-
-paraopt %>% group_by(paraopt$minAIC) %>% summarise(count=n())
-
-
-
-
-######################## NOTES #################################
-
-PowFit <- try(nlsLM(N_TraitValue ~ powMod(ResDensity, startingvalue, hvalue), data = datatry, start = list(a=startingvalue, h=hvalue)), silent=T)
-a <- first$a
-h <- first$h
-data <- first$data[[1]]
-PowFit <- try(nlsLM(N_TraitValue ~ powMod(ResDensity, a, h), data = datatry, start = list(a=a, h=h)), silent=T)
-
-
-
-
-
-
-for(i in 1:length(data2$data)){
-  datatry <- data2$data[[i]] #select each data category 
-  #and fit the model to it like before in the example 
-  # use try because it stops any null values being included
-  a <- data2$a[i]
-  h <- data2$h[i]
-  avalues <- rnorm(10, a, 0.00000000001)
-  hvalues <- rnorm(10, h, 0.000000000001)
-  id <- data2$ID[i]
-  TempTable <- data.frame("avalues" = NA, "hvalues" = NA, "AIC_Hol_values" = NA)
-  for (i in 1:length(avalues)){
-    ### Fit models
-    AICHol <- c()
-    anew <- avalues[i]
-    hnew <- hvalues[i]
-    PowFit <- try(nlsLM(N_TraitValue ~ powMod(ResDensity, anew, hnew), data = datatry, start = list(a=anew, h=hnew)), silent=T)
-    # Holling II model
-    AICHol <- ifelse(class(PowFit) == "try-error", NA, AIC(PowFit))
-    temptable <- c(anew, hnew, AICHol)
-    TempTable <- rbind(TempTable, temptable)
-  }
-  minAIC <- min(TempTable[,3])
-  add <- c(id, a, h, minAIC)
-  optimising <- rbind(optimising, add)
+for (i in 1:4){
+  modelvec2 <- modelvec2[-1, ]
 }
+
+
+
+optimisedtable$mecphe <- ifelse(grepl("QuaFit|CubFit", optimisedtable$AIC), "Phenomenological", "Mechanistic")
+
+optimisedtable <- optimisedtable[-1, ]
+
+optimisedtable <- apply(optimisedtable,2,as.character)
+
+write.csv(optimisedtable, file = "optimisedtable.csv")
+write.csv(modelvec2, file = "MergedOptTable.csv")
+
+
+
+################# MAKING EXAMPLE PLOTS FOR METHODS #########
+#Subset data with a nice looking curve to model with 
+Data2Fit <- subset(data, ID == 39982) #One curve
+# Plot the curve 
+#plot(Data2Fit$ResDensity, Data2Fit$N_TraitValue)
+#This is basically cutting the last points of the graph off 
+# After the highest point 
+# Because a needs to fit to just the slope
+a.line <- subset(Data2Fit, ResDensity <= mean(ResDensity))
+#plot(a.line$ResDensity, a.line$N_TraitValue)
+
+lm <- summary(lm(N_TraitValue ~ ResDensity, a.line))
+# Extracts slope value
+a <- lm$coefficients[2]
+# h parameter is the maximum of the slope so you take the biggest value 
+h <- max(Data2Fit$N_TraitValue)
+q = 0.78
+#PowFit <- nlsLM(N_TraitValue ~ powMod(ResDensity, a, h), data = Data2Fit, start = list(a=a, h=h))
+
+# optimising a and h values  
+Lengths <- seq(min(Data2Fit$ResDensity),max(Data2Fit$ResDensity))
+
+
+PowFit <- (nlsLM(N_TraitValue ~ powMod(ResDensity, a, h), data = Data2Fit, start = list(a=a, h=h)))
+QuaFit <- (lm(N_TraitValue ~ poly(ResDensity,2), data = Data2Fit))
+GenFit <- (nlsLM(N_TraitValue ~ GenMod(ResDensity, a, h, q), data = Data2Fit, start = list(a=a, h=h, q=q)))
+CubFit <- (lm(N_TraitValue ~ poly(ResDensity,3), data = Data2Fit))
+
+Predic2PlotPow <- powMod(Lengths,coef(PowFit)["a"],coef(PowFit)["h"])
+Predic2PlotQua <- predict.lm(QuaFit, data.frame(ResDensity = Lengths))
+Predic2PlotCub <- predict.lm(CubFit, data.frame(ResDensity = Lengths))
+Predic2PlotGen <- GenMod(Lengths,coef(GenFit)["a"],coef(GenFit)["h"], coef(GenFit)["q"])
+
+plot(Data2Fit$ResDensity, Data2Fit$N_TraitValue)
+lines(Lengths, Predic2PlotGen, col = 'green', lwd = 2.5)
+lines(Lengths, Predic2PlotPow, col = 'blue', lwd = 2.5)
+lines(Lengths, Predic2PlotQua, col = 'red', lwd = 2.5)
+lines(Lengths, Predic2PlotCub, col = 'pink', lwd = 2.5)

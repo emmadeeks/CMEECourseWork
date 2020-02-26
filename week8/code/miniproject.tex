@@ -1,0 +1,117 @@
+\documentclass[11pt]{article}
+\title {Which mathmetical model best fits a functional response empirical dataset}
+\author{Emma Deeks}
+\date{10 Dec 2019}
+\usepackage[margin=2cm]{geometry}
+\usepackage{graphicx}
+\usepackage[]{lineno}
+\usepackage[backend=biber,style=authoryear,bibencoding=utf8]{biblatex}
+\setlength{\parindent}{0em}
+
+% bibliography secion %
+
+\addbibresource{/Users/emmadeeks/Desktop/CMEENotes/Project/Introduction/Miniproject.bib}
+
+\begin{document}
+
+\begin{titlepage}
+
+
+	\centering % this centers everything on the page
+		
+	%\vspace  % Whitespace at the top of the page 
+	
+	
+	% --------------------------
+	%% TITLE
+	
+	\vspace*{5\baselineskip}
+	
+	\rule{\textwidth}{1.6pt}\vspace*{-\baselineskip}\vspace*{2pt} % Thick horizontal rule
+	\rule{\textwidth}{0.4pt} % Thin horizontal rule
+	
+	\vspace{0.75\baselineskip} % Whitespace above the title
+	
+	{\LARGE Which mathematical model, \\ best fits an empirical \\
+		functional response dataset? \\} 
+	
+	\vspace{0.75\baselineskip} % Whitespace below the title
+	
+	\rule{\textwidth}{0.4pt}\vspace*{-\baselineskip}\vspace{3.2pt} 
+	\rule{\textwidth}{1.6pt} 
+	
+	\vspace{2\baselineskip} 
+	
+	% ---------------------------------
+	%% SUPERVISORS & CONTACT EMAIL
+	
+	Supervisors: \\
+		Dr Samraat Pawar
+			
+
+		
+	\vspace{1.5 \baselineskip} % Whitespace between text
+	
+	Contact: \\
+	ead19@imperial.ac.uk
+	
+
+\end{titlepage}
+
+\linenumbers
+	
+	\section{Introduction}
+	\noindent
+	
+Functional responses describe the way in which a predator responds to changing densities of prey \cite{Holling1959}. This is important as it a key regulating factor for population dynamics. The rate at which a predator kills its prey at different densities ultimately determines the efficiency of a predator in regulating population densities of prey. \cite{Murdoch1975}. \cite{Holling1959} described three types of functional responses curves, the first, an increasing linear relationship indicating a constant rate. The second is a decerlating curve which indicates a saturation at a certain level and the third is a sigmoidal relationship which indicates a increased rate of prey killing, or, positive density dependant prey mortality. \cite{Pervez2005}. It has been observed that often, the type II functional responsed is favoured in predator prey relationships, that is a curve which starts at low prey densities and as the prey density increases so does the predation rate linearly until it saturated at an upper limit \cite{Jeschke2002}. Functional response models are used, often above linear models etc, as they incorporate the two parameters which are handling time (time required to attack, consume and digest prey) and attack/search efficiency of a predator to a prey \cite{Fathipour2016}. Functional response models can be applied in ecology when predicting future population densities of predators and prey within the functional response relationship as well as what happens to each member of the relationship when densities of one changes \cite{Jeschke2002}
+
+Functional responses can be modelled in a phenomenological way, such as the Holling type II model \cite{Holling1959}, which cannot explain the underlying mechanism of the curve they produce, the parameters cannot be mechanistically explained, but still produce the tradtional type II response curve. The second model is the mecanistic model where the parameters involved can all be mechanistically explained \cite{Jeschke2002}.
+
+
+	\section{Proposed project}
+	\noindent
+	
+The aim of this project is to explore the overlap between wide ranging, reef sharks (a key IUU target) that are tagged using acoustic transmitters across the archipelago, GPS coordinates of the enforcement vessel and when it intercepts illegal fishing, as well as  satellite monitoring images of the MPA which identifies unregistered/unmarked fishing vessels. These three datasets will be utilised to explore the spatial overlap of the data through time within the BIOT MPA with a view to better informing the management strategy. \\
+To test the significance of the overlap, a model will be built to simulate patterns in the GPS data of the enforcement vessels in order to quantify whether this realised overlap of illegal fishing and enforcement is greater than or less than it would be under other simulated scenarios such as random enforcement routes, atoll targeted fishing. This will be done by simulating different spatio-temporal distributions of IUU across the MPA. \\
+These results will be used to advise the UK Foreign and Commonwealth Office and the BIOT Administration on potential alternative management strategies that maximise interception rates of illegal fishers, hopefully reducing the amount of sharks pulled from MPA waters. 
+
+	\section{Questions}
+\noindent
+
+The key questions of this project are:
+	\begin{itemize}
+	\item What is the overlap of sharks, enforcement and IUU and how has this changed through time?
+	\item How effective is the current management strategy at present and has it responded and intercepted more fishing vessels relative to perceived changes in IUU threat. 
+	\item Given the spatio-temporal information, what is the best search strategy for locating illegal fishing vessels to maximise interceptions of illegal fishers? 
+	\end{itemize}
+
+
+	\section{Methodology}
+\noindent
+
+This project will utilise three datasets;
+	\begin{itemize}
+	\item Acoustic detection data of tagged elamobranch species across an extensive acoustic array of receivers from 2013- present 
+	\item GPS movements of the BPV enforcement vessel between 2013-2016 and 2017-2019 from the consultancy organisation MRAG (Marine Resources Assessment Group)
+	\item Data from the company ‘OceanMind’; this includes historical AIS data from 2014- 2016 showing heatmaps of potential vessels. There is also AIS data from January to March 2017 of remote sensing of ships and SAR detections which correlate with known AIS transmissions to identify ‘dark’ vessels potentially involved with IUU. 
+	\end{itemize}
+
+Each dataset has the coordinates of each acoustic signal, GPS coordinate or satellite image within the MPA. This data will be standardised for units and overlaid onto a map of the MPA using GIS. This spatial map will indicate where sharks, illegal fishing and the enforcement vessel are in relation to each other. These spatial maps will then be compared through time as well. The relationship between the data will then be quantified through fitting models and seeing areas of the highest significance which have the highest overlap. This section of the project is estimated to take approximately three months (Figure 1). 
+The spatio-temporal data will then be explored through simulations of alternative search patterns of the enforcement vessel. This section of the project is estimated to take a further 3 months where I will then stop and focus on writing up my results and the discussion (Figure 1).
+
+
+
+	\section{Budget}
+	\noindent
+		
+	\begin{itemize}
+		\item Internship opportunity with OceanMind: A company who use satellite imagery and artificial intelligence to monitor MPAs for conservation and management advances
+		\item Transport: To both ZSL and Silwood Park for meetings, relevant lectures as well as computational support.
+	\end{itemize}
+	
+	
+	\newpage
+	  
+
+	\vspace*{1\baselineskip}
+	\printbibliography 
