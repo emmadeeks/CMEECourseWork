@@ -53,7 +53,7 @@ Chagos_island <- fortify(chagos_v6)
   
 setwd("/Users/emmadeeks/Desktop/CMEECourseWork/project/data") #go to the data directory 
 
-acoustic <- read.table("Chagos_ALL_acoustic_2019.txt", header = TRUE, sep = ",", dec = ".") #read in the data 
+acoustic <- read.table("/Users/emmadeeks/Dropbox/Overlap_data/Chagos_ALL_acoustic_2019.txt", header = TRUE, sep = ",", dec = ".") #read in the data 
 BPV <- read.csv("BPV Pacific Marlin 2013-2016.csv", header = TRUE) # read in the data
 
 acoustic$detect_date <- as.POSIXct(acoustic$detect_date, format="%Y-%m-%d %H:%M:%S")
@@ -64,107 +64,7 @@ BPV$Date <- round_date(BPV$Date, unit = "hour")
 
 
 #THIS DATA NOW WORKS 
-BPV2 <- read.csv("BPV_Position_Data_Combined_2017_2019.csv", header = TRUE) # read in the data
-
-####################### birthday ##################
-
-BPV_birthday <- BPV[grep("2016-02", BPV$Date),] #extract one year of the data
-acoustic_birthday <- acoustic[grep("2016-02", acoustic$detect_date),] # extract the same year of the data 
-
-map_birthday <- ggplot() + geom_polygon(data=Chagos_island, aes(x=long, y=lat, group=group), color='black', fill = NA) + geom_point(data=BPV_birthday, aes(x= Longitude, y= Latitude, size =Value),size=2, pch = 21, colour = "Light Blue", fill = "Blue", alpha=I(0.2)) +
-  geom_point(data=acoustic_birthday, aes(x= receiver_lon, y= receiver_lat, size = receiver_lat),size=2, pch = 21, colour = "Deep Pink", fill = "Pink", alpha=I(0.5))
-
-
-###### Formatting data to be processed by the function 
-cols <- c("Date","Longitude", "Latitude")
-new_acoustic_birthday <- data.table(acoustic_birthday$detect_date, acoustic_birthday$receiver_lon, acoustic_birthday$receiver_lat)
-colnames(new_acoustic_birthday) = cols #assigning column names 
-
-new_BPV_birthday <- data.table(BPV_birthday$Date, BPV_birthday$Longitude, BPV_birthday$Latitude)
-colnames(new_BPV_birthday) = cols
-
-birthday <- merge(new_BPV_birthday, new_acoustic_birthday, by = "Date", all.x = TRUE)
-
-######## This actually works but you just need to make it less than 10km etc
-######## Also need to make it so that it is in km not feet which i think this is in 
-r.ft <- 6378137*3.28084             # radius of the earth, in feet
-r.km   <- r.ft*0.0003048
-sep.km   <- 10
-birthday$distance<-distHaversine(birthday[,2:3], birthday[,4:5], r=r.km)
-less_than_10 <- birthday[birthday$distance<sep.km,]
-
-
-map_islands <- ggplot() + geom_polygon(data=Chagos_island, aes(x=long, y=lat, group=group), color='black', fill = NA) + geom_point(data=less_than_10, aes(x= Longitude.x, y= Latitude.x),size=2, pch = 21, colour = "Light Blue", fill = "Blue", alpha=I(0.2)) +
-  geom_point(data=less_than_10, aes(x= Longitude.y, y= Latitude.y),size=2, pch = 21, colour = "Pink", fill = "Deep Pink", alpha=I(0.5))
-
-################# March #################
-
-BPV_march <- BPV[grep("2016-03", BPV$Date),] #extract one year of the data
-acoustic_march <- acoustic[grep("2016-03", acoustic$detect_date),] # extract the same year of the data 
-
-map_march <- ggplot() + geom_polygon(data=Chagos_island, aes(x=long, y=lat, group=group), color='black', fill = NA) + geom_point(data=BPV_march, aes(x= Longitude, y= Latitude, size =Value),size=2, pch = 21, colour = "Light Blue", fill = "Blue", alpha=I(0.2)) +
-  geom_point(data=acoustic_march, aes(x= receiver_lon, y= receiver_lat, size = receiver_lat),size=2, pch = 21, colour = "Deep Pink", fill = "Pink", alpha=I(0.5))
-
-
-
-###### Formatting data to be processed by the function 
-cols <- c("Date","Longitude", "Latitude")
-new_acoustic_march <- data.table(acoustic_march$detect_date, acoustic_march$receiver_lon, acoustic_march$receiver_lat)
-colnames(new_acoustic_march) = cols #assigning column names 
-
-new_BPV_march <- data.table(BPV_march$Date, BPV_march$Longitude, BPV_march$Latitude)
-colnames(new_BPV_march) = cols
-
-
-#longterm <- subset(count(collating_BPV$Date, new_acoustic$Date))
-march_overlap <- merge(new_BPV_march, new_acoustic_march, by = "Date", all.x = TRUE)
-
-######## This actually works but you just need to make it less than 10km etc
-######## Also need to make it so that it is in km not feet which i think this is in 
-r.ft <- 6378137*3.28084             # radius of the earth, in feet
-r.km   <- r.ft*0.0003048
-sep.km   <- 10
-march_overlap$distance<-distHaversine(march_overlap[,2:3], march_overlap[,4:5], r=r.km)
-march_10_overlap <- march_overlap[march_overlap$distance<sep.km,]
-
-
-march_islands <- ggplot() + geom_polygon(data=Chagos_island, aes(x=long, y=lat, group=group), color='black', fill = NA) + geom_point(data=march_10_overlap, aes(x= Longitude.x, y= Latitude.x),size=2, pch = 21, colour = "Light Blue", fill = "Blue", alpha=I(0.2)) +
-  geom_point(data=march_10_overlap, aes(x= Longitude.y, y= Latitude.y),size=2, pch = 21, colour = "Pink", fill = "Deep Pink", alpha=I(0.5))
-
-
-################################ April BPV ########################
-
-BPV_april <- BPV[grep("2016-04", BPV$Date),] #extract one year of the data
-acoustic_april <- acoustic[grep("2016-04", acoustic$detect_date),] # extract the same year of the data 
-
-map_april <- ggplot() + geom_polygon(data=Chagos_island, aes(x=long, y=lat, group=group), color='black', fill = NA) + geom_point(data=BPV_april, aes(x= Longitude, y= Latitude, size =Value),size=2, pch = 21, colour = "Light Blue", fill = "Blue", alpha=I(0.2)) +
-  geom_point(data=acoustic_april, aes(x= receiver_lon, y= receiver_lat, size = receiver_lat),size=2, pch = 21, colour = "Deep Pink", fill = "Pink", alpha=I(0.5))
-
-
-
-###### Formatting data to be processed by the function 
-cols <- c("Date","Longitude", "Latitude")
-new_acoustic_april <- data.table(acoustic_april$detect_date, acoustic_april$receiver_lon, acoustic_april$receiver_lat)
-colnames(new_acoustic_april) = cols #assigning column names 
-
-new_BPV_april <- data.table(BPV_april$Date, BPV_april$Longitude, BPV_april$Latitude)
-colnames(new_BPV_april) = cols
-
-
-#longterm <- subset(count(collating_BPV$Date, new_acoustic$Date))
-april_overlap <- merge(new_BPV_april, new_acoustic_april, by = "Date", all.x = TRUE)
-
-######## This actually works but you just need to make it less than 10km etc
-######## Also need to make it so that it is in km not feet which i think this is in 
-r.ft <- 6378137*3.28084             # radius of the earth, in feet
-r.km   <- r.ft*0.0003048
-sep.km   <- 10
-april_overlap$distance<-distHaversine(april_overlap[,2:3], april_overlap[,4:5], r=r.km)
-april_10_overlap <- april_overlap[april_overlap$distance<sep.km,]
-
-
-april_islands <- ggplot() + geom_polygon(data=Chagos_island, aes(x=long, y=lat, group=group), color='black', fill = NA) + geom_point(data=april_10_overlap, aes(x= Longitude.x, y= Latitude.x),size=2, pch = 21, colour = "Light Blue", fill = "Blue", alpha=I(0.2)) +
-  geom_point(data=april_10_overlap, aes(x= Longitude.y, y= Latitude.y),size=2, pch = 21, colour = "Pink", fill = "Deep Pink", alpha=I(0.5))
+BPV2 <- read.csv("BPV_Position_Data_Combined_2017_2019.csv", header = TRUE, stringsAsFactors = T) # read in the data
 
 
 ##################### HEAT MAPS ##############
@@ -182,40 +82,6 @@ april_islands <- ggplot(data=april_10_overlap, aes(x= Longitude.x, y= Latitude.x
   geom_hex(bins = 70) +
   scale_colour_gradientn(colours = terrain.colors(10)) +
   theme_bw()
-
-############################### August ########################
-
-BPV_august <- BPV[grep("2016-06", BPV$Date),] #extract one year of the data
-acoustic_august <- acoustic[grep("2016-06", acoustic$detect_date),] # extract the same year of the data 
-
-map_august <- ggplot() + geom_polygon(data=Chagos_island, aes(x=long, y=lat, group=group), color='black', fill = NA) + geom_point(data=BPV_august, aes(x= Longitude, y= Latitude, size =Value),size=2, pch = 21, colour = "Light Blue", fill = "Blue", alpha=I(0.2)) +
-  geom_point(data=acoustic_august, aes(x= receiver_lon, y= receiver_lat, size = receiver_lat),size=2, pch = 21, colour = "Deep Pink", fill = "Pink", alpha=I(0.5))
-
-
-
-###### Formatting data to be processed by the function 
-cols <- c("Date","Longitude", "Latitude")
-new_acoustic_august <- data.table(acoustic_august$detect_date, acoustic_august$receiver_lon, acoustic_august$receiver_lat)
-colnames(new_acoustic_august) = cols #assigning column names 
-
-new_BPV_august <- data.table(BPV_august$Date, BPV_august$Longitude, BPV_august$Latitude)
-colnames(new_BPV_august) = cols
-
-
-#longterm <- subset(count(collating_BPV$Date, new_acoustic$Date))
-august_overlap <- merge(new_BPV_august, new_acoustic_august, by = "Date", all.x = TRUE)
-
-######## This actually works but you just need to make it less than 10km etc
-######## Also need to make it so that it is in km not feet which i think this is in 
-r.ft <- 6378137*3.28084             # radius of the earth, in feet
-r.km   <- r.ft*0.0003048
-sep.km   <- 10
-august_overlap$distance<-distHaversine(august_overlap[,2:3], august_overlap[,4:5], r=r.km)
-august_10_overlap <- august_overlap[august_overlap$distance<sep.km,]
-
-
-august_islands <- ggplot() + geom_polygon(data=Chagos_island, aes(x=long, y=lat, group=group), color='black', fill = NA) + geom_point(data=august_10_overlap, aes(x= Longitude.x, y= Latitude.x),size=2, pch = 21, colour = "Light Blue", fill = "Blue", alpha=I(0.2)) +
-  geom_point(data=august_10_overlap, aes(x= Longitude.y, y= Latitude.y),size=2, pch = 21, colour = "Pink", fill = "Deep Pink", alpha=I(0.5))
 
 
 ########################################## YEAR 2016 ################################
@@ -273,7 +139,7 @@ year_10_overlap$NewDate <- substr(year_10_overlap$Date, 0, 7)
 nestmonths <- year_10_overlap %>%
   nest(data= -NewDate) #this is experimenting with nesting, by nesting the data i can suset the day by ID and go into that
 
-
+pdf("myOut.pdf")
 summary_sharks = as.data.frame(matrix(nrow = 1, ncol = 3))
 for (i in 1:length(nestmonths$NewDate)){
   monthdata <- nestmonths$data[[i]]
@@ -281,12 +147,110 @@ for (i in 1:length(nestmonths$NewDate)){
   rows <- nrow(monthdata)
   no_sharks <- unique(monthdata$Code)
   no_sharks <- length(no_sharks)
-  year_islands <- ggplot(data=monthdata, aes(x= Longitude_BPV, y= Latitude_BPV)) + geom_polygon(data=Chagos_island, aes(x=long, y=lat, group=group), color='black', fill = NA) +
+  year_islands_i <- ggplot(data=monthdata, aes(x= Longitude_BPV, y= Latitude_BPV)) + geom_polygon(data=Chagos_island, aes(x=long, y=lat, group=group), color='black', fill = NA) +
     geom_hex(bins = 50) +
     ggtitle(month) +
     scale_fill_continuous(type = "viridis") +
     theme_bw()
   toadd <- c(month, rows, no_sharks)
   summary_sharks <- rbind(summary_sharks, toadd)
-  ggsave(year_islands, file=paste0("plot_", i,".png"), width = 14, height = 10)
+  plot(year_islands_i)
 }
+dev.off()
+
+
+######## ALL data but not the new BPV YET ############
+cols <- c("Date","Longitude", "Latitude", "Code")
+new_acoustic <- data.table(acoustic$detect_date, acoustic$receiver_lon, acoustic$receiver_lat, acoustic$code)
+colnames(new_acoustic) = cols #assigning column names 
+
+cols_BPV <- c("Date","Longitude", "Latitude")
+new_BPV <- data.table(BPV$Date, BPV$Longitude, BPV$Latitude)
+colnames(new_BPV) = cols_BPV
+
+
+######### FORMATTING BPV2 ############
+#new_BPV_2 <- data.table(BPV2$Date, BPV2$Time, BPV2$LAT, BPV2$LON)
+
+
+cols_BPV <- c("Date","Longitude", "Latitude")
+BPV2$Date <- paste(BPV2$Date, BPV2$Time)
+new_BPV_2 <- data.table(BPV2$Date, BPV2$DEC_LON, BPV2$DEC_LAT)
+colnames(new_BPV_2) = cols_BPV
+#new_BPV_2$Latitude <- as.numeric(new_BPV_2$Latitude)
+new_BPV_2$Date <- dmy_hms(new_BPV_2$Date)
+new_BPV_2$Date <- round_date(new_BPV_2$Date, unit = "hour")
+#new_BPV_2 <- as.data.frame(new_BPV_2)
+#new_BPV_3 <- new_BPV_2[as.numeric(new_BPV_2$Latitude) > 0, ]
+#new_BPV_4 <- new_BPV_2[as.numeric(new_BPV_2$Latitude)<0, ]
+df.new = new_BPV_2[seq(1, nrow(new_BPV_2), 24), ]
+
+
+
+df.new$Longitude <- as.numeric(levels(df.new$Longitude))[df.new$Longitude]
+df.new$Latitude <- as.numeric(levels(df.new$Latitude))[df.new$Latitude]
+df.new <- df.new[,-2]
+df.new <- df.new[,-2]
+
+new_BPV_bind <- rbind(new_BPV, df.new)
+###################### 
+all_overlap <- merge(new_BPV_bind, new_acoustic, by = "Date", all.x = TRUE, allow.cartesian=TRUE)
+cols_10 <- c("Date","Longitude_BPV", "Latitude_BPV", "Longitude_acoustic", "Latitude_acoustic", "Code")
+colnames(all_overlap) = cols_10
+
+
+#df.new <- as.numeric(levels(df.new$Longitude))[df.new$Longitude]
+#list2$latitude.fix <- as.numeric(levels(list2$latitude))[list2$latitude]
+######## This actually works but you just need to make it less than 10km etc
+######## Also need to make it so that it is in km not feet which i think this is in 
+r.ft <- 6378137*3.28084             # radius of the earth, in feet
+r.km   <- r.ft*0.0003048
+sep.km   <- 10
+all_overlap$distance<-distHaversine(all_overlap[,2:3], all_overlap[,4:5], r=r.km)
+all_10_overlap <- all_overlap[all_overlap$distance<sep.km,]
+
+
+# Trying to create a forloop to iterate 
+all_10_overlap$NewDate <- substr(all_10_overlap$Date, 0, 7)
+
+all_nestmonths <- all_10_overlap %>%
+  nest(data= -NewDate) #this is experimenting with nesting, by nesting the data i can suset the day by ID and go into that
+
+pdf("all_out.pdf")
+summary_sharks = as.data.frame(matrix(nrow = 1, ncol = 3))
+for (i in 1:length(all_nestmonths$NewDate)){
+  monthdata <- all_nestmonths$data[[i]]
+  month <- all_nestmonths$NewDate[[i]]
+  rows <- nrow(monthdata)
+  no_sharks <- unique(monthdata$Code)
+  no_sharks <- length(no_sharks)
+  year_islands_i <- ggplot(data=monthdata, aes(x= Longitude_BPV, y= Latitude_BPV)) + geom_polygon(data=Chagos_island, aes(x=long, y=lat, group=group), color='black', fill = NA) +
+    geom_hex(bins = 50) +
+    ggtitle(month) +
+    scale_fill_continuous(type = "viridis") +
+    theme_bw()
+  toadd <- c(month, rows, no_sharks)
+  summary_sharks <- rbind(summary_sharks, toadd)
+  plot(year_islands_i)
+}
+dev.off()
+
+summary <- c("month", "count", "number_of_different_sharks")
+colnames(summary_sharks) <- summary
+summary_sharks <- summary_sharks[-1,]
+summary_sharks <- as.data.frame(summary_sharks, header=TRUE,stringsAsFactors=TRUE)
+summary_sharks$month2<-as.Date(format(summary_sharks$month, "%Y-%m-%d"))
+df2<-aggregate(count~month2, data=summary_sharks, FUN=sum)
+summary_sharks$newdate <- substr(summary_sharks$month, 0, 4)
+summary_sharks$newmonth <- substr(summary_sharks$month, 6, 7)
+plot(summary_sharks[,1], summary_sharks[,4], typ="l")
+
+
+
+plot(as.numeric(summary_sharks$month),summary_sharks$row_counts, type = "l",xaxt="n",main = "Counts")
+pdf("shark_counts.pdf")
+plot(x = summary_sharks$month, y = summary_sharks$row_counts, col="green", lwd=5, xlab="months", ylab="shark count", main="Count frequency", ylim = c(1,710) )
+dev.off()
+
+
+

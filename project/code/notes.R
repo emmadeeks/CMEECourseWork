@@ -111,3 +111,144 @@ map_islands <- ggplot() + geom_polygon(data=Chagos_island, aes(x=long, y=lat, gr
   geom_point(data=less_than_10, aes(x= long.2, y= lat.2),size=2, pch = 21, colour = "Pink", fill = "Deep Pink", alpha=I(0.5))
 
 
+
+
+
+
+####################### birthday ##################
+
+BPV_birthday <- BPV[grep("2016-02", BPV$Date),] #extract one year of the data
+acoustic_birthday <- acoustic[grep("2016-02", acoustic$detect_date),] # extract the same year of the data 
+
+map_birthday <- ggplot() + geom_polygon(data=Chagos_island, aes(x=long, y=lat, group=group), color='black', fill = NA) + geom_point(data=BPV_birthday, aes(x= Longitude, y= Latitude, size =Value),size=2, pch = 21, colour = "Light Blue", fill = "Blue", alpha=I(0.2)) +
+  geom_point(data=acoustic_birthday, aes(x= receiver_lon, y= receiver_lat, size = receiver_lat),size=2, pch = 21, colour = "Deep Pink", fill = "Pink", alpha=I(0.5))
+
+
+###### Formatting data to be processed by the function 
+cols <- c("Date","Longitude", "Latitude")
+new_acoustic_birthday <- data.table(acoustic_birthday$detect_date, acoustic_birthday$receiver_lon, acoustic_birthday$receiver_lat)
+colnames(new_acoustic_birthday) = cols #assigning column names 
+
+new_BPV_birthday <- data.table(BPV_birthday$Date, BPV_birthday$Longitude, BPV_birthday$Latitude)
+colnames(new_BPV_birthday) = cols
+
+birthday <- merge(new_BPV_birthday, new_acoustic_birthday, by = "Date", all.x = TRUE)
+
+######## This actually works but you just need to make it less than 10km etc
+######## Also need to make it so that it is in km not feet which i think this is in 
+r.ft <- 6378137*3.28084             # radius of the earth, in feet
+r.km   <- r.ft*0.0003048
+sep.km   <- 10
+birthday$distance<-distHaversine(birthday[,2:3], birthday[,4:5], r=r.km)
+less_than_10 <- birthday[birthday$distance<sep.km,]
+
+
+map_islands <- ggplot() + geom_polygon(data=Chagos_island, aes(x=long, y=lat, group=group), color='black', fill = NA) + geom_point(data=less_than_10, aes(x= Longitude.x, y= Latitude.x),size=2, pch = 21, colour = "Light Blue", fill = "Blue", alpha=I(0.2)) +
+  geom_point(data=less_than_10, aes(x= Longitude.y, y= Latitude.y),size=2, pch = 21, colour = "Pink", fill = "Deep Pink", alpha=I(0.5))
+
+################# March #################
+
+BPV_march <- BPV[grep("2016-03", BPV$Date),] #extract one year of the data
+acoustic_march <- acoustic[grep("2016-03", acoustic$detect_date),] # extract the same year of the data 
+
+map_march <- ggplot() + geom_polygon(data=Chagos_island, aes(x=long, y=lat, group=group), color='black', fill = NA) + geom_point(data=BPV_march, aes(x= Longitude, y= Latitude, size =Value),size=2, pch = 21, colour = "Light Blue", fill = "Blue", alpha=I(0.2)) +
+  geom_point(data=acoustic_march, aes(x= receiver_lon, y= receiver_lat, size = receiver_lat),size=2, pch = 21, colour = "Deep Pink", fill = "Pink", alpha=I(0.5))
+
+
+
+###### Formatting data to be processed by the function 
+cols <- c("Date","Longitude", "Latitude")
+new_acoustic_march <- data.table(acoustic_march$detect_date, acoustic_march$receiver_lon, acoustic_march$receiver_lat)
+colnames(new_acoustic_march) = cols #assigning column names 
+
+new_BPV_march <- data.table(BPV_march$Date, BPV_march$Longitude, BPV_march$Latitude)
+colnames(new_BPV_march) = cols
+
+
+#longterm <- subset(count(collating_BPV$Date, new_acoustic$Date))
+march_overlap <- merge(new_BPV_march, new_acoustic_march, by = "Date", all.x = TRUE)
+
+######## This actually works but you just need to make it less than 10km etc
+######## Also need to make it so that it is in km not feet which i think this is in 
+r.ft <- 6378137*3.28084             # radius of the earth, in feet
+r.km   <- r.ft*0.0003048
+sep.km   <- 10
+march_overlap$distance<-distHaversine(march_overlap[,2:3], march_overlap[,4:5], r=r.km)
+march_10_overlap <- march_overlap[march_overlap$distance<sep.km,]
+
+
+march_islands <- ggplot() + geom_polygon(data=Chagos_island, aes(x=long, y=lat, group=group), color='black', fill = NA) + geom_point(data=march_10_overlap, aes(x= Longitude.x, y= Latitude.x),size=2, pch = 21, colour = "Light Blue", fill = "Blue", alpha=I(0.2)) +
+  geom_point(data=march_10_overlap, aes(x= Longitude.y, y= Latitude.y),size=2, pch = 21, colour = "Pink", fill = "Deep Pink", alpha=I(0.5))
+
+
+################################ April BPV ########################
+
+BPV_april <- BPV[grep("2016-04", BPV$Date),] #extract one year of the data
+acoustic_april <- acoustic[grep("2016-04", acoustic$detect_date),] # extract the same year of the data 
+
+map_april <- ggplot() + geom_polygon(data=Chagos_island, aes(x=long, y=lat, group=group), color='black', fill = NA) + geom_point(data=BPV_april, aes(x= Longitude, y= Latitude, size =Value),size=2, pch = 21, colour = "Light Blue", fill = "Blue", alpha=I(0.2)) +
+  geom_point(data=acoustic_april, aes(x= receiver_lon, y= receiver_lat, size = receiver_lat),size=2, pch = 21, colour = "Deep Pink", fill = "Pink", alpha=I(0.5))
+
+
+
+###### Formatting data to be processed by the function 
+cols <- c("Date","Longitude", "Latitude")
+new_acoustic_april <- data.table(acoustic_april$detect_date, acoustic_april$receiver_lon, acoustic_april$receiver_lat)
+colnames(new_acoustic_april) = cols #assigning column names 
+
+new_BPV_april <- data.table(BPV_april$Date, BPV_april$Longitude, BPV_april$Latitude)
+colnames(new_BPV_april) = cols
+
+
+#longterm <- subset(count(collating_BPV$Date, new_acoustic$Date))
+april_overlap <- merge(new_BPV_april, new_acoustic_april, by = "Date", all.x = TRUE)
+
+######## This actually works but you just need to make it less than 10km etc
+######## Also need to make it so that it is in km not feet which i think this is in 
+r.ft <- 6378137*3.28084             # radius of the earth, in feet
+r.km   <- r.ft*0.0003048
+sep.km   <- 10
+april_overlap$distance<-distHaversine(april_overlap[,2:3], april_overlap[,4:5], r=r.km)
+april_10_overlap <- april_overlap[april_overlap$distance<sep.km,]
+
+
+april_islands <- ggplot() + geom_polygon(data=Chagos_island, aes(x=long, y=lat, group=group), color='black', fill = NA) + geom_point(data=april_10_overlap, aes(x= Longitude.x, y= Latitude.x),size=2, pch = 21, colour = "Light Blue", fill = "Blue", alpha=I(0.2)) +
+  geom_point(data=april_10_overlap, aes(x= Longitude.y, y= Latitude.y),size=2, pch = 21, colour = "Pink", fill = "Deep Pink", alpha=I(0.5))
+
+
+############################### August ########################
+
+BPV_august <- new_BPV_2[grep("2017-06", BPV$Date),] #extract one year of the data
+acoustic_august <- acoustic[grep("2017-06", acoustic$detect_date),] # extract the same year of the data 
+
+map_august <- ggplot() + geom_polygon(data=Chagos_island, aes(x=long, y=lat, group=group), color='black', fill = NA) + geom_point(data=BPV_august, aes(x= V3, y= V4, size =Value),size=2, pch = 21, colour = "Light Blue", fill = "Blue", alpha=I(0.2)) +
+  geom_point(data=acoustic_august, aes(x= receiver_lon, y= receiver_lat, size = receiver_lat),size=2, pch = 21, colour = "Deep Pink", fill = "Pink", alpha=I(0.5))
+
+pdf("trying.pdf")
+plot(map_august)
+dev.off()
+
+###### Formatting data to be processed by the function 
+cols <- c("Date","Longitude", "Latitude")
+new_acoustic_august <- data.table(acoustic_august$detect_date, acoustic_august$receiver_lon, acoustic_august$receiver_lat)
+colnames(new_acoustic_august) = cols #assigning column names 
+
+new_BPV_august <- data.table(BPV_august$Date, BPV_august$Longitude, BPV_august$Latitude)
+colnames(new_BPV_august) = cols
+
+
+#longterm <- subset(count(collating_BPV$Date, new_acoustic$Date))
+august_overlap <- merge(new_BPV_august, new_acoustic_august, by = "Date", all.x = TRUE)
+
+######## This actually works but you just need to make it less than 10km etc
+######## Also need to make it so that it is in km not feet which i think this is in 
+r.ft <- 6378137*3.28084             # radius of the earth, in feet
+r.km   <- r.ft*0.0003048
+sep.km   <- 10
+august_overlap$distance<-distHaversine(august_overlap[,2:3], august_overlap[,4:5], r=r.km)
+august_10_overlap <- august_overlap[august_overlap$distance<sep.km,]
+
+
+august_islands <- ggplot() + geom_polygon(data=Chagos_island, aes(x=long, y=lat, group=group), color='black', fill = NA) + geom_point(data=august_10_overlap, aes(x= Longitude.x, y= Latitude.x),size=2, pch = 21, colour = "Light Blue", fill = "Blue", alpha=I(0.2)) +
+  geom_point(data=august_10_overlap, aes(x= Longitude.y, y= Latitude.y),size=2, pch = 21, colour = "Pink", fill = "Deep Pink", alpha=I(0.5))
+
