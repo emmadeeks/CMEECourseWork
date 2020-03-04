@@ -1,23 +1,36 @@
+#!/usr/bin/env python3
+
+#Author: Emma Deeks ead19@imperial.ac.uk
+#Script: plotting_script.py
+#Desc:  script that takes the two tables produced by the fitting_script.R and creates three plots as well as does statistical analysis on the data 
+#Arguments: Two tables, one entitled 'optiisedtable.csv' and the other 'MergedOptTable.csv' from the data directory of the miniproject folder 
+#Date: March 2020 
+
 # Some imports to explore the datasets
 # Import relevant packages for data manipulation
-import pandas as pd
-import scipy as sc
-import scipy.stats as stats
-import matplotlib.pylab as pl
-import seaborn as sns # You might need to install this (e.g., sudo pip install seaborn)
-import numpy as np
-import matplotlib
-import matplotlib.pyplot as plt
-import researchpy as rp
-import statsmodels.api as sm
-from statsmodels.formula.api import ols
-import pingouin as pg
+import pandas as pd #For data wrangling
+import seaborn as sns # For plotting
+import matplotlib.pyplot as plt #for plotting 
+import researchpy as rp #for linear models and statistical analysis 
+import statsmodels.api as sm # for anovas 
+from statsmodels.formula.api import ols #for anovas 
+import pingouin as pg # for statistical analysis 
+from scipy.stats import chisquare # for chi square analysis 
 
 
 #Read in data 
 
 data = pd.read_csv("../data/MergedOptTable.csv")
 datacon = pd.read_csv("../data/optimisedtable.csv")
+
+
+########### COMPARING MECHANISTIC AND PHENMENOLOGICAL MODELS ###################
+# conduct a chi squared test 
+counts = datacon['mecphe'].value_counts()
+chisquare([counts[0], counts[1]])   
+
+#one way anova for comparing all the models overall 
+ModelANOVA = pg.anova(data = data, dv = 'AIC', between = 'Model', detailed = True)
 
 
 ### HABITAT ANALYSIS ###
@@ -39,19 +52,21 @@ print(f"Overall model F({model.df_model: .0f},{model.df_resid: .0f}) = {model.fv
 model.summary()
 # View ANOVA table
 res = sm.stats.anova_lm(model, typ=2)
-res
+
+
+### 
+Habitattukey = pg.pairwise_tukey(data = data, dv = 'AIC', between=['Habitat'])
+
 
 ####### Plotting boxplot of habitat 
 
-bp = sns.boxplot(y = 'minAIC', x = 'Habitat', data = datacon, palette = "coolwarm", hue = "AIC")
-handles, labels = bp.get_legend_handles_labels()
-plt.legend(loc = 'upper right', bbox_to_anchor = (1.25, 1), ncol = 1)
-#bp.set_ylabels("Freshwater", "Marine", "Terrestrial")
-plt.savefig('../results/HabitatCompare')
+bp = sns.boxplot(y = 'minAIC', x = 'Habitat', data = datacon, palette = "husl", hue = "AIC")
+plt.legend(loc = 'upper left', ncol = 1)
+plt.ylabel("Minimum AIC")
+plt.savefig('../results/HabitatBoxplot.pdf')
 
 
-### 3D resource ANALYSIS ###
-
+### 3D resource dimension ANALYSIS ###
 
 # Summarise AIC by model and habitat
 rp.summary_cont(data.groupby(['ResDimension','Model']))['AIC']
@@ -69,18 +84,23 @@ print(f"Overall model F({model.df_model: .0f},{model.df_resid: .0f}) = {model.fv
 model.summary()
 # View ANOVA table
 res = sm.stats.anova_lm(model, typ=2)
-res
 
-####### Plotting boxplot of habitat 
+#Tukey post hoc analysis 
+tukey = pg.pairwise_tukey(data = data, dv = 'AIC', between=['ResDimension'])
 
-bp = sns.boxplot(y = 'minAIC', x = 'Res_Dim', data = datacon, palette = "coolwarm", hue = "AIC")
-handles, labels = bp.get_legend_handles_labels()
-plt.legend(loc = 'upper right', bbox_to_anchor = (1.25, 1), ncol = 1)
-#bp.set_ylabels("Freshwater", "Marine", "Terrestrial")
-plt.savefig('../results/Res_Dim_Compare')
+
+####### Plotting boxplot of resource 
+
+bps2 = sns.boxplot(y = 'minAIC', x = 'Res_Dim', data = datacon, palette = "BrBG", hue = "AIC") #making boxplot 
+plt.legend(loc = 'upper left', ncol = 1) #positioning key 
+plt.ylabel("Minimum AIC") #making y label 
+plt.savefig('../results/Res_Dim_Boxplot.pdf') #saving plot 
 
 
 
 ####### Plotting bar chart of phenomological and mechanistic datasets 
 
-datacon['mecphe'].value_counts().plot(kind='bar')
+ax = sns.countplot(x="mecphe", data=datacon, palette="GnBu_d") #making a bar plot based on counts of data 
+plt.ylabel("Count") #adding labels 
+plt.xlabel("Model Type")
+plt.savefig('../results/mecphe.pdf') #saving plot in results 

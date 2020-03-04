@@ -12,6 +12,7 @@ import researchpy as rp
 import statsmodels.api as sm
 from statsmodels.formula.api import ols
 import pingouin as pg
+from scipy.stats import chisquare
 
 
 #Read in data 
@@ -43,11 +44,11 @@ res
 
 ####### Plotting boxplot of habitat 
 
-bp = sns.boxplot(y = 'minAIC', x = 'Habitat', data = datacon, palette = "coolwarm", hue = "AIC")
-handles, labels = bp.get_legend_handles_labels()
-plt.legend(loc = 'upper right', bbox_to_anchor = (1.25, 1), ncol = 1)
+bp = sns.boxplot(y = 'minAIC', x = 'Habitat', data = datacon, palette = "husl", hue = "AIC")
+#handles, labels = bp.get_legend_handles_labels()
+#plt.legend(loc = 'upper right', bbox_to_anchor = (1.25, 1), ncol = 1)
 #bp.set_ylabels("Freshwater", "Marine", "Terrestrial")
-plt.savefig('../results/HabitatCompare')
+plt.savefig('../results/HabitatCompare.pdf')
 
 
 ### 3D resource ANALYSIS ###
@@ -69,18 +70,28 @@ print(f"Overall model F({model.df_model: .0f},{model.df_resid: .0f}) = {model.fv
 model.summary()
 # View ANOVA table
 res = sm.stats.anova_lm(model, typ=2)
+
 res
 
-####### Plotting boxplot of habitat 
+####### Plotting boxplot of resource 
 
-bp = sns.boxplot(y = 'minAIC', x = 'Res_Dim', data = datacon, palette = "coolwarm", hue = "AIC")
-handles, labels = bp.get_legend_handles_labels()
-plt.legend(loc = 'upper right', bbox_to_anchor = (1.25, 1), ncol = 1)
+bps2 = sns.boxplot(y = 'minAIC', x = 'Res_Dim', data = datacon, palette = "BrBG", hue = "AIC")
+#handles, labels = bp.get_legend_handles_labels()
+#plt.legend(loc = 'upper right', bbox_to_anchor = (1.25, 1), ncol = 1)
 #bp.set_ylabels("Freshwater", "Marine", "Terrestrial")
-plt.savefig('../results/Res_Dim_Compare')
+plt.savefig('../results/Res_Dim_Compare.pdf')
 
 
 
 ####### Plotting bar chart of phenomological and mechanistic datasets 
 
-datacon['mecphe'].value_counts().plot(kind='bar')
+#datacon['mecphe'].value_counts().plot(kind='bar', y = 'Count')
+counts = datacon['mecphe'].value_counts()
+ chisquare([counts[0], counts[1]])   
+
+Habitattukey = pg.pairwise_tukey(data = data, dv = 'AIC', between=['Habitat'])
+tukey = pg.pairwise_tukey(data = data, dv = 'AIC', between=['ResDimension'])
+
+
+ModelANOVA = pg.anova(data = data, dv = 'AIC', between = 'Model', detailed = True)
+ModelANOVA

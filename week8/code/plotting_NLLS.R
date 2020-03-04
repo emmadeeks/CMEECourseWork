@@ -420,6 +420,7 @@ lines(Lengths, Predic2PlotPow, col = 'blue', lwd = 2.5)
 lines(Lengths, Predic2PlotQua, col = 'red', lwd = 2.5)
 lines(Lengths, Predic2PlotCub, col = 'pink', lwd = 2.5)
 
+text(locator(), labels = c("Generalised linear model", "Holling Type II", "Quadratic", "Cubic)"))
 
 
 
@@ -429,9 +430,6 @@ lines(Lengths, Predic2PlotCub, col = 'pink', lwd = 2.5)
 
 
 
-=======
-  return( (a* x^(q+1) ) / (1+ (h*a*x^(q+1))))
-}
 
 
 ################################### FITTING MODELS #############################

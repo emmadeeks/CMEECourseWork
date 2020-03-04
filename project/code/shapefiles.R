@@ -189,8 +189,8 @@ df.new = new_BPV_2[seq(1, nrow(new_BPV_2), 24), ]
 
 df.new$Longitude <- as.numeric(levels(df.new$Longitude))[df.new$Longitude]
 df.new$Latitude <- as.numeric(levels(df.new$Latitude))[df.new$Latitude]
-df.new <- df.new[,-2]
-df.new <- df.new[,-2]
+#df.new <- df.new[,-2]
+#df.new <- df.new[,-2]
 
 new_BPV_bind <- rbind(new_BPV, df.new)
 ###################### 

@@ -4,7 +4,7 @@ rm(list=ls()) #Clear global environment
 #setwd("/Users/emmadeeks/Desktop/CMEECourseWork/week8/data")
 #setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
 
-setwd("/Users/emmadeeks/Desktop/CMEECourseWork/week8/data")
+#setwd("/Users/emmadeeks/Desktop/CMEECourseWork/week8/code")
 
 # Get thee required packages
 require('minpack.lm')
@@ -15,7 +15,7 @@ library('tidyr')
 ######################################## PREPARES DATA ###################
 
 #Load in data
-data <- read.csv('modified_CRat.csv', header = TRUE) #reads in data
+data <- read.csv('../data/modified_CRat.csv', header = TRUE) #reads in data
 
 data <- data[, -1] #removes first column 
 
@@ -258,8 +258,8 @@ optimisedtable <- optimisedtable[-1, ]
 
 optimisedtable <- apply(optimisedtable,2,as.character)
 
-write.csv(optimisedtable, file = "optimisedtable.csv")
-write.csv(modelvec2, file = "MergedOptTable.csv")
+write.csv(optimisedtable, file = "../data/optimisedtable.csv")
+write.csv(modelvec2, file = "../data/MergedOptTable.csv")
 
 
 
