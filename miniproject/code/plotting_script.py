@@ -30,28 +30,44 @@ counts = datacon['mecphe'].value_counts()
 chisquare([counts[0], counts[1]])   
 
 #one way anova for comparing all the models overall 
-ModelANOVA = pg.anova(data = data, dv = 'AIC', between = 'Model', detailed = True)
+aov = pg.rm_anova(dv='AIC', within='Model',
+                 subject='ID.', data=data, detailed=False)
+
 
 
 ### HABITAT ANALYSIS ###
 
 
 # Summarise AIC by model and habitat
-rp.summary_cont(data.groupby(['Habitat','Model']))['AIC']
+#rp.summary_cont(data.groupby(['Habitat','Model']))['AIC']
 # Run a two-way ANOVA on the AIC values by Habitat and Model
-model = ols('AIC ~ C(Model)*C(Habitat)', data).fit()
+#model = ols('AIC ~ C(Model)*C(Habitat)', data).fit()
 
 # Check if the overall model is significant
-print(f"Overall model F({model.df_model: .0f},{model.df_resid: .0f}) = {model.fvalue: .3f}, p = {model.f_pvalue: .4f}")
+#print(f"Overall model F({model.df_model: .0f},{model.df_resid: .0f}) = {model.fvalue: .3f}, p = {model.f_pvalue: .4f}")
 # Check assumptions of two-way ANOVA are met 
     #Durban-Watson detects the presence of autocorrelation
     #Jarque-Bera tests assumption of normality
     #Omnibus tests the assumption of homogeneity of variance
     #Condition Number assess multicollinearity
         #NB: values over 20 are indicative of multicollinearity. 
-model.summary()
+#model.summary()
 # View ANOVA table
-res = sm.stats.anova_lm(model, typ=2)
+#res = sm.stats.anova_lm(model, typ=2)
+
+aov2 = pg.mixed_anova(data=data, dv='AIC', between='Habitat', within='Model',
+                     subject='ID.', correction= False)
+
+
+
+
+#aov = pg.anova(dv='AIC', between='Habitat', data=data,
+#          detailed=True)
+
+#aov = pg.mixed_anova(data=data, between='Habitat', within='Model',
+ #                    subject='AIC')       
+
+#ModelANOVA = pg.anova(data = data, dv = 'AIC', between = 'Model', detailed = True)
 
 
 ### 
@@ -69,21 +85,23 @@ plt.savefig('../results/HabitatBoxplot.pdf')
 ### 3D resource dimension ANALYSIS ###
 
 # Summarise AIC by model and habitat
-rp.summary_cont(data.groupby(['ResDimension','Model']))['AIC']
+#rp.summary_cont(data.groupby(['ResDimension','Model']))['AIC']
 # Run a two-way ANOVA on the AIC values by Habitat and Model
-model = ols('AIC ~ C(Model)*C(ResDimension)', data).fit()
+#model = ols('AIC ~ C(Model)*C(ResDimension)', data).fit()
 
 # Check if the overall model is significant
-print(f"Overall model F({model.df_model: .0f},{model.df_resid: .0f}) = {model.fvalue: .3f}, p = {model.f_pvalue: .4f}")
+#print(f"Overall model F({model.df_model: .0f},{model.df_resid: .0f}) = {model.fvalue: .3f}, p = {model.f_pvalue: .4f}")
 # Check assumptions of two-way ANOVA are met 
     #Durban-Watson detects the presence of autocorrelation
     #Jarque-Bera tests assumption of normality
     #Omnibus tests the assumption of homogeneity of variance
     #Condition Number assess multicollinearity
         #NB: values over 20 are indicative of multicollinearity. 
-model.summary()
+#model.summary()
 # View ANOVA table
-res = sm.stats.anova_lm(model, typ=2)
+#res = sm.stats.anova_lm(model, typ=2)
+aov3 = pg.mixed_anova(data=data, dv='AIC', between='ResDimension', within='Model',
+                     subject='ID.', correction=False)
 
 #Tukey post hoc analysis 
 tukey = pg.pairwise_tukey(data = data, dv = 'AIC', between=['ResDimension'])
@@ -94,6 +112,7 @@ tukey = pg.pairwise_tukey(data = data, dv = 'AIC', between=['ResDimension'])
 bps2 = sns.boxplot(y = 'minAIC', x = 'Res_Dim', data = datacon, palette = "BrBG", hue = "AIC") #making boxplot 
 plt.legend(loc = 'upper left', ncol = 1) #positioning key 
 plt.ylabel("Minimum AIC") #making y label 
+plt.xlabel("Resource Dimension")
 plt.savefig('../results/Res_Dim_Boxplot.pdf') #saving plot 
 
 
