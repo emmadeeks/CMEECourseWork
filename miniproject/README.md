@@ -22,3 +22,4 @@ A project addressing the question on what mathmatical model best fits an empiric
   To run all R scripts the associated packages are required: 
   -  Preparing_data.py: pandas (For manipulating dataframes), numpy (for removing NAs and replacing them)
   -  fitting_script.R: dplyr and tidyr for datawrangling and 'minpack.lm' for fitting linear models to data
+  -  plotting_script.py: Pandas for handling dataframe, seaborn for plotting, matplotlib for potting models, statsmodels.api for statistics, statsmodels.formula.api for anovas, pingouin for statistical analysis and scipy.stats for chi square analysis. 
