@@ -16,9 +16,6 @@ Rscript "fitting_script.R"
 python3 "plotting_script.py"
 
 ### Run LaTeX compiling script
-latex "miniproject_write.tex"
-# Run word count for LaTex
-texcount -1 -sum miniproject_write.tex > miniproject_write.sum
-# Re-run LaTeX compiling script with included word count
-latex "miniproject_write.tex"
+pdflatex "miniproject_write.tex"
+
 echo "Report compiled"

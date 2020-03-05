@@ -2013,6 +2013,24 @@
     <bcf:citekey order="15">Pawar2012</bcf:citekey>
     <bcf:citekey order="16">Pawar2012</bcf:citekey>
     <bcf:citekey order="17">Pawar2012</bcf:citekey>
+    <bcf:citekey order="18">Bolker2008</bcf:citekey>
+    <bcf:citekey order="19">Hilborn1997</bcf:citekey>
+    <bcf:citekey order="20">Johnson2004</bcf:citekey>
+    <bcf:citekey order="21">Marsh1998</bcf:citekey>
+    <bcf:citekey order="22">Mulaik1998</bcf:citekey>
+    <bcf:citekey order="23">Raykov1999</bcf:citekey>
+    <bcf:citekey order="24">Aho2014</bcf:citekey>
+    <bcf:citekey order="25">Aho2014</bcf:citekey>
+    <bcf:citekey order="26">Sarnelle2008</bcf:citekey>
+    <bcf:citekey order="27">Sarnelle2008</bcf:citekey>
+    <bcf:citekey order="28">Dunn2020</bcf:citekey>
+    <bcf:citekey order="29">Dunn2020</bcf:citekey>
+    <bcf:citekey order="30">Dunn2020</bcf:citekey>
+    <bcf:citekey order="31">Kalinkat2013</bcf:citekey>
+    <bcf:citekey order="32">Murdoch1975</bcf:citekey>
+    <bcf:citekey order="33">Pawar2012</bcf:citekey>
+    <bcf:citekey order="34">Pawar2012</bcf:citekey>
+    <bcf:citekey order="35">Pawar2012</bcf:citekey>
   </bcf:section>
   <!-- SORTING TEMPLATES -->
   <bcf:sortingtemplate name="nyt">
