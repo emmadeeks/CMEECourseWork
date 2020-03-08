@@ -9,13 +9,13 @@ Note that:
 
 ======================================================================
 ======================================================================
-Your Git repo size this week is about 34.06 MiB on disk 
+Your Git repo size this week is about 59.65 MiB on disk 
 
 PART 1: Checking project workflow...
 
-Found the following directories in parent directory: Week1, week4, Assessment, week3, week6, Week2, week9, week7, week5, .git, week8
+Found the following directories in parent directory: week9, .git, week8, error:output files, week6, week7, week4, Week1, week3, project, Week2, Assessment, miniproject, week5, rda files
 
-Found the following files in parent directory: .gitignore, README.md
+Found the following files in parent directory: README.md, .gitignore, edeeks_HPC_2019.zip
 
 Checking for key files in parent directory...
 
@@ -33,99 +33,67 @@ Printing contents of .gitignore:
 __pycache__
 .DS_Store
 .Rapp.history
-.Rhistory**********************************************************************
+<<<<<<< HEAD
+.Rhistory
+*.rda
+*.sh.*
+project/data 
+project/data/Chagos_ALL_acoustic_2019.txt 
+project/data/shape_files
+. -size +50M
+=======
+.Rhistory
+>>>>>>> 0d7590ae85f1493548f944ace5922e4c47068ab7
+week8/code/.ipynb_checkpoints/FunRes-checkpoint.ipynb
+**********************************************************************
 
 Found README in parent directory, named: README.md
 
 Printing contents of README.md:
 **********************************************************************
-CMEE Coursework Repository- readme.txt 
+# CMEE Coursework Repository- README.md 
+
 
 Files included: 
-Week1: Learnt Unix and Shell scripting 
+### week1: 
+Unix Week:  Learnt the basics of UNIX including shell scripting, key commands such as grep and running functions. 
+### week2: Focuses on the basics of Python; Topics covered include:
+	- Basics of python syntax and data structures
+	- Python's object-oriented features
+	- How to write and run python code
+	- Understand and implement python control flow tools
+	- Learning to use the ipython environment 
+	- Writing, debugging, using, and testing python functions 
+	- Learning efficient numerical programming in python
+	- Using regular expressions in python
+	- Introduction to certain particularly useful python packages
+	- Using python for building and modifying databases
+	- Using python to run other, non-python tasks and code
+	- Using python to patch together data analysis and/or numerical simulation work flows
+### week3: 
+Focuses on the basics of R as well as data exploration, management and visualisation; Topics covered include:
+	- Basic R syntax and programming conventions assuming you have never set your eyes on R
+	- Principles of data processing and exploration (including visualization) using R
+	- Principles of clean and efficient programming using R
+	- To generate publication quality graphics in R
+	- To develop reproducible data analysis "work flows" so you (or anybody else) can run and re-run your analyses, graphics outputs and all, in R
+	- To make R simulations more efficient using vectorization
+	- To find and fix errors in R code using debugging
+	- To make data wrangling and analyses more efficient and convenient using custom tools such as tidyr
+	- Some additional tools and topics in R (accessing databases, building your own packages, etc.).
+### week4
+Stats week
 
-    Code 
-        boilerplate.sh      tabtocsv.sh        variables.sh       MyExampleScript.sh 
-        CountLines.sh       ConcatenateTwoFiles.sh                tiff2png.sh
-        csvtospace.sh       UnixPrac1.txt
-    Data
-        407228326.fasta     407228412.fasta    E.coli.fasta        spawannxs.txt
-        Temperature:    
-                    1800.csv    1801.csv       1802.csv         1803.csv 
-    Sandbox 
-        test.txt        test.txt.csv        ListRootDir.txt
-        TestWild
+### week5
+GIS week
+### week6
+Miniproject week
+### week7
+Python II 
+### week8
+HPC week 
 
-
-
-File functions: 
-Week1 
-    Code
-        boilerplate.sh: 
-            Function: Shell script that recites 'This is a shell script!' when run
-
-        tabtocsv.sh: Shell script to substitute all tabs with commas. 
-            Input: File for the script to be run on
-            Output: File with commas instead of tabs 
-
-        variables.sh: Shell script to show the use of variables. 
-            Input: 1 string and two variables. 
-            Output: Value of string and adds the two variables together  
-
-        MyExampleScript.sh: Bash script that outputs 'Hello' and the Username of the user twice when run. 
-
-        CountLines: Bash script that counts the number of lines in a file. 
-            Input: File directory 
-
-        ConcatenateTwoFiles: Bash script that concatenates the contents of two files. 
-            Input: Var1 Var2; Two file paths to be merged and Var3; file to be merged to  
-
-        tiff2png.sh: Bash script that converts a tiff file to a png
-                     ********* Need to have installed imagemagick on unix system. ************
-            Input: tiff file
-            Output: png file
-
-        csvtospace.sh: Takes comma seperated values and converts it to space seperated values whilst not changing the input file. 
-            Input: csv datafile    
-            Output: Seperate file saved under different name 
-                        
-        UnixPrac1.txt: The first practical submission of the CMEE Course Work covering the chapter in UNIX 
-            Input: fasta files  
-            Output: How many lines in each fasta file
-                    Prints everything in E.coli.fasta file except first lines
-                    Count the sequence length of genome in fasta file 
-                    Count matches of "ATGC" in genome 
-                    AT/GC ratio of E.coli.fasta file
-        
-        FirstExample.tex: Latex file template 
-        
-        FirstBiblio.bib: The bibliography of a paper 
-
-        CompileLaTeX.sh: Compiles latex with bibtex
-            Input: File that needs to be compiled with bibtex
-        
-    Data
-    407228326.fasta: Input file for fasta exercise    
-    407228412.fasta: Input file for fasta exercise 
-    E.coli.fasta: Input file for fasta exercise 
-    Temperatures: Input files for the shell scripting excercises 
-                1800.csv
-                1801.csv
-                1802.csv
-                1803.csv
-    spawannxs.txt: Input files for practice excercises in Unix and shell scripting 
-
-    Sandbox: A practice directory for work practice.
-
-
-# list every directory and what it did and whats in 
-# e.g. week 1: bash shel, wek 2: ... 
-
-#list all code files that are in the directories and what they do 
-#need to know whats in and whats - languages, packages ( VERSIONS) 
-#user guide- no other context 
-#this week you;; need this stuff you need etc 
-#inputs **********************************************************************
+**********************************************************************
 
 ======================================================================
 Looking for the weekly directories...
@@ -151,63 +119,117 @@ Found README in parent directory, named: README.md
 
 Printing contents of README.md:
 **********************************************************************
-Python week 7**********************************************************************
+# CMEE Coursework Repository- README.md 
 
-Found following files in results directory: TestR.Rout, TestR_errFile.Rout...
+##  Week7: Python II 
+
+### Code: Bold scripts are part of the practical coursework for week 7
+
+| Script       | Function     | Input     | Output    |
+| :------------- | :----------: | -----------: |-----------: |
+|  `blackbirds.py` |  Blackbirds practical that uses regex to output Kingdom, Phylum and Species of a csv of blackbird species, phylums and kingdoms  |  No input  |  Species, kingdom and phylum of the blacbirds.txt file of each bird  |
+|  `DrawFW.py` |  This script outputs figure of a food web network generated by a random 
+adjacency table and saves it as a pdf. uses packages netwrokx |  no input  |  network plot in pdf called network.pdf in the data directory |
+|  `fmr.R` |  Similar to TestR.R as it is an R script that is run through python. Plots log field metabolic rate against the log body mass and saves it as a pdf  |  no manual input but used NagyEtAl1999.csv from data directory, runs through python but is an R script |  plots a linear regression of log(field metabolic rate) against log(body mass) and saves it in the results as fmrplot.R  |
+|  `LV1.py` |  Plots Consumer-resource population dybamics and runs the Lotka-Volterra model for predator prey systems   | no input   |  Plots two models; consumer-resource model and LV model |
+|  `LV2.py` | Plots Consumer-resource population dybamics and runs the Lotka-Volterra model for predator prey systems. This script is modifying the Lotka-Volterra model for predator-prey system in two-dimensional space (e.g. on land) by adding K (carrying capacity  | Has default arguments but can manually input LV parameters,  r: is intrinsic growth rate of resource population a: per-capita "search rate", i.e. the rate at which consumers find resources units: area per time unit, z: mortality rate - units are 'per time' and e consumer's efficiency (rate in turning mass into its own mass). no units.   |  Plots two models; consumer-resource model and LV model and saves to results  called consumer_resource_model_LV2.pdf |
+|  `LV3.py` |  Extra credit:  of LV2 and is a discrete time version of the Lv model  using a time series and is also profiled | Has default arguments but can input LV model parameters manually: r: is intrinsic growth rate of resource population, a: per-capita "search rate", i.e. the rate at which consumers find resources units: area per time unit, z: mortality rate - units are 'per time', e" consumer's efficiency (rate in turning mass into its own mass). no units.   |  Plots two models; consumer-resource model and LV model and saves to results called consumer_resource_model_LV3.pdf | 
+|  `Nets.py` |  Extension practical of Python week 7  which uses networkx to visualise the QMEE CDT collaboration network, coloruing the nodes by the type of node (organisation type: University, Histing partner or non-histing partner)  |  Takes as input the QMEE_Net_Mat_edges.csv and QMEE_Net_Mat_nodes.csv from data directory   |  network plot in pdf called nets.svg in the results directory |
+|  `Nets.R` |  This script visualizes the QMEE CDT collaboration network, coloring the the nodes by the type of node (organization type: "University","Hosting Partner", "Non-hosting Partner") using the igraph package  |  Takes as input the QMEE_Net_Mat_edges.csv and QMEE_Net_Mat_nodes.csv from data directory  |  network plot in pdf called QMEENet.svg in the results directory  |
+|  `profileme.py` |  an illustrative programme about how to porfile functions and scripts  |  no input    | Profiles of the three functions  defined in the script including running time etc and certain 'slow' parts  |
+|  `profileme2.py` |  Similar script to profileme but the functions (which use to have loops) Now have list comprehensions instead and the .join has been replaced with an explicit string concatenation  |  No input  |  Profiles of the three functions  defined in the script including running time etc and certain 'slow' parts  |
+|  `regexs.py` | Regex exercises   |  No input  | outputs of regex excercises  |
+|  `run_fmr_R.py` |  runs the fmr.R script through python using subprocess |  No input  |  output of fmr.R |
+|  `run_LV.py` | Profiles and times all the LV scripts using timeit and CPorfile.  |  Does not require inputs but takes manual inputs of r, a, z and e  |  Profiles of the three functions  defined in the script including running time etc and certain 'slow' parts  |
+|  `TestR.py` |  runs Rscript through python using os  |  No input  |  Outputs output of TestR.R to results directory called TestR.Rout  |
+|  `TestR.R` |  R script to be run through python script TestR.py script.  |  No input  |  Hello this is R! in an output script in results   |
+|  `timeitme.py` |  A script that times loops vs comprehension to see which is faster using timeit and profileme2  |  No input  |  time results of loops verses comprehensions |
+|  `using_os.py` |  Illustrates hhow to use os and subprocess, utilises subprocess.os.walk  |  No input  |  Contents of home directory  |
+
+
+
+
+
+
+
+
+
+
+
+**********************************************************************
+
+Found following files in results directory: TestR_errFile.Rout, TestR.Rout...
 ideally, Results directory should be empty other than, perhaps, a readme. 
 
-Found 17 code files: run_LVs.py, TestR.py, regexs.py, profileme2.py, timeitme.py, blackbirds.py, Nets.py, TestR.R, profileme.py, fmr.R, MyFirstJupyterNb.ipynb, using_os.py, LV1.py, DrawFW.py, Nets.R, run_fmr_R.py, LV2.py
+Found 18 code files: using_os.py, TestR.py, LV1.py, Nets.py, LV2.py, regexs.py, profileme2.py, Nets.R, fmr.R, run_LV.py, run_fmr_R.py, profileme.py, LV3.py, DrawFW.py, MyFirstJupyterNb.ipynb, TestR.R, timeitme.py, blackbirds.py
 
 ======================================================================
 Testing script/code files...
 
 ======================================================================
-Inspecting script file run_LVs.py...
+Inspecting script file using_os.py...
 
 File contents are:
 **********************************************************************
-##############################################################################
-# loops vs. list comprehensions: which is faster?
-##############################################################################
+#!/usr/bin/env python3
 
-import timeit 
-import scipy as sc
-import time
-import sys
-import cProfile
+#Author: Emma Deeks ead19@imperial.ac.uk
+#Script: using_os.py
+#Desc:  Illustrates hhow to use os and subprocess, utilises subprocess.os.walk
+#Arguments: No input
+#Outputs: Contents of home directory 
+#Date: Oct 2019 
 
-from LV1 import dCR_dt as LV1_func
-from LV2 import dCR_dt as LV2_func
-
-r = float(sys.argv[1])
-a = float(sys.argv[2])
-z = float(sys.argv[3])
-e = float(sys.argv[4])
-
-R0 = sc.array([10,5])
-
-start = time.time()
-LV1_func(R0)
-print(" \nLV1 function takes %f s to run. \n " % (time.time() - start))
-
-start = time.time()
-LV2_func(R0)
-print("LV2 function takes %f s to run. \n " % (time.time() - start))
+""" Illustrates hhow to use os and subprocess, utilises subprocess.os.walk"""
+# Imports the appropirate packages 
+import subprocess
+import os 
 
 
-cProfile.run('LV1_func(R0)')
-cProfile.run('LV2_func(R0)')**********************************************************************
+# Use the subprocess.os module to get a list of files and directories 
+# in your ubuntu home directory 
 
-Testing run_LVs.py...
+# Uses the listdir function of subprocess and set the directory to home directory which for mac users is the username
+dirlist = subprocess.os.listdir("/Users/emmadeeks")
 
-run_LVs.py is a Python script file;
+#################################
+#~Get a list of files and 
+#~directories in your home/ that start with an uppercase 'C'
+
+# Uses a if statement and the filename.startswith function to find files that begin with C
+FilesDirsStartingWithC = [filename for filename in os.listdir('/Users/emmadeeks') if filename.startswith("C")]
+# Then prints it 
+print(FilesDirsStartingWithC)
+# Get the user's home directory.
+home = subprocess.os.path.expanduser("~")
+
+# Use a for loop to walk through the home directory.
+for (root, dirs, files) in subprocess.os.walk('/Users/emmadeeks'):
+    # goes through the filenames and splits the base from the extension so only the base is returned 
+    for name in files: 
+        (base, ext) = os.path.splitext(name)
+        files = base
+
+  
+#################################
+# Get files and directories in your home/ that start with either an 
+# upper or lower case 'C'
+# If statement that prints any files in the specified directory that starts with either a C or a c 
+FilesDirsStartingWithCorc = [filename for filename in os.listdir('/Users/emmadeeks') if filename.startswith("C") or filename.startswith("c")]
+print(FilesDirsStartingWithCorc)
+
+
+**********************************************************************
+
+Testing using_os.py...
+
+using_os.py is a Python script file;
 
 checking for docstrings...
 
-No functions, but no script-level docstring either
-2 pts deducted
+Found no functions, but one docstring for the script, good
 
-Current Points = 98
+Current Points = 100
 
 Output (only first 500 characters): 
 
@@ -215,20 +237,32 @@ Output (only first 500 characters):
 
 **********************************************************************
 
-Code ran without errors
-
-Time consumed = 10.01083s
+Encountered error (or warning):
+Traceback (most recent call last):
+  File "using_os.py", line 20, in <module>
+    dirlist = subprocess.os.listdir("/Users/emmadeeks")
+FileNotFoundError: [Errno 2] No such file or directory: '/Users/emmadeeks'
 
 ======================================================================
 Inspecting script file TestR.py...
 
 File contents are:
 **********************************************************************
-""" Practical on using os """
+#!/usr/bin/env python3
+
+#Author: Emma Deeks ead19@imperial.ac.uk
+#Script: TestR.py
+#Desc:  runs Rscript through python using os
+#Arguments: no inputs 
+#Outputs: Outputs output of TestR.R to results directory called TestR.Rout
+#Date: Oct 2019 
+
+""" Practical on using os- open and run rscript in python """
 
 
 import subprocess
-subprocess.Popen("Rscript --verbose TestR.R > ../Results/TestR.Rout 2> ../Results/TestR_errFile.Rout", shell=True).wait()**********************************************************************
+
+subprocess.Popen("Rscript --verbose TestR.R > ../results/TestR.Rout 2> ../results/TestR_errFile.Rout", shell=True).wait()**********************************************************************
 
 Testing TestR.py...
 
@@ -238,7 +272,7 @@ checking for docstrings...
 
 Found no functions, but one docstring for the script, good
 
-Current Points = 98
+Current Points = 100
 
 Output (only first 500 characters): 
 
@@ -246,15 +280,380 @@ Output (only first 500 characters):
 
 **********************************************************************
 
-Code ran without errors
+Encountered error (or warning):
+/bin/sh: 1: cannot create ../results/TestR.Rout: Directory nonexistent
 
-Time consumed = 0.16821s
+======================================================================
+Inspecting script file LV1.py...
+
+File contents are:
+**********************************************************************
+#!/usr/bin/env python3
+
+#Author: Emma Deeks ead19@imperial.ac.uk
+#Script: LV1.py
+#Desc:  Plots Consumer-resource population dybamics and runs the Lotka-Volterra model for predator prey systems 
+#Arguments: no input 
+#Outputs: Plots two models; consumer-resource model and LV model
+#Date: Oct 2019 
+
+import scipy as sc
+import matplotlib.pylab as p
+import scipy.integrate as integrate
+
+""" Plots Consumer-Resource population dynamics. Runs the Lotka-Volterra model for predator-prey system
+in two-dimensional space
+C is consumer population abundance, 
+R is resource population abundance
+units: number per area unit
+r is intrinsic growth rate of resource population
+a is per-capita "search rate", i.e. the rate at which consumers find resources
+units: area per time unit
+z is the mortality rate - units are 'per time'
+e is the consumer's efficiency (rate in turning mass into its own mass). no units. """
+
+def dCR_dt(pops, t=0):
+    """ Defines function to run the Lotka Volterra model on populations
+    of consumers and resources """ 
+    R = pops[0]
+    C = pops[1]
+    dRdt = r * R - a * R * C 
+    dCdt = -z * C + e * a * R * C
+    
+    return sc.array([dRdt, dCdt])
+
+# sets variables 
+#r is intrinsic growth rate of resource population
+#a is per-capita "search rate", i.e. the rate at which consumers find resources
+#units: area per time unit
+#z is the mortality rate - units are 'per time'
+#e is the consumer's efficiency (rate in turning mass into its own mass). no units
+
+r = 1.
+a = 0.1 
+z = 1.5
+e = 0.75
+
+R0 = 10
+C0 = 5 
+RC0 = sc.array([R0, C0])
+
+#Time series 
+t = sc.linspace(0, 15, 1000)
+# Runs functon 
+pops, infodict = integrate.odeint(dCR_dt, RC0, t, full_output=True)
+
+f1 = p.figure()
+#plots figure 
+p.plot(t, pops[:,0], 'g-', label='Resource density') # Plot
+p.plot(t, pops[:,1]  , 'b-', label='Consumer density')
+p.grid()
+p.legend(loc='best')
+p.xlabel('Time')
+p.ylabel('Population density')
+p.title('Consumer-Resource population dynamics')
+p.show()# To display the figure
+
+f1.savefig('../results/LV_model.pdf') #Save figure
+
+f2 = p.figure()
+
+p.plot(pops[:,1], pops[:,0]  , 'r-')
+p.grid()
+p.legend(loc='best')
+p.xlabel('Resource density')
+p.ylabel('Consumer density')
+p.title('Consumer-Resource population dynamics')
+p.show()# To display the figure
+
+f2.savefig('../results/consumer_resource_model.pdf')
+
+
+
+
+**********************************************************************
+
+Testing LV1.py...
+
+LV1.py is a Python script file;
+
+checking for docstrings...
+
+Found one or more docstrings and functions
+
+Current Points = 100
+
+Output (only first 500 characters): 
+
+**********************************************************************
+
+**********************************************************************
+
+Encountered error (or warning):
+Traceback (most recent call last):
+  File "LV1.py", line 67, in <module>
+    f1.savefig('../results/LV_model.pdf') #Save figure
+  File "/usr/lib/python3/dist-packages/matplotlib/figure.py", line 1565, in savefig
+    self.canvas.print_figure(*args, **kwargs)
+  File "/usr/lib/python3/dist-packages/matplotlib/backend_bases.py", line 2232, in print_figure
+    **kwargs)
+  File "/usr/lib/python3/dist-packages/matplotlib/backends/backend_pdf.py", line 2528, in print_pdf
+    file = PdfFile(filename)
+  File "/usr/lib/python3/dist-packages/matplotlib/backends/backend_pdf.py", line 422, in __init__
+    fh = open(filename, 'wb')
+FileNotFoundError: [Errno 2] No such file or directory: '../results/LV_model.pdf'
+
+======================================================================
+Inspecting script file Nets.py...
+
+File contents are:
+**********************************************************************
+#!/usr/bin/env python3
+
+#Author: Emma Deeks ead19@imperial.ac.uk
+#Script: Nets.py
+#Desc:  Extension practical of Python week 7  which uses networkx to visualise the QMEE 
+#CDT collaboration network, coloruing the nodes by the type of node 
+#(organisation type: University, Histing partner or non-histing partner)
+#Arguments: Takes as input the QMEE_Net_Mat_edges.csv and QMEE_Net_Mat_nodes.csv from data directory
+#Outputs: network plot in pdf called nets.svg in the results directory
+#Date: Oct 2019 
+
+""" Extension practical of Python week 7  which uses networkx to visualise the QMEE 
+CDT collaboration network, coloruing the nodes by the type of node 
+(organisation type: University, Histing partner or non-histing partner) """
+
+
+import networkx as nx ### Import package for network 
+import csv 
+import pandas
+import scipy as sc
+import matplotlib.pylab as p ## Import 
+import numpy as np
+
+#reads in csv fies and saves them to a variable 
+#uses pandas 
+edges = pandas.read_csv('../data/QMEE_Net_Mat_edges.csv', header=0)
+nodes = pandas.read_csv('../data/QMEE_Net_Mat_nodes.csv', header=0)
+
+#Changes the row numbers to the university so the edges are easier to match and the nodes when plotted are the same
+edges.index = ["ICL", "UoR", "CEH", "ZSL", "CEFAS", "NonAc"]
+#Stack the edges continuency table so that all data is side by side like in DrawFW AdjL 
+edges = edges.stack().reset_index()
+edges = edges[(edges != 0).all(1)] #Remove any rows with zero in them as that is not a node connection
+edges1 = sc.array(edges) #make into an array with just the two columns showing the connections
+foredge = np.delete(edges1, 2, 1) # delete the third row as that is not needed 
+
+Sps = sc.unique(foredge) #find unique universities to get the nodes 
+
+pos = nx.circular_layout(Sps) #plots nodes as circular 
+G = nx.Graph() #open graph 
+G.add_nodes_from(Sps) #add the nodes in which are the unique universiies 
+G.add_edges_from(tuple(foredge)) #add the edges or connecting parts of the nodes 
+colours = ['lime', 'lime', 'blue', 'red', 'blue', 'lime'] #make vector with colour for nodes 
+f3 = p.figure()
+nx.draw_networkx(G, pos, node_size = 3500, node_color = colours) # draw network graph 
+# Save file
+f3.savefig('../results/Nets.svg') # save the figure 
+
+## SOME ROUGH WORK I DIDNT GET TO WORK 
+#G = nx.erdos_renyi_graph(20,0.1)
+#color_map = []
+#for id in nodes:
+#    if id == 'University':
+#        color_map.append('blue')
+#    else: color_map.append('green')      
+#nx.draw(G,node_color = color_map, with_labels = True)
+#plt.show()**********************************************************************
+
+Testing Nets.py...
+
+Nets.py is a Python script file;
+
+checking for docstrings...
+
+Found no functions, but one docstring for the script, good
+
+Current Points = 100
+
+Output (only first 500 characters): 
+
+**********************************************************************
+
+**********************************************************************
+
+Encountered error (or warning):
+Traceback (most recent call last):
+  File "Nets.py", line 47, in <module>
+    f3.savefig('../results/Nets.svg') # save the figure 
+  File "/usr/lib/python3/dist-packages/matplotlib/figure.py", line 1565, in savefig
+    self.canvas.print_figure(*args, **kwargs)
+  File "/usr/lib/python3/dist-packages/matplotlib/backend_bases.py", line 2232, in print_figure
+    **kwargs)
+  File "/usr/lib/python3/dist-packages/matplotlib/backends/backend_svg.py", line 1194, in print_svg
+    fh_to_close = svgwriter = io.open(filename, 'w', encoding='utf-8')
+FileNotFoundError: [Errno 2] No such file or directory: '../results/Nets.svg'
+
+======================================================================
+Inspecting script file LV2.py...
+
+File contents are:
+**********************************************************************
+#!/usr/bin/env python3
+
+#Author: Emma Deeks ead19@imperial.ac.uk
+#Script: LV2.py
+#Desc:  Plots Consumer-resource population dybamics and runs the 
+# Lotka-Volterra model for predator prey systems. This script is codifying the Lotka-Volterra model 
+# for predator-prey system in two-dimensional space (e.g. on land). 
+#Arguments: Has default arguments but can input LV model parameters manually: r: is intrinsic growth rate of resource population
+#a: per-capita "search rate", i.e. the rate at which consumers find resources units: area per time unit
+#z: mortality rate - units are 'per time'
+#e" consumer's efficiency (rate in turning mass into its own mass). no units.
+#Outputs: Plots two models; consumer-resource model and LV model into one subplot called consumer_resource_model_LV2.pdf
+#Date: Oct 2019 
+
+import numpy as np
+import scipy as sc
+import sys
+import matplotlib.pylab as p
+import scipy.integrate as integrate
+
+""" Similar to LV1 but requires inputs into the parameters but does use default values """
+
+"""
+This script is codifying the Lotka-Volterra model for predator-prey system
+in two-dimensional space (e.g. on land).
+
+A key difference between LV1 and LV2 is LV2 uses a
+modified equation with constant K which is the carrying capacity 
+Another key difference is that is takes system arguments 
+
+dR/dt = rR - aCR
+dC/dt = -zC + eaCR
+C is consumer population abundance, R is resource population abundance
+units: number per area unit
+r is intrinsic growth rate of resource population
+a is per-capita "search rate", i.e. the rate at which consumers find resources
+units: area per time unit
+z is the mortality rate - units are 'per time'
+e is the consumer's efficiency (rate in turning mass into its own mass). no units. """
+
+def dCR_dt(pops, t=0):
+    """ Defines the Lotka volterra model with carry capacity of population e.g. two dimensional space """
+    R = pops[0]
+    C = pops[1]
+    dRdt = r * R * (1- (R / K)) - a * R * C 
+    dCdt = -z * C + e * a * R * C
+    
+    return sc.array([dRdt, dCdt])
+
+# takes systemarguments as floats so decimals are allowed but if they are not supplied e.g. if there are less than 
+# 5 system arguments inputted then it takes default values 
+if len(sys.argv)== 5:
+    r = float(sys.argv[1])
+    a = float(sys.argv[2])
+    z = float(sys.argv[3])
+    e = float(sys.argv[4])
+else: 
+    print("Using default arguments:")
+    r = 1
+    a = 0.1 
+    z = 1.5
+    e = 0.75
+
+#K used 
+K = 30
+
+# an array of consumer resource is created to be put into the function 
+R0 = 10
+C0 = 5 
+RC0 = sc.array([R0, C0])
+
+#time series 
+t = sc.linspace(0, 15, 1000)
+#Model is run with array of consumer resorce 
+pops, infodict = integrate.odeint(dCR_dt, RC0, t, full_output=True)
+
+# two plots are opened next to each other 
+fig, (ax1, ax2) = p.subplots(1,2)
+# plots are indexes so both pltos are plotted ont he same time series e.g. consumer and resource compared along 
+#the same time series 
+ax1.plot(t, pops[:,0], 'g-', label='Resource density') # Plot
+ax1.plot(t, pops[:,1]  , 'b-', label='Consumer density')
+ax1.legend(loc='best') # adds legend 
+ax1.set(xlabel = 'Time', ylabel = 'Population density') # x and y labels are put in 
+p.ylabel('Population density')
+ax1.set_title('Consumer-Resource population dynamics')
+p.show()# To display the figure
+
+# want the input variables to be displayed on the pltos 
+textstr = ' '.join(("r =", (str(r)))) #
+textstr1 = ' '.join(("a =", (str(a))))
+textstr2 = ' '.join(("z =", (str(z))))
+textstr3 = ' '.join(("e =", (str(e))))
+final = '\n'.join((textstr, textstr1, textstr2, textstr3)) # append strings into one file 
+props = dict(boxstyle='round', facecolor='wheat', alpha=0.5) #make box 
+ax2.text(0.05, 0.95, final, transform=ax2.transAxes, fontsize=9,
+        verticalalignment='top', bbox=props) #position box 
+props = dict(boxstyle='round', facecolor='wheat', alpha=0.5)
+ax2.plot(pops[:,1], pops[:,0]  , 'r-')
+p.legend(loc='best')
+p.xlabel('Resource density')
+p.ylabel('Consumer density')
+p.show()# To display the figure
+
+fig.savefig('../results/consumer_resource_model_LV2.pdf') #save figure 
+
+**********************************************************************
+
+Testing LV2.py...
+
+LV2.py is a Python script file;
+
+checking for docstrings...
+
+Found one or more docstrings and functions
+
+Current Points = 100
+
+Output (only first 500 characters): 
+
+**********************************************************************
+Using default arguments:
+
+**********************************************************************
+
+Encountered error (or warning):
+/usr/lib/python3/dist-packages/matplotlib/axes/_axes.py:519: UserWarning: No labelled objects found. Use label='...' kwarg on individual plots.
+  warnings.warn("No labelled objects found. "
+Traceback (most recent call last):
+  File "LV2.py", line 105, in <module>
+    fig.savefig('../results/consumer_resource_model_LV2.pdf') #save figure 
+  File "/usr/lib/python3/dist-packages/matplotlib/figure.py", line 1565, in savefig
+    self.canvas.print_figure(*args, **kwargs)
+  File "/usr/lib/python3/dist-packages/matplotlib/backend_bases.py", line 2232, in print_figure
+    **kwargs)
+  File "/usr/lib/python3/dist-packages/matplotlib/backends/backend_pdf.py", line 2528, in print_pdf
+    file = PdfFile(filename)
+  File "/usr/lib/python3/dist-packages/matplotlib/backends/backend_pdf.py", line 422, in __init__
+    fh = open(filename, 'wb')
+FileNotFoundError: [Errno 2] No such file or directory: '../results/consumer_resource_model_LV2.pdf'
 
 ======================================================================
 Inspecting script file regexs.py...
 
 File contents are:
 **********************************************************************
+#!/usr/bin/env python3
+
+#Author: Emma Deeks ead19@imperial.ac.uk
+#Script: regexs.py
+#Desc:  Regex exercises 
+#Arguments: no input 
+#Outputs: outputs of regex excercises 
+#Date: Oct 2019 
+
 """ Script that utilisies regex and gives includes example exercises """
 
 # Sets a variable 
@@ -362,7 +761,7 @@ checking for docstrings...
 
 Found no functions, but one docstring for the script, good
 
-Current Points = 98
+Current Points = 100
 
 Output (only first 500 characters): 
 
@@ -372,7 +771,7 @@ Output (only first 500 characters):
 
 Encountered error (or warning):
 Traceback (most recent call last):
-  File "regexs.py", line 7, in <module>
+  File "regexs.py", line 16, in <module>
     match = re.search(r'\s', my_string)
 NameError: name 're' is not defined
 
@@ -381,21 +780,36 @@ Inspecting script file profileme2.py...
 
 File contents are:
 **********************************************************************
+#!/usr/bin/env python3
+
+#Author: Emma Deeks ead19@imperial.ac.uk
+#Script: profileme2.py
+#Desc:  Similar script to profileme but the functions (which use to have loops)
+# Now have list comprehensions instead and the .join has beenr eplaced with an explicit string concatenation 
+#Arguments: no input 
+#Outputs: Profiles of the three functions  defined in the script including running time etc and certain 'slow' parts
+#Date: Oct 2019 
+
+
 """ Similar script to profileme but the functions (which use to have loops)
 Now have list comprehensions instead and the .join has beenr eplaced with an explicit string concatenation 
 """
 
 def my_squares(iters):
+    """ takes as input iterations and mutiplies each iteration by 2 """
     out = [i ** 2 for i in range(iters)]
     return out 
 
 def my_join(iters, string):
+    """ Takes as input iteration and a string and joins them """
     out = ''
     for i in range(iters):
         out += ", "+ string
     return out 
 
 def run_my_funcs(x,y):
+    """ takes as input x and y, mutliples x by two using my_squares and joins x and y 
+    together using my_join with y as the string  """ 
     print(x,y)
     my_squares(x)
     my_join(x,y)
@@ -411,9 +825,7 @@ checking for docstrings...
 
 Found one or more docstrings and functions
 
-Missing docstring, either in one or functions and/or at the script level
-
-Current Points = 96.5
+Current Points = 100
 
 Output (only first 500 characters): 
 
@@ -424,612 +836,23 @@ Output (only first 500 characters):
 
 Code ran without errors
 
-Time consumed = 3.64417s
-
-======================================================================
-Inspecting script file timeitme.py...
-
-File contents are:
-**********************************************************************
-##############################################################################
-# loops vs. list comprehensions: which is faster?
-##############################################################################
-""" A function that times loops vs comprehension to see which is faster """
-iters = 1000000
-
-import timeit 
-
-from profileme import my_squares as my_squares_loops
-
-from profileme2 import my_squares as my_squares_lc 
-
-# %timeit my_squares_loops(iters)
-# %timeit my_squares_lc(iters)
-
-##############################################################################
-# loops vs. the join method for strings: which is faster?
-##############################################################################
-
-
-mystring = "my string"
-
-from profileme import my_join as my_join_join
-
-from profileme2 import my_join as my_join 
-
-#%timeit(my_join_join(iters, mystring))
-#%timeit(my_join(iters, mystring))
-
-import time
-start = time.time()
-my_squares_loops(iters)
-print("my_squares_loops takes %f s to run." % (time.time() - start))
-
-start = time.time()
-my_squares_lc(iters)
-print("my_squares_lc takes %f s to run." % (time.time() - start))
-**********************************************************************
-
-Testing timeitme.py...
-
-timeitme.py is a Python script file;
-
-checking for docstrings...
-
-Found no functions, but one docstring for the script, good
-
-Current Points = 96.5
-
-Output (only first 500 characters): 
-
-**********************************************************************
-
-**********************************************************************
-
-Code ran without errors
-
-Time consumed = 10.00312s
-
-======================================================================
-Inspecting script file blackbirds.py...
-
-File contents are:
-**********************************************************************
-
-import re
-
-""" Blackbirds practical that uses regex to output Kingdom, Phylum and Species of a csv of blackbird species, phylums and kingdoms """
-
-# Read the file (using a different, more python 3 way, just for fun!)
-with open('../data/blackbirds.txt', 'r') as f:
-    text = f.read()
-
-# replace \t's and \n's with a spaces:
-text = text.replace('\t',' ')
-text = text.replace('\n',' ')
-# You may want to make other changes to the text. 
-
-# In particular, note that there are "strange characters" (these are accents and
-# non-ascii symbols) because we don't care for them, first transform to ASCII:
-
-text = text.encode('ascii', 'ignore') # first encode into ascii bytes
-text = text.decode('ascii', 'ignore') # Now decode back to string
-
-# Now extend this script so that it captures the Kingdom, Phylum and Species
-# name for each species and prints it out to screen neatly.
-
-# Hint: you may want to use re.findall(my_reg, text)... Keep in mind that there
-# are multiple ways to skin this cat! Your solution could involve multiple
-# regular expression calls (easier!), or a single one (harder!)
-
-#Each of the variables  named Kingdom, Phylum and Species finds the key word of the variable and the associated word 
-# after it e.g. Kingdom and Phylum have the assicated kingdom and phylums
-# Species finds two words after it 
-Kingdom = re.findall(r"Kingdom\s+\w+", text)
-Phylum = re.findall(r"Phylum\s+\w+", text)
-Species = re.findall(r"Species\s+\w+\s+\w+", text)
-
-# For loop go through each of the three variables and prints the associate phylums, Kingdoms of that species to the screen
-# Uses the length of the species variable to get the correct number of species for the iterations of the loop
-for i in range(len(Kingdom)):
-    print (Species[i], "is in:")
-    print (Phylum[i])
-    print (Kingdom[i], "\n")
-    
-for i in range(len(Species)):
-    print (Species[i], "is in:")
-    print (Phylum[i])
-    print (Kingdom[i], "\n")
-
-
-
-**********************************************************************
-
-Testing blackbirds.py...
-
-blackbirds.py is a Python script file;
-
-checking for docstrings...
-
-Found no functions, but one docstring for the script, good
-
-Current Points = 96.5
-
-Output (only first 500 characters): 
-
-**********************************************************************
-Species Euphagus carolinus is in:
-Phylum Chordata
-Kingdom Animalia 
-
-Species Euphagus cyanocephalus is in:
-Phylum Chordata
-Kingdom Animalia 
-
-Species Turdus boulboul is in:
-Phylum Chordata
-Kingdom Animalia 
-
-Species Agelaius assimilis is in:
-Phylum Chordata
-Kingdom Animalia 
-
-Species Euphagus carolinus is in:
-Phylum Chordata
-Kingdom Animalia 
-
-Species Euphagus cyanocephalus is in:
-Phylum Chordata
-Kingdom Animalia 
-
-Species Turdus boulboul is in:
-Phylum Chordata
-Kingdom Animalia 
-
-Species Agelaius
-**********************************************************************
-
-Code ran without errors
-
-Time consumed = 0.03012s
-
-======================================================================
-Inspecting script file Nets.py...
-
-File contents are:
-**********************************************************************
-""" Extension practical of Python week 7 """
-
-import networkx as nx
-import csv 
-
-import csv
- 
-with open('../data/QMEE_Net_Mat_edges.csv', newline='') as edges:  
-    reader = csv.reader(edges)
-    for row in reader:
-        print(row)
-
-with open('../data/QMEE_Net_Mat_nodes.csv', newline='') as nodes:  
-    reader = csv.reader(nodes)
-    for row in reader:
-        print(row)
-
-pos = nx.circular_layout(Sps)
-
-
-pos = nx.circular_layout(Sps)
-G = nx.Graph()
-G.add_nodes_from(Sps)
-G.add_edges_from(tuple(AdjL))
-
-NodSizs= 1000 * (Sizs-min(Sizs))/(max(Sizs)-min(Sizs)) 
-
-f3 = p.figure()
-
-nx.draw_networkx(G, pos, node_size = NodSizs)
-
-f3.savefig('../results/network_extra_cred.pdf')**********************************************************************
-
-Testing Nets.py...
-
-Nets.py is a Python script file;
-
-checking for docstrings...
-
-Found no functions, but one docstring for the script, good
-
-Current Points = 96.5
-
-Output (only first 500 characters): 
-
-**********************************************************************
-['ICL', 'UoR', 'CEH', 'ZSL', 'CEFAS', 'NonAc']
-['0', '0', '10', '9', '5', '70']
-['0', '0', '12', '0', '2', '76']
-['10', '12', '0', '0', '0', '6']
-['9', '0', '0', '0', '0', '28']
-['5', '2', '0', '0', '0', '0']
-['70', '76', '6', '28', '0', '0']
-['id', 'Type', 'Pis']
-['ICL', 'University', '72']
-['UoR', 'University', '43']
-['CEH', 'Hosting Partner', '8']
-['ZSL', 'Hosting Partner', '25']
-['CEFAS', 'Hosting Partner', '48']
-['NonAc', 'Non-Hosting Partners', '56']
-
-**********************************************************************
-
-Encountered error (or warning):
-Traceback (most recent call last):
-  File "Nets.py", line 18, in <module>
-    pos = nx.circular_layout(Sps)
-NameError: name 'Sps' is not defined
-
-======================================================================
-Inspecting script file TestR.R...
-
-File contents are:
-**********************************************************************
-print("Hello, this is R!")**********************************************************************
-
-Testing TestR.R...
-
-Output (only first 500 characters): 
-
-**********************************************************************
-[1] "Hello, this is R!"
-
-**********************************************************************
-
-Code ran without errors
-
-Time consumed = 0.10027s
-
-======================================================================
-Inspecting script file profileme.py...
-
-File contents are:
-**********************************************************************
-""" script that demonstrates profiling and how to time functions """
-def my_squares(iters):
-    out = []
-    for i in range(iters):
-        out.append(i**2)
-    return out 
-
-def my_join(iters, string):
-    out = ''
-    for i in range(iters):
-        out += string.join(", ")
-    return out
-
-def run_my_funcs(x,y):
-    print(x,y)
-    my_squares(x)
-    my_join(x,y)
-    return 0  
-
-run_my_funcs(10000000,"My string")**********************************************************************
-
-Testing profileme.py...
-
-profileme.py is a Python script file;
-
-checking for docstrings...
-
-Found one or more docstrings and functions
-
-Missing docstring, either in one or functions and/or at the script level
-
-Current Points = 95.0
-
-Output (only first 500 characters): 
-
-**********************************************************************
-10000000 My string
-
-**********************************************************************
-
-Code ran without errors
-
-Time consumed = 6.44542s
-
-======================================================================
-Inspecting script file fmr.R...
-
-File contents are:
-**********************************************************************
-#!/usr/bin/env Rscript 
-
-# Plots log(field metabolic rate) against log(body mass) for the Nagy et al 
-# 1999 dataset to a file fmr.pdf.
-
-""" Similar to TestR.R as it is an R script that is run through python"""
-""" Plots log field metabolic rate against the log body mass and saves it as a pdf """
-cat("Reading CSV\n") #Reads string with a newline
-
-nagy <- read.csv('../data/NagyEtAl1999.csv', stringsAsFactors = FALSE) #Reads in csv and saves to a variable 
-
-cat("Creating graph\n") # Comments creating graph with a new line
-pdf('../results/fmr_plot.pdf', 11, 8.5) #Opens pdf to plot 
-col <- c(Aves='purple3', Mammalia='red3', Reptilia='green3') # assigning colours
-plot(log10(nagy$M.g), log10(nagy$FMR.kJ.day.1), pch=19, col=col[nagy$Class], 
-     xlab=~log[10](M), ylab=~log[10](FMR)) #Plotting the log of the two variables 
-for(class in unique(nagy$Class)){ # Finds the unique values in the column 'class' of the nagy dataset
-  model <- lm(log10(FMR.kJ.day.1) ~ log10(M.g), data=nagy[nagy$Class==class,]) #Takes log of each the two y axis the number of unique values
-  abline(model, col=col[class]) # fitting linear regression lines 
-}
-dev.off()
-
-cat("Finished in R! Plot saved in Results directory\n")
-**********************************************************************
-
-Testing fmr.R...
-
-Output (only first 500 characters): 
-
-**********************************************************************
-
-**********************************************************************
-
-Encountered error (or warning):
-Error: unexpected string constant in """" Similar to TestR.R as it is an R script that is run through python""
-Execution halted
-
-======================================================================
-Inspecting script file MyFirstJupyterNb.ipynb...
-
-File contents are:
-**********************************************************************
-**********************************************************************
-
-Testing MyFirstJupyterNb.ipynb...
-
-======================================================================
-Inspecting script file using_os.py...
-
-File contents are:
-**********************************************************************
-""" Illustrates hhow to use os and subprocess, utilises subprocess.os.walk"""
-# Imports the appropirate packages 
-import subprocess
-import os 
-
-
-# Use the subprocess.os module to get a list of files and directories 
-# in your ubuntu home directory 
-
-# Uses the listdir function of subprocess and set the directory to home directory which for mac users is the username
-dirlist = subprocess.os.listdir("/Users/emmadeeks")
-
-#################################
-#~Get a list of files and 
-#~directories in your home/ that start with an uppercase 'C'
-
-# Uses a if statement and the filename.startswith function to find files that begin with C
-FilesDirsStartingWithC = [filename for filename in os.listdir('/Users/emmadeeks') if filename.startswith("C")]
-# Then prints it 
-print(FilesDirsStartingWithC)
-# Get the user's home directory.
-home = subprocess.os.path.expanduser("~")
-
-# Use a for loop to walk through the home directory.
-for (root, dirs, files) in subprocess.os.walk('/Users/emmadeeks'):
-    # goes through the filenames and splits the base from the extension so only the base is returned 
-    for name in files: 
-        (base, ext) = os.path.splitext(name)
-        files = base
-
-  
-#################################
-# Get files and directories in your home/ that start with either an 
-# upper or lower case 'C'
-# If statement that prints any files in the specified directory that starts with either a C or a c 
-FilesDirsStartingWithCorc = [filename for filename in os.listdir('/Users/emmadeeks') if filename.startswith("C") or filename.startswith("c")]
-print(FilesDirsStartingWithCorc)
-
-
-**********************************************************************
-
-Testing using_os.py...
-
-using_os.py is a Python script file;
-
-checking for docstrings...
-
-Found no functions, but one docstring for the script, good
-
-Current Points = 95.0
-
-Output (only first 500 characters): 
-
-**********************************************************************
-
-**********************************************************************
-
-Encountered error (or warning):
-Traceback (most recent call last):
-  File "using_os.py", line 11, in <module>
-    dirlist = subprocess.os.listdir("/Users/emmadeeks")
-FileNotFoundError: [Errno 2] No such file or directory: '/Users/emmadeeks'
-
-======================================================================
-Inspecting script file LV1.py...
-
-File contents are:
-**********************************************************************
-import scipy as sc
-import matplotlib.pylab as p
-import scipy.integrate as integrate
-
-""" Plots Consumer-Resource population dynamics """
-
-def dCR_dt(pops, t=0):
-
-    R = pops[0]
-    C = pops[1]
-    dRdt = r * R - a * R * C 
-    dCdt = -z * C + e * a * R * C
-    
-    return sc.array([dRdt, dCdt])
-
-r = 1.
-a = 0.1 
-z = 1.5
-e = 0.75
-
-R0 = 10
-C0 = 5 
-RC0 = sc.array([R0, C0])
-
-
-t = sc.linspace(0, 15, 1000)
-pops, infodict = integrate.odeint(dCR_dt, RC0, t, full_output=True)
-
-f1 = p.figure()
-
-p.plot(t, pops[:,0], 'g-', label='Resource density') # Plot
-p.plot(t, pops[:,1]  , 'b-', label='Consumer density')
-p.grid()
-p.legend(loc='best')
-p.xlabel('Time')
-p.ylabel('Population density')
-p.title('Consumer-Resource population dynamics')
-p.show()# To display the figure
-
-f1.savefig('../results/LV_model.pdf') #Save figure
-
-f2 = p.figure()
-
-p.plot(pops[:,1], pops[:,0]  , 'r-')
-p.grid()
-p.legend(loc='best')
-p.xlabel('Resource density')
-p.ylabel('Consumer density')
-p.title('Consumer-Resource population dynamics')
-p.show()# To display the figure
-
-f2.savefig('../results/consumer_resource_model.pdf')
-
-
-
-
-**********************************************************************
-
-Testing LV1.py...
-
-LV1.py is a Python script file;
-
-checking for docstrings...
-
-Found one or more docstrings and functions
-
-Missing docstring, either in one or functions and/or at the script level
-
-Current Points = 94.5
-
-Output (only first 500 characters): 
-
-**********************************************************************
-
-**********************************************************************
-
-Code ran without errors
-
-Time consumed = 10.01045s
-
-======================================================================
-Inspecting script file DrawFW.py...
-
-File contents are:
-**********************************************************************
-import networkx as nx
-import scipy as sc
-import matplotlib.pyplot as p
-
-""" This script outputs figure of a food web network and saves it as a pdf """
-
-def GenRdmAdjList(N = 2, C = 0.5):
-    """ 
-    """
-    Ids = range(N)
-    ALst = []
-    for i in Ids:
-        if sc.random.uniform(0,1,1) < C:
-            Lnk = sc.random.choice(Ids,2).tolist()
-            if Lnk[0] != Lnk[1]: #avoid self (e.g., cannibalistic) loops
-                ALst.append(Lnk)
-    return ALst
-
-MaxN = 30
-C = 0.75
-
-AdjL = sc.array(GenRdmAdjList(MaxN, C))
-AdjL
-
-Sps = sc.unique(AdjL) # get species ids
-
-SizRan = ([-10,10]) #use log10 scale
-Sizs = sc.random.uniform(SizRan[0],SizRan[1],MaxN)
-Sizs
-
-
-pos = nx.circular_layout(Sps)
-G = nx.Graph()
-G.add_nodes_from(Sps)
-G.add_edges_from(tuple(AdjL))
-
-NodSizs= 1000 * (Sizs-min(Sizs))/(max(Sizs)-min(Sizs)) 
-
-f3 = p.figure()
-
-nx.draw_networkx(G, pos, node_size = NodSizs)
-
-f3.savefig('../results/network.pdf')**********************************************************************
-
-Testing DrawFW.py...
-
-DrawFW.py is a Python script file;
-
-checking for docstrings...
-
-Found one or more docstrings and functions
-
-Current Points = 94.5
-
-Output (only first 500 characters): 
-
-**********************************************************************
-
-**********************************************************************
-
-Encountered error (or warning):
-/usr/lib/python3/dist-packages/networkx/drawing/nx_pylab.py:522: MatplotlibDeprecationWarning: The is_string_like function was deprecated in version 2.1.
-  if not cb.is_string_like(edge_color) \
-/usr/lib/python3/dist-packages/networkx/drawing/nx_pylab.py:543: MatplotlibDeprecationWarning: The is_string_like function was deprecated in version 2.1.
-  if cb.is_string_like(edge_color) or len(edge_color) == 1:
-/usr/lib/python3/dist-packages/networkx/drawing/nx_pylab.py:724: MatplotlibDeprecationWarning: The is_string_like function was deprecated in version 2.1.
-  if not cb.is_string_like(label):
-Traceback (most recent call last):
-  File "DrawFW.py", line 43, in <module>
-    f3.savefig('../results/network.pdf')
-  File "/usr/local/lib/python3.5/dist-packages/matplotlib/figure.py", line 1814, in savefig
-    self.canvas.print_figure(fname, **kwargs)
-  File "/usr/local/lib/python3.5/dist-packages/matplotlib/backend_bases.py", line 2259, in print_figure
-    **kwargs)
-  File "/usr/local/lib/python3.5/dist-packages/matplotlib/backends/backend_pdf.py", line 2584, in print_pdf
-    file = PdfFile(filename, metadata=kwargs.pop("metadata", None))
-  File "/usr/local/lib/python3.5/dist-packages/matplotlib/backends/backend_pdf.py", line 439, in __init__
-    fh = open(filename, 'wb')
-FileNotFoundError: [Errno 2] No such file or directory: '../results/network.pdf'
+Time consumed = 3.09507s
 
 ======================================================================
 Inspecting script file Nets.R...
 
 File contents are:
 **********************************************************************
+#!/usr/bin/env Rscript 
+
+#Author: Emma Deeks ead19@imperial.ac.uk
+#Script: Nets.R
+#Desc:  This script visualizes the QMEE CDT collaboration network, coloring the the nodes by the type of node 
+#(organization type: "University","Hosting Partner", "Non-hosting Partner") using the igraph package
+#Arguments: Takes as input the QMEE_Net_Mat_edges.csv and QMEE_Net_Mat_nodes.csv from data directory
+#Outputs: network plot in pdf called QMEENet.svg in the results directory
+#Date: Oct 2019 
+
 rm(list = ls())
 
 library(igraph) # Load the igraph package
@@ -1113,11 +936,157 @@ In svg("../results/QMEENet.svg", width = 7, height = 7) :
 Execution halted
 
 ======================================================================
+Inspecting script file fmr.R...
+
+File contents are:
+**********************************************************************
+#!/usr/bin/env Rscript 
+
+#Author: Emma Deeks ead19@imperial.ac.uk
+#Script: fmr.R
+#Desc:  Similar to TestR.R as it is an R script that is run through python
+#Plots log field metabolic rate against the log body mass and saves it as a pdf
+#Arguments: no manual input but used NagyEtAl1999.csv from data directory, runs through python but is an 
+# R script 
+#Outputs: plots a linear regression of log(field metabolic rate) against log(body mass) and saves it in the results
+#Date: Oct 2019 
+
+# Plots log(field metabolic rate) against log(body mass) for the Nagy et al 
+# 1999 dataset to a file fmr.pdf.
+
+#Similar to TestR.R as it is an R script that is run through python"""
+#Plots log field metabolic rate against the log body mass and saves it as a pdf """
+cat("Reading CSV\n") #Reads string with a newline
+
+nagy <- read.csv('../data/NagyEtAl1999.csv', stringsAsFactors = FALSE) #Reads in csv and saves to a variable 
+
+cat("Creating graph\n") # Comments creating graph with a new line
+pdf('../results/fmr_plot.pdf', 11, 8.5) #Opens pdf to plot 
+col <- c(Aves='purple3', Mammalia='red3', Reptilia='green3') # assigning colours
+plot(log10(nagy$M.g), log10(nagy$FMR.kJ.day.1), pch=19, col=col[nagy$Class], 
+     xlab=~log[10](M), ylab=~log[10](FMR)) #Plotting the log of the two variables 
+for(class in unique(nagy$Class)){ # Finds the unique values in the column 'class' of the nagy dataset
+  model <- lm(log10(FMR.kJ.day.1) ~ log10(M.g), data=nagy[nagy$Class==class,]) #Takes log of each the two y axis the number of unique values
+  abline(model, col=col[class]) # fitting linear regression lines 
+}
+dev.off()
+
+cat("Finished in R! Plot saved in Results directory\n")
+**********************************************************************
+
+Testing fmr.R...
+
+Output (only first 500 characters): 
+
+**********************************************************************
+Reading CSV
+Creating graph
+
+**********************************************************************
+
+Encountered error (or warning):
+Error in pdf("../results/fmr_plot.pdf", 11, 8.5) : 
+  cannot open file '../results/fmr_plot.pdf'
+Execution halted
+
+======================================================================
+Inspecting script file run_LV.py...
+
+File contents are:
+**********************************************************************
+#!/usr/bin/env python3
+
+#Author: Emma Deeks ead19@imperial.ac.uk
+#Script: run_LV.py
+#Desc:  Profiles and times all the LV scripts using timeit and CPorfile. 
+#Arguments: Does not require inputs but takes manual inputs of r, a, z and e 
+#Outputs: Profiles of the three functions  defined in the script including running time etc and certain 'slow' parts
+#Date: Oct 2019 
+
+##############################################################################
+# loops vs. list comprehensions: which is faster?
+##############################################################################
+
+""" Imports the functions from LV1 and Lv2 and runs and compares their times """
+""" Also uses Cprofile to profile the two functions """
+""" an attempt was made to time and profile LV3 but it has no functions so its just running a whole script """
+
+import timeit 
+import scipy as sc
+import time
+import sys
+import cProfile
+
+from LV1 import dCR_dt as LV1_func
+from LV2 import dCR_dt as LV2_func
+
+r = 1.
+a = 0.1 
+z = 1.5
+e = 0.75
+
+R0 = sc.array([10,5])
+
+start = time.time()
+LV1_func(R0)
+print(" \nLV1 function takes %f s to run. \n " % (time.time() - start))
+
+start = time.time()
+LV2_func(R0)
+print("LV2 function takes %f s to run. \n " % (time.time() - start))
+
+
+#profile function and scripts 
+cProfile.run('LV1_func(R0)')
+cProfile.run('LV2_func(R0)')
+**********************************************************************
+
+Testing run_LV.py...
+
+run_LV.py is a Python script file;
+
+checking for docstrings...
+
+Found too many docstrings.  Check your script.
+
+Current Points = 100
+
+Output (only first 500 characters): 
+
+**********************************************************************
+
+**********************************************************************
+
+Encountered error (or warning):
+Traceback (most recent call last):
+  File "run_LV.py", line 24, in <module>
+    from LV1 import dCR_dt as LV1_func
+  File "/home/mhasoba/Documents/Teaching/IC_CMEE/2019-20/Coursework/StudentRepos/EmmaDeeks_EAD19/week7/code/LV1.py", line 67, in <module>
+    f1.savefig('../results/LV_model.pdf') #Save figure
+  File "/usr/lib/python3/dist-packages/matplotlib/figure.py", line 1565, in savefig
+    self.canvas.print_figure(*args, **kwargs)
+  File "/usr/lib/python3/dist-packages/matplotlib/backend_bases.py", line 2232, in print_figure
+    **kwargs)
+  File "/usr/lib/python3/dist-packages/matplotlib/backends/backend_pdf.py", line 2528, in print_pdf
+    file = PdfFile(filename)
+  File "/usr/lib/python3/dist-packages/matplotlib/backends/backend_pdf.py", line 422, in __init__
+    fh = open(filename, 'wb')
+FileNotFoundError: [Errno 2] No such file or directory: '../results/LV_model.pdf'
+
+======================================================================
 Inspecting script file run_fmr_R.py...
 
 File contents are:
 **********************************************************************
-#!/usr/bin/env python3 
+#!/usr/bin/env python3
+
+#Author: Emma Deeks ead19@imperial.ac.uk
+#Script: run_fmr_R.py
+#Desc:  runs the fmr.R script through python using subprocess
+#Arguments: no input 
+#Outputs: output of fmr.R
+#Date: Oct 2019 
+
 #### Add shebang to make the programme excuable from a different call point
 ### R has an R shebang at the top of its script as well
 import subprocess
@@ -1136,23 +1105,101 @@ checking for docstrings...
 No functions, but no script-level docstring either
 2 pts deducted
 
-Current Points = 92.5
+Current Points = 98
 
 Output (only first 500 characters): 
 
 **********************************************************************
+Reading CSV
+Creating graph
 
 **********************************************************************
 
 Encountered error (or warning):
-Error: unexpected string constant in """" Similar to TestR.R as it is an R script that is run through python""
+Error in pdf("../results/fmr_plot.pdf", 11, 8.5) : 
+  cannot open file '../results/fmr_plot.pdf'
 Execution halted
 
 ======================================================================
-Inspecting script file LV2.py...
+Inspecting script file profileme.py...
 
 File contents are:
 **********************************************************************
+#!/usr/bin/env python3
+
+#Author: Emma Deeks ead19@imperial.ac.uk
+#Script: profileme.py
+#Desc:  an illustrative programme about how to porfile functions and scripts 
+#Arguments: no input 
+#Outputs: Profiles of the three functions  defined in the script including running time etc and certain 'slow' parts
+#Date: Oct 2019 
+
+
+""" script that demonstrates profiling and how to time functions """
+def my_squares(iters):
+    """ takes as input iterations and mutiplies each iteration by 2 """
+    out = []
+    for i in range(iters):
+        out.append(i**2)
+    return out 
+
+def my_join(iters, string):
+    """ Takes as input iteration and a string and joins them """
+    out = ''
+    for i in range(iters):
+        out += string.join(", ")
+    return out
+
+def run_my_funcs(x,y):
+    """ takes as input x and y, mutliples x by two and joins x and y 
+    together """ 
+    print(x,y)
+    my_squares(x)
+    my_join(x,y)
+    return 0  
+
+# Runs all the functions using 10000 and the string 
+run_my_funcs(10000000,"My string")**********************************************************************
+
+Testing profileme.py...
+
+profileme.py is a Python script file;
+
+checking for docstrings...
+
+Found one or more docstrings and functions
+
+Current Points = 98
+
+Output (only first 500 characters): 
+
+**********************************************************************
+10000000 My string
+
+**********************************************************************
+
+Code ran without errors
+
+Time consumed = 5.57328s
+
+======================================================================
+Inspecting script file LV3.py...
+
+File contents are:
+**********************************************************************
+#!/usr/bin/env python3
+
+#Author: Emma Deeks ead19@imperial.ac.uk
+#Script: LV3.py
+#Desc:  Extra credit of LV2 and is a discrete time version of the Lv model 
+# using a time series and is also profiled
+#Arguments: Has default arguments but can input LV model parameters manually: r: is intrinsic growth rate of resource population
+#a: per-capita "search rate", i.e. the rate at which consumers find resources units: area per time unit
+#z: mortality rate - units are 'per time'
+#e" consumer's efficiency (rate in turning mass into its own mass). no units.
+#Outputs: Plots two models; consumer-resource model and LV model and saves to results 
+#Date: Oct 2019 
+
 import numpy as np
 import scipy as sc
 import sys
@@ -1161,41 +1208,61 @@ import scipy.integrate as integrate
 
 """ Similar to LV1 but requires inputs into the parameters but does use default values """
 
-def dCR_dt(pops, t=0):
+"""
+Extra credit of LV2 and is a discrete time version of the Lv model 
 
-    R = pops[0]
-    C = pops[1]
-    dRdt = r * R * (1- (R / K)) - a * R * C 
-    dCdt = -z * C + e * a * R * C
-    
-    return sc.array([dRdt, dCdt])
+This script is codifying the Lotka-Volterra model for predator-prey system
+in two-dimensional space (e.g. on land) and is using a discrete time series 
 
-if len(sys.argv)== 5:
-    r = float(sys.argv[1])
-    a = float(sys.argv[2])
-    z = float(sys.argv[3])
-    e = float(sys.argv[4])
-else: 
-    print("Using default arguments:")
-    r = 1.
-    a = 0.1 
-    z = 1.5
-    e = 0.75
+A key difference between LV1 and LV2 is LV2 uses a
+modified equation with constant K which is the carrying capacity 
+Another key difference is that is takes system arguments 
 
-K = 35
+dR/dt = rR - aCR
+dC/dt = -zC + eaCR
+C is consumer population abundance, R is resource population abundance
+units: number per area unit
+r is intrinsic growth rate of resource population
+a is per-capita "search rate", i.e. the rate at which consumers find resources
+units: area per time unit
+z is the mortality rate - units are 'per time'
+e is the consumer's efficiency (rate in turning mass into its own mass). no units. """
 
+
+K = 30
+
+#define time vector integrating from time point 0 to 30 using 1000 sub-divisions of time
+#The time series 
+t = sc.linspace(1, 15, 100)
+
+#length of the time ereis 
+rows = len(t)
+# Setting the initial conditions for the two populations (10 resources and 5 consumers per unit area),
+#  and convert the two into an array (because our function takes an array as input)
 R0 = 10
-C0 = 5 
+C0 = 5
 RC0 = sc.array([R0, C0])
+#Fills array with zeros 
+RC = np.zeros([rows,2])
+RC[:1] = RC0
 
+#dets default parameters 
+r = 1.
+a = 0.1 
+z = 1.5
+e = 0.75
 
-t = sc.linspace(0, 15, 1000)
-pops, infodict = integrate.odeint(dCR_dt, RC0, t, full_output=True)
+#goes through the length of the time eries 
+for i in range(0, len(t)-1):
+    RC[i+1][0] = RC[i][0] * (1 + (r * (1 - RC[i][0] / K)) - a * RC[i][1]) #This is the discrete time eries model for resource
+    RC[i+1][1] = RC[i][1] * (1 - z + e * a * RC[i][0]) # this is the discrete time series model for the consumers 
+
+#output filled array with the consumer resource at each time series 
 
 fig, (ax1, ax2) = p.subplots(1,2)
-
-ax1.plot(t, pops[:,0], 'g-', label='Resource density') # Plot
-ax1.plot(t, pops[:,1]  , 'b-', label='Consumer density')
+# plots against time series and conpares the consumer resource density 
+ax1.plot(t, RC[:,0], 'g-', label='Resource density') # Plot
+ax1.plot(t, RC[:,1]  , 'b-', label='Consumer density')
 ax1.legend(loc='best')
 ax1.set(xlabel = 'Time', ylabel = 'Population density')
 p.ylabel('Population density')
@@ -1212,27 +1279,26 @@ props = dict(boxstyle='round', facecolor='wheat', alpha=0.5)
 ax2.text(0.05, 0.95, final, transform=ax2.transAxes, fontsize=9,
         verticalalignment='top', bbox=props)
 props = dict(boxstyle='round', facecolor='wheat', alpha=0.5)
-ax2.plot(pops[:,1], pops[:,0]  , 'r-')
+ax2.plot(RC[:,1], RC[:,0]  , 'r-') 
 p.legend(loc='best')
 p.xlabel('Resource density')
 p.ylabel('Consumer density')
 p.show()# To display the figure
 
-fig.savefig('../results/consumer_resource_model_LV2.pdf')
+fig.savefig('../results/consumer_resource_model_LV3.pdf')
 
 **********************************************************************
 
-Testing LV2.py...
+Testing LV3.py...
 
-LV2.py is a Python script file;
+LV3.py is a Python script file;
 
 checking for docstrings...
 
-Found one or more docstrings and functions
+No functions, but no script-level docstring either
+2 pts deducted
 
-Missing docstring, either in one or functions and/or at the script level
-
-Current Points = 92.0
+Current Points = 96
 
 Output (only first 500 characters): 
 
@@ -1240,21 +1306,334 @@ Output (only first 500 characters):
 
 **********************************************************************
 
+Encountered error (or warning):
+/usr/lib/python3/dist-packages/matplotlib/axes/_axes.py:519: UserWarning: No labelled objects found. Use label='...' kwarg on individual plots.
+  warnings.warn("No labelled objects found. "
+Traceback (most recent call last):
+  File "LV3.py", line 99, in <module>
+    fig.savefig('../results/consumer_resource_model_LV3.pdf')
+  File "/usr/lib/python3/dist-packages/matplotlib/figure.py", line 1565, in savefig
+    self.canvas.print_figure(*args, **kwargs)
+  File "/usr/lib/python3/dist-packages/matplotlib/backend_bases.py", line 2232, in print_figure
+    **kwargs)
+  File "/usr/lib/python3/dist-packages/matplotlib/backends/backend_pdf.py", line 2528, in print_pdf
+    file = PdfFile(filename)
+  File "/usr/lib/python3/dist-packages/matplotlib/backends/backend_pdf.py", line 422, in __init__
+    fh = open(filename, 'wb')
+FileNotFoundError: [Errno 2] No such file or directory: '../results/consumer_resource_model_LV3.pdf'
+
+======================================================================
+Inspecting script file DrawFW.py...
+
+File contents are:
+**********************************************************************
+#!/usr/bin/env python3
+
+#Author: Emma Deeks ead19@imperial.ac.uk
+#Script: DrawFW.py
+#Desc:  This script outputs figure of a food web network generated by a random 
+# adjacency table and saves it as a pdf. uses packages netwrokx
+#Arguments: no input 
+#Outputs: network plot in pdf called network.pdf in the data directory
+#Date: Oct 2019 
+
+import networkx as nx
+import scipy as sc
+import matplotlib.pyplot as p
+
+""" This script outputs figure of a food web network and saves it as a pdf """
+
+def GenRdmAdjList(N = 2, C = 0.5):
+    """ 
+    Generates a random adjacency list to be used for the example network graph
+    this adjacency table will be used as the connections for the nodes 
+    """
+    Ids = range(N)
+    ALst = []
+    for i in Ids:
+        if sc.random.uniform(0,1,1) < C:
+            Lnk = sc.random.choice(Ids,2).tolist()
+            if Lnk[0] != Lnk[1]: #avoid self (e.g., cannibalistic) loops
+                ALst.append(Lnk)
+    return ALst
+
+MaxN = 30
+C = 0.75
+
+# Generates random adjacency table using function defined 
+AdjL = sc.array(GenRdmAdjList(MaxN, C))
+AdjL
+
+#select unique numbers which is equivalent to unique species 
+Sps = sc.unique(AdjL) # get species ids
+
+SizRan = ([-10,10]) #use log10 scale
+Sizs = sc.random.uniform(SizRan[0],SizRan[1],MaxN)
+Sizs
+
+# adds the nodes which are individual numbers
+pos = nx.circular_layout(Sps) # cicular nodes 
+G = nx.Graph() #open graph 
+G.add_nodes_from(Sps)
+#adds edges using the tuple adjl table which has all of the links in it 
+G.add_edges_from(tuple(AdjL))
+
+# calculates the node sizes 
+NodSizs= 1000 * (Sizs-min(Sizs))/(max(Sizs)-min(Sizs)) 
+
+f3 = p.figure()
+#plots figure
+nx.draw_networkx(G, pos, node_size = NodSizs)
+#saves as pdf
+f3.savefig('../results/network.pdf')
+
+
+
+
+
+**********************************************************************
+
+Testing DrawFW.py...
+
+DrawFW.py is a Python script file;
+
+checking for docstrings...
+
+Found one or more docstrings and functions
+
+Current Points = 96
+
+Output (only first 500 characters): 
+
+**********************************************************************
+
+**********************************************************************
+
+Encountered error (or warning):
+Traceback (most recent call last):
+  File "DrawFW.py", line 59, in <module>
+    f3.savefig('../results/network.pdf')
+  File "/usr/lib/python3/dist-packages/matplotlib/figure.py", line 1565, in savefig
+    self.canvas.print_figure(*args, **kwargs)
+  File "/usr/lib/python3/dist-packages/matplotlib/backend_bases.py", line 2232, in print_figure
+    **kwargs)
+  File "/usr/lib/python3/dist-packages/matplotlib/backends/backend_pdf.py", line 2528, in print_pdf
+    file = PdfFile(filename)
+  File "/usr/lib/python3/dist-packages/matplotlib/backends/backend_pdf.py", line 422, in __init__
+    fh = open(filename, 'wb')
+FileNotFoundError: [Errno 2] No such file or directory: '../results/network.pdf'
+
+======================================================================
+Inspecting script file MyFirstJupyterNb.ipynb...
+
+File contents are:
+**********************************************************************
+**********************************************************************
+
+Testing MyFirstJupyterNb.ipynb...
+
+======================================================================
+Inspecting script file TestR.R...
+
+File contents are:
+**********************************************************************
+#!/usr/bin/env Rscript
+
+print("Hello, this is R!")**********************************************************************
+
+Testing TestR.R...
+
+Output (only first 500 characters): 
+
+**********************************************************************
+[1] "Hello, this is R!"
+
+**********************************************************************
+
 Code ran without errors
 
-Time consumed = 10.00609s
+Time consumed = 0.09861s
+
+======================================================================
+Inspecting script file timeitme.py...
+
+File contents are:
+**********************************************************************
+#!/usr/bin/env python3
+
+#Author: Emma Deeks ead19@imperial.ac.uk
+#Script: timeitme.py
+#Desc:  A script that times loops vs comprehension to see which is faster using timeitme and profileme2
+#Arguments: No input
+#Outputs: time results of loops verses comprehensions 
+#Date: Oct 2019 
+
+##############################################################################
+# loops vs. list comprehensions: which is faster?
+##############################################################################
+""" A script that times loops vs comprehension to see which is faster """
+iters = 1000000
+
+import timeit 
+
+from profileme import my_squares as my_squares_loops
+
+from profileme2 import my_squares as my_squares_lc 
+
+
+##############################################################################
+# loops vs. the join method for strings: which is faster?
+##############################################################################
+
+
+mystring = "my string"
+
+from profileme import my_join as my_join_join
+
+from profileme2 import my_join as my_join 
+
+#%timeit(my_join_join(iters, mystring))
+#%timeit(my_join(iters, mystring))
+
+import time
+start = time.time()
+my_squares_loops(iters)
+print("my_squares_loops takes %f s to run." % (time.time() - start))
+
+start = time.time()
+my_squares_lc(iters)
+print("my_squares_lc takes %f s to run." % (time.time() - start))
+**********************************************************************
+
+Testing timeitme.py...
+
+timeitme.py is a Python script file;
+
+checking for docstrings...
+
+Found no functions, but one docstring for the script, good
+
+Current Points = 96
+
+Output (only first 500 characters): 
+
+**********************************************************************
+10000000 My string
+10000000 My string
+my_squares_loops takes 0.249954 s to run.
+my_squares_lc takes 0.213654 s to run.
+
+**********************************************************************
+
+Code ran without errors
+
+Time consumed = 8.93447s
+
+======================================================================
+Inspecting script file blackbirds.py...
+
+File contents are:
+**********************************************************************
+#!/usr/bin/env python3
+
+#Author: Emma Deeks ead19@imperial.ac.uk
+#Script: blackbirds.py
+#Desc:  Blackbirds practical that uses regex to output Kingdom, Phylum and Species of a csv of blackbird species, phylums and kingdoms
+#Arguments: no input 
+#Outputs: Species, kingdom and phylum of the blacbirds.txt file of each bird
+#Date: Oct 2019 
+import re
+
+""" Blackbirds practical that uses regex to output Kingdom, Phylum and Species of a csv of blackbird species, phylums and kingdoms """
+
+# Read the file (using a different, more python 3 way, just for fun!)
+with open('../data/blackbirds.txt', 'r') as f:
+    text = f.read()
+
+# replace \t's and \n's with a spaces:
+text = text.replace('\t',' ')
+text = text.replace('\n',' ')
+# You may want to make other changes to the text. 
+
+# In particular, note that there are "strange characters" (these are accents and
+# non-ascii symbols) because we don't care for them, first transform to ASCII:
+
+text = text.encode('ascii', 'ignore') # first encode into ascii bytes
+text = text.decode('ascii', 'ignore') # Now decode back to string
+
+# Now extend this script so that it captures the Kingdom, Phylum and Species
+# name for each species and prints it out to screen neatly.
+
+# Hint: you may want to use re.findall(my_reg, text)... Keep in mind that there
+# are multiple ways to skin this cat! Your solution could involve multiple
+# regular expression calls (easier!), or a single one (harder!)
+
+#Each of the variables  named Kingdom, Phylum and Species finds the key word of the variable and the associated word 
+# after it e.g. Kingdom and Phylum have the assicated kingdom and phylums
+# Species finds two words after it 
+Kingdom = re.findall(r"Kingdom\s+\w+", text)
+Phylum = re.findall(r"Phylum\s+\w+", text)
+Species = re.findall(r"Species\s+\w+\s+\w+", text)
+
+# For loop go through each of the three variables and prints the associate phylums, Kingdoms of that species to the screen
+# Uses the length of the species variable to get the correct number of species for the iterations of the loop
+# Indexs the phylum and kingdom variables so all of them are in the same iterations 
+for i in range(len(Species)):
+    print (Species[i], "is in:")
+    print (Phylum[i])
+    print (Kingdom[i], "\n")
+
+
+
+**********************************************************************
+
+Testing blackbirds.py...
+
+blackbirds.py is a Python script file;
+
+checking for docstrings...
+
+Found no functions, but one docstring for the script, good
+
+Current Points = 96
+
+Output (only first 500 characters): 
+
+**********************************************************************
+Species Euphagus carolinus is in:
+Phylum Chordata
+Kingdom Animalia 
+
+Species Euphagus cyanocephalus is in:
+Phylum Chordata
+Kingdom Animalia 
+
+Species Turdus boulboul is in:
+Phylum Chordata
+Kingdom Animalia 
+
+Species Agelaius assimilis is in:
+Phylum Chordata
+Kingdom Animalia 
+
+
+**********************************************************************
+
+Code ran without errors
+
+Time consumed = 0.02509s
 
 ======================================================================
 ======================================================================
 Finished running scripts
 
-Ran into 7 errors
+Ran into 12 errors
 
 ======================================================================
 ======================================================================
 
 FINISHED WEEKLY ASSESSMENT
 
-Current Points for the Week = 92.0
+Current Points for the Week = 96
 
 NOTE THAT THESE ARE POINTS, NOT MARKS FOR THE WEEK!

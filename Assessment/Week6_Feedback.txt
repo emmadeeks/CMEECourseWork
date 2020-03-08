@@ -1,0 +1,582 @@
+Starting weekly assessment for Emma, Week6
+
+Current Points = 100
+
+Note that: 
+(1) Major sections begin with a double "====" line 
+(2) Subsections begin with a single "====" line 
+(3) Code output or text file content are printed within single "*****" lines 
+
+======================================================================
+======================================================================
+Your Git repo size this week is about 59.65 MiB on disk 
+
+PART 1: Checking project workflow...
+
+Found the following directories in parent directory: Week1, week4, Assessment, week3, week6, project, Week2, week9, week7, week5, .git, rda files, week8, error:output files
+
+Found the following files in parent directory: edeeks_HPC_2019.zip, .gitignore, README.md
+
+Checking for key files in parent directory...
+
+Found .gitignore in parent directory, great! 
+
+Printing contents of .gitignore:
+**********************************************************************
+*~
+*.tmp
+*.bbl
+*.blg
+*.pdf
+*.aux
+*.log
+__pycache__
+.DS_Store
+.Rapp.history
+<<<<<<< HEAD
+.Rhistory
+*.rda
+*.sh.*
+project/data 
+project/data/Chagos_ALL_acoustic_2019.txt 
+project/data/shape_files
+. -size +50M
+=======
+.Rhistory
+>>>>>>> 0d7590ae85f1493548f944ace5922e4c47068ab7
+week8/code/.ipynb_checkpoints/FunRes-checkpoint.ipynb
+**********************************************************************
+
+Found README in parent directory, named: README.md
+
+Printing contents of README.md:
+**********************************************************************
+# CMEE Coursework Repository- README.md 
+
+
+Files included: 
+### week1: 
+Unix Week:  Learnt the basics of UNIX including shell scripting, key commands such as grep and running functions. 
+### week2: Focuses on the basics of Python; Topics covered include:
+	- Basics of python syntax and data structures
+	- Python's object-oriented features
+	- How to write and run python code
+	- Understand and implement python control flow tools
+	- Learning to use the ipython environment 
+	- Writing, debugging, using, and testing python functions 
+	- Learning efficient numerical programming in python
+	- Using regular expressions in python
+	- Introduction to certain particularly useful python packages
+	- Using python for building and modifying databases
+	- Using python to run other, non-python tasks and code
+	- Using python to patch together data analysis and/or numerical simulation work flows
+### week3: 
+Focuses on the basics of R as well as data exploration, management and visualisation; Topics covered include:
+	- Basic R syntax and programming conventions assuming you have never set your eyes on R
+	- Principles of data processing and exploration (including visualization) using R
+	- Principles of clean and efficient programming using R
+	- To generate publication quality graphics in R
+	- To develop reproducible data analysis "work flows" so you (or anybody else) can run and re-run your analyses, graphics outputs and all, in R
+	- To make R simulations more efficient using vectorization
+	- To find and fix errors in R code using debugging
+	- To make data wrangling and analyses more efficient and convenient using custom tools such as tidyr
+	- Some additional tools and topics in R (accessing databases, building your own packages, etc.).
+### week4
+Stats week
+
+### week5
+GIS week
+### week6
+Miniproject week
+### week7
+Python II 
+### week8
+HPC week 
+
+**********************************************************************
+
+======================================================================
+Looking for the weekly directories...
+
+Found 9 weekly directories: Week1, Week2, week3, week4, week5, week6, week7, week8, week9
+
+The Week6 directory will be assessed 
+
+======================================================================
+======================================================================
+PART 2: Checking weekly code and workflow...
+
+======================================================================
+Assessing WEEK6...
+
+Found the following directories: code, data
+
+Found the following files: 
+
+Checking for readme file in weekly directory...
+
+README file missing, 1 pt deducted
+
+Current Points = 99
+
+Results directory missing!
+
+Creating Results directory...
+
+Found 3 code files: 01_Alleles.R, 03_Coalescence.R, 02_Divergence.R
+
+======================================================================
+Testing script/code files...
+
+======================================================================
+Inspecting script file 01_Alleles.R...
+
+File contents are:
+**********************************************************************
+
+rm(list=ls()) #Clear global environment 
+#Set working directory
+setwd("/Users/emmadeeks/Desktop/CMEECourseWork/week6/code")
+#Read in the bears data 
+bears <- read.csv("../data/bears.csv", header = FALSE, colClasses = "character", stringsAsFactors = FALSE)
+
+#1. Identify which positions are SNPs (polymorphic, meaning that they have more than one allele)
+snps <- c() #Create empty vector 
+for (i in 1:ncol(bears)){ #For i in each column of the data set 
+  if(length(unique(bears[,i])) > 1)  snps <- c(snps,i) #If the length of each unique value in each column is greateer than one 
+  } #Put unique values/position of unique value into a dataframe
+
+#2. Calculate, print and visualise allele frequencies for each SNP
+
+### SNPs are positions where you observed more than one allele
+### the easiest thing is to loop over all sites and record the ones with two alleles
+
+### this works to retain the indexes of SNPs; a smartest way would not involve doing a loop but using `apply` functions
+cat("\nNumber of SNPs is", length(snps))
+
+### reduce the data set
+data <- bears[,snps]
+dim(data)
+
+
+
+## 2) calculate, print and visualise allele frequencies
+
+### again we can loop over each SNP and easily calculate allele frequencies
+frequencies <- c()
+for (i in 1:ncol(data)) {
+  
+  ### alleles in this SNPs
+  alleles <- sort(unique(data[,i]))
+  cat("\nSNP", i, "with alleles", alleles)
+  
+  ### we have to make a decision on which allele to consider to calculate its frequency; 
+  ### for instance, after we sort them, we can pick the second one (but the choice at this stage is arbitrary)
+  
+  ### frequency (of the second allele)
+  freq <- length(which(data[,i]==alleles[2])) / nrow(data)
+  cat(" and allele frequency of the second allele", freq)
+  
+  frequencies <- c(frequencies, freq)
+}
+### we can plot is as a histogram
+hist(frequencies)
+### or simply the frequencies at each position
+plot(frequencies, type="h")
+
+
+## 3) calculate and print genotype frequencies
+
+### again, we can loop over each SNPs and each individual and print the genotype frequencies
+nsamples <- 20
+for (i in 1:ncol(data)) {
+  
+  ### alleles in this SNPs
+  alleles <- sort(unique(data[,i]))
+  cat("\nSNP", i, "with alleles", alleles)
+  
+  ### as before, I can choose one allele as "reference"
+  ### genotypes are Allele1/Allele1 Allele1/Allele2 Allele2/Allele2
+  genotype_counts <- c(0, 0, 0)
+  
+  for (j in 1:nsamples) {
+    ### indexes of genotypes for individual j
+    genotype_index <- c( (j*2)-1, (j*2) )
+    ### count the Allele2 instances
+    genotype <- length(which(data[genotype_index, i]==alleles[2])) + 1
+    ### increase the counter for the corresponding genotype
+    genotype_counts[genotype] <- genotype_counts[genotype] + 1
+  }
+  cat(" and genotype frequencies", genotype_counts)
+}
+
+## 4) calculate and print homozygosity and heterozygosity
+
+### we can reuse the previous code and easily calculate the heterozygosity
+nsamples <- 20
+for (i in 1:ncol(data)) {
+  
+  ### alleles in this SNPs
+  alleles <- sort(unique(data[,i]))
+  cat("\nSNP", i, "with alleles", alleles)
+  
+  ### as before, I can choose one allele as "reference"
+  ### genotypes are Allele1/Allele1 Allele1/Allele2 Allele2/Allele2
+  genotype_counts <- c(0, 0, 0)
+  
+  for (j in 1:nsamples) {
+    ### indexes of genotypes for individual j
+    genotype_index <- c( (j*2)-1, (j*2) )
+    ### count the Allele2 instances
+    genotype <- length(which(data[genotype_index, i]==alleles[2])) + 1
+    ### increase the counter for the corresponding genotype
+    genotype_counts[genotype] <- genotype_counts[genotype] + 1
+  }
+  cat(" and heterozygosity", genotype_counts[2]/nsamples, "and homozygosity", 1-genotype_counts[2]/nsamples)
+}
+
+
+## 5) test for HWE, with calculating of expected genotype counts
+
+nonHWE <- c() # to store indexes of SNPs deviating from HWE
+nsamples <- 20
+for (i in 1:ncol(data)) {
+  
+  ### alleles in this SNPs
+  alleles <- sort(unique(data[,i]))
+  cat("\nSNP", i)  
+  
+  ### as before, I can choose one allele as "reference"
+  ### frequency (of the second allele)
+  freq <- length(which(data[,i]==alleles[2])) / nrow(data)
+  
+  ### from the frequency, I can calculate the expected genotype counts under HWE
+  genotype_counts_expected <- c( (1-freq)^2, 2*freq*(1-freq), freq^2) * nsamples
+  
+  ### genotypes are Allele1/Allele1 Allele1/Allele2 Allele2/Allele2
+  genotype_counts <- c(0, 0, 0)
+  
+  for (j in 1:nsamples) {
+    ### indexes of genotypes for individual j
+    genotype_index <- c( (j*2)-1, (j*2) )
+    ### count the Allele2 instances
+    genotype <- length(which(data[genotype_index, i]==alleles[2])) + 1
+    ### increase the counter for the corresponding genotype
+    genotype_counts[genotype] <- genotype_counts[genotype] + 1
+  }
+  
+  ### test for HWE: calculate chi^2 statistic
+  chi <- sum( (genotype_counts_expected - genotype_counts)^2 / genotype_counts_expected )
+  
+  ## pvalue
+  pv <- 1 - pchisq(chi, df=1)
+  cat("with pvalue for test against HWE", pv)
+  
+  ## retain SNPs with pvalue<0.05
+  if (pv < 0.05) nonHWE <- c(nonHWE, i)
+  
+}
+
+
+## 6) calculate, print  and visualise inbreeding coefficients for SNPs deviating from HWE
+
+### assuming we ran the code for point 5, we already have the SNPs deviating
+F <- c()
+nsamples <- 20
+for (i in nonHWE) {
+  
+  ### alleles in this SNPs
+  alleles <- sort(unique(data[,i]))
+  cat("\nSNP", i)
+  
+  ### as before, I can choose one allele as "reference"
+  ### frequency (of the second allele)
+  freq <- length(which(data[,i]==alleles[2])) / nrow(data)
+  
+  ### from the frequency, I can calculate the expected genotype counts under HWE
+  genotype_counts_expected <- c( (1-freq)^2, 2*freq*(1-freq), freq^2) * nsamples
+  
+  ### genotypes are Allele1/Allele1 Allele1/Allele2 Allele2/Allele2
+  genotype_counts <- c(0, 0, 0)
+  
+  for (j in 1:nsamples) {
+    ### indexes of genotypes for individual j
+    genotype_index <- c( (j*2)-1, (j*2) )
+    ### count the Allele2 instances
+    genotype <- length(which(data[genotype_index, i]==alleles[2])) + 1
+    ### increase the counter for the corresponding genotype
+    genotype_counts[genotype] <- genotype_counts[genotype] + 1
+  }
+  
+  ### calculate inbreeding coefficient
+  inbreeding <- ( 2*freq*(1-freq) - (genotype_counts[2]/nsamples) ) / ( 2*freq*(1-freq) )
+  F <- c(F, inbreeding)
+  cat(" with inbreeding coefficient", inbreeding)
+}
+### plot
+hist(F)
+plot(F, type="h")
+
+
+**********************************************************************
+
+Testing 01_Alleles.R...
+
+Output (only first 500 characters): 
+
+**********************************************************************
+
+**********************************************************************
+
+Encountered error (or warning):
+Error in setwd("/Users/emmadeeks/Desktop/CMEECourseWork/week6/code") : 
+  cannot change working directory
+Execution halted
+
+======================================================================
+Inspecting script file 03_Coalescence.R...
+
+File contents are:
+**********************************************************************
+
+# killer whales
+
+## read data for each population
+## since data is encoded as 0 and 1 it's better to store it as a matrix
+
+data_N <- as.matrix(read.csv("../data/killer_whale_North.csv", stringsAsFactors=F, header=F, colClasses=rep("numeric")))
+dim(data_N)
+
+data_S <- as.matrix(read.csv("../data/killer_whale_South.csv", stringsAsFactors=F, header=F, colClasses=rep("numeric")))
+dim(data_S)
+
+## 1) estimates of effective population size
+
+### Tajima's estimator
+
+n <- nrow(data_N) # nr of samples (chromosomes)
+pi_N <- 0
+for (i in 1:(n-1)) {
+  for (j in (i+1):n) {
+    pi_N <- pi_N + sum(abs(data_N[i,]-data_N[j,]))
+  }
+}
+pi_N <- pi_N / ((n*(n-1))/2)
+
+n <- nrow(data_S) # nr of samples (chromosomes)
+pi_S <- 0
+for (i in 1:(n-1)) {
+  for (j in (i+1):n) {
+    pi_S <- pi_S + sum(abs(data_S[i,]-data_S[j,]))
+  }
+}
+pi_S <- pi_S / ((n*(n-1))/2)
+
+## estimates of Ne from Tajima's estimator
+Ne_N_pi <- pi_N / (4 * 1e-8 * len)
+Ne_S_pi <- pi_S / (4 * 1e-8 * len)
+
+### Watterson's estimator
+
+### calculate nr of SNPs and then the estimator
+freqs <- apply(X=data_N, MAR=2, FUN=sum)/nrow(data_N)
+snps_N <- length(which(freqs>0 & freqs<1))
+
+watt_N <- snps_N / sum(1/seq(1,n-1))
+
+freqs <- apply(X=data_S, MAR=2, FUN=sum)/nrow(data_S)
+snps_S <- length(which(freqs>0 & freqs<1))
+
+watt_S <- snps_S / sum(1/seq(1,n-1))
+
+### estimates of Ne from Wattersons' estimator
+Ne_N_watt <- watt_N / (4 * 1e-8 * len)
+Ne_S_watt <- watt_S / (4 * 1e-8 * len)
+
+cat("\nThe North population has estimates of effective population size of", Ne_N_pi, "and", Ne_N_watt)
+cat("\nThe South population has estimates of effective population size of", Ne_S_pi, "and", Ne_S_watt)
+
+
+## 2) site frequency spectra
+
+### North population
+sfs_N <- rep(0, n-1)
+### allele frequencies
+derived_freqs <- apply(X=data_N, MAR=2, FUN=sum)
+### the easiest (but slowest) thing to do would be to loop over all possible allele frequencies and count the occurrences
+for (i in 1:length(sfs_N)) sfs_N[i] <- length(which(derived_freqs==i))
+
+### South population
+sfs_S <- rep(0, n-1)
+### allele frequencies
+derived_freqs <- apply(X=data_S, MAR=2, FUN=sum)
+### the easiest (but slowest) thing to do would be to loop over all possible allele frequencies and count the occurrences
+for (i in 1:length(sfs_S)) sfs_S[i] <- length(which(derived_freqs==i))
+
+### plot
+barplot(t(cbind(sfs_N, sfs_S)), beside=T, names.arg=seq(1,nrow(data_S)-1,1), legend=c("North", "South"))
+
+cat("\nThe population with the greater population size has a higher proportion of singletons, as expected.")
+
+### bonus: joint site frequency spectrum
+
+sfs <- matrix(0, nrow=nrow(data_N)+1, ncol=nrow(data_S)+1)
+for (i in 1:ncol(data_N)) {
+  
+  freq_N <- sum(data_N[,i])
+  freq_S <- sum(data_S[,i])
+  
+  sfs[freq_N+1,freq_S+1] <- sfs[freq_N+1,freq_S+1] + 1
+  
+}
+sfs[1,1] <- NA # ignore non-SNPs
+
+image(t(sfs))
+**********************************************************************
+
+Testing 03_Coalescence.R...
+
+Output (only first 500 characters): 
+
+**********************************************************************
+[1]    20 50000
+[1]    20 50000
+
+**********************************************************************
+
+Encountered error (or warning):
+Error: object 'len' not found
+Execution halted
+
+======================================================================
+Inspecting script file 02_Divergence.R...
+
+File contents are:
+**********************************************************************
+# geckos
+## read data for each species
+
+data_w <- read.csv("../data/western_banded_gecko.csv", stringsAsFactors=F, header=F, colClasses=rep("character"))
+dim(data_w)
+
+data_b <- read.csv("../data/bent-toed_gecko.csv", stringsAsFactors=F, header=F, colClasses=rep("character"))
+dim(data_b)
+
+data_l <- read.csv("../data/leopard_gecko.csv", stringsAsFactors=F, header=F, colClasses=rep("character"))
+dim(data_l)
+
+
+## calculate divergence between sequences of B and L
+
+sites_total <- 0
+sites_divergent <- 0 
+
+for (i in 1:ncol(data_b)) {
+  
+  ### you need to discard SNPs within each species
+  #Going through each column and if the alleles are only 1 then add them to a list 
+  if (length(unique(data_b[,i]))==1 & length(unique(data_l[,i]))==1) {
+    
+    sites_total <- sites_total + 1
+    
+    ### if different, then it's a divergent site
+    #If the sites are the same int hese two areas then they are not divergent 
+    #If they are different then they are divergent 
+    # The =! means not equal to so this translates to:
+    # If the first allele in each column is not equal in the two sites put it 
+    #as a divergent site in the sites_divergent and move on 
+    if (data_b[1,i] != data_l[1,i]) sites_divergent <- sites_divergent + 1
+    
+  }
+}
+### divergence rate
+#To recap, sites total is every site which and divergent is just those that diverge 
+#calculate rate by dividing these 
+div_rate_BL <- sites_divergent / sites_total
+
+
+## calculate divergence between sequences of W and L
+
+sites_total <- 0
+sites_divergent <- 0
+
+for (i in 1:ncol(data_w)) {
+  
+  ### you need to discard SNPs within each species
+  if (length(unique(data_w[,i]))==1 & length(unique(data_l[,i]))==1) {
+    
+    sites_total <- sites_total + 1
+    
+    ### if different, then it's a divergent site
+    if (data_w[1,i] != data_l[1,i]) sites_divergent <- sites_divergent + 1
+    
+  }
+}
+### divergence rate
+div_rate_WL <- sites_divergent / sites_total
+
+
+## calculate divergence between sequences of W and B
+
+sites_total <- 0
+sites_divergent <- 0
+
+for (i in 1:ncol(data_w)) {
+  
+  ### you need to discard SNPs within each species
+  if (length(unique(data_w[,i]))==1 & length(unique(data_b[,i]))==1) {
+    
+    sites_total <- sites_total + 1
+    
+    ### if different, then it's a divergent site
+    if (data_w[1,i] != data_b[1,i]) sites_divergent <- sites_divergent + 1
+    
+  }
+}
+### divergence rate
+div_rate_WB <- sites_divergent / sites_total
+
+
+## from these divergence rates we can infer that W and B are close species while L is the outgroup
+
+## estimate mutation rate per site per year
+mut_rate <- div_rate_BL / (2 * 5e7)
+
+
+## estimate divergence time
+div_time <- div_rate_WB / (2 * mut_rate)
+
+cat("\nThe two species have a divergence time of", div_time, "years.")
+cat("\nThe most likely species tree is L:(W:B).")
+
+**********************************************************************
+
+Testing 02_Divergence.R...
+
+Output (only first 500 characters): 
+
+**********************************************************************
+[1]    20 20000
+[1]    20 20000
+[1]    20 20000
+
+**********************************************************************
+
+Code ran without errors
+
+Time consumed = 10.01178s
+
+======================================================================
+======================================================================
+Finished running scripts
+
+Ran into 2 errors
+
+======================================================================
+======================================================================
+
+FINISHED WEEKLY ASSESSMENT
+
+Current Points for the Week = 99
+
+NOTE THAT THESE ARE POINTS, NOT MARKS FOR THE WEEK!

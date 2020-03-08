@@ -9,13 +9,13 @@ Note that:
 
 ======================================================================
 ======================================================================
-Your Git repo size this week is about 5.52 MiB on disk 
+Your Git repo size this week is about 59.65 MiB on disk 
 
 PART 1: Checking project workflow...
 
-Found the following directories in parent directory: Week1, Assessment, .git
+Found the following directories in parent directory: Week1, week4, Assessment, week3, week6, project, Week2, week9, week7, week5, .git, rda files, week8, error:output files
 
-Found the following files in parent directory: README.txt, .gitignore
+Found the following files in parent directory: edeeks_HPC_2019.zip, .gitignore, README.md
 
 Checking for key files in parent directory...
 
@@ -30,104 +30,75 @@ Printing contents of .gitignore:
 *.pdf
 *.aux
 *.log
+__pycache__
+.DS_Store
+.Rapp.history
+<<<<<<< HEAD
+.Rhistory
+*.rda
+*.sh.*
+project/data 
+project/data/Chagos_ALL_acoustic_2019.txt 
+project/data/shape_files
+. -size +50M
+=======
+.Rhistory
+>>>>>>> 0d7590ae85f1493548f944ace5922e4c47068ab7
+week8/code/.ipynb_checkpoints/FunRes-checkpoint.ipynb
 **********************************************************************
 
-Found README in parent directory, named: README.txt
+Found README in parent directory, named: README.md
 
-Printing contents of README.txt:
+Printing contents of README.md:
 **********************************************************************
-CMEE Coursework Repository- readme.txt 
+# CMEE Coursework Repository- README.md 
+
 
 Files included: 
-Week1: Learnt Unix and Shell scripting 
+### week1: 
+Unix Week:  Learnt the basics of UNIX including shell scripting, key commands such as grep and running functions. 
+### week2: Focuses on the basics of Python; Topics covered include:
+	- Basics of python syntax and data structures
+	- Python's object-oriented features
+	- How to write and run python code
+	- Understand and implement python control flow tools
+	- Learning to use the ipython environment 
+	- Writing, debugging, using, and testing python functions 
+	- Learning efficient numerical programming in python
+	- Using regular expressions in python
+	- Introduction to certain particularly useful python packages
+	- Using python for building and modifying databases
+	- Using python to run other, non-python tasks and code
+	- Using python to patch together data analysis and/or numerical simulation work flows
+### week3: 
+Focuses on the basics of R as well as data exploration, management and visualisation; Topics covered include:
+	- Basic R syntax and programming conventions assuming you have never set your eyes on R
+	- Principles of data processing and exploration (including visualization) using R
+	- Principles of clean and efficient programming using R
+	- To generate publication quality graphics in R
+	- To develop reproducible data analysis "work flows" so you (or anybody else) can run and re-run your analyses, graphics outputs and all, in R
+	- To make R simulations more efficient using vectorization
+	- To find and fix errors in R code using debugging
+	- To make data wrangling and analyses more efficient and convenient using custom tools such as tidyr
+	- Some additional tools and topics in R (accessing databases, building your own packages, etc.).
+### week4
+Stats week
 
-    Code 
-        boilerplate.sh      tabtocsv.sh        variables.sh       MyExampleScript.sh 
-        CountLines.sh       ConcatenateTwoFiles.sh                tiff2png.sh
-        csvtospace.sh       UnixPrac1.txt
-    Data
-        407228326.fasta     407228412.fasta    E.coli.fasta        spawannxs.txt
-        Temperature:    
-                    1800.csv    1801.csv       1802.csv         1803.csv 
-    Sandbox 
-        test.txt        test.txt.csv        ListRootDir.txt
-        TestWild
+### week5
+GIS week
+### week6
+Miniproject week
+### week7
+Python II 
+### week8
+HPC week 
 
-
-
-File functions: 
-Week1 
-    Code
-        boilerplate.sh: 
-            Function: Shell script that recites 'This is a shell script!' when run
-
-        tabtocsv.sh: Shell script to substitute all tabs with commas. 
-            Input: File for the script to be run on
-            Output: File with commas instead of tabs 
-
-        variables.sh: Shell script to show the use of variables. 
-            Input: 1 string and two variables. 
-            Output: Value of string and adds the two variables together  
-
-        MyExampleScript.sh: Bash script that outputs 'Hello' and the Username of the user twice when run. 
-
-        CountLines: Bash script that counts the number of lines in a file. 
-            Input: File directory 
-
-        ConcatenateTwoFiles: Bash script that concatenates the contents of two files. 
-            Input: Var1 Var2; Two file paths to be merged and Var3; file to be merged to  
-
-        tiff2png.sh: Bash script that converts a tiff file to a png
-                     ********* Need to have installed imagemagick on unix system. ************
-            Input: tiff file
-            Output: png file
-
-        csvtospace.sh: Takes comma seperated values and converts it to space seperated values whilst not changing the input file. 
-            Input: csv datafile    
-            Output: Seperate file saved under different name 
-                        
-        UnixPrac1.txt: The first practical submission of the CMEE Course Work covering the chapter in UNIX 
-            Input: fasta files  
-            Output: How many lines in each fasta file
-                    Prints everything in E.coli.fasta file except first lines
-                    Count the sequence length of genome in fasta file 
-                    Count matches of "ATGC" in genome 
-                    AT/GC ratio of E.coli.fasta file
-        
-        FirstExample.tex: Latex file template 
-        
-        FirstBiblio.bib: The bibliography of a paper 
-
-        CompileLaTeX.sh: Compiles latex with bibtex
-            Input: File that needs to be compiled with bibtex
-        
-    Data
-    407228326.fasta: Input file for fasta exercise    
-    407228412.fasta: Input file for fasta exercise 
-    E.coli.fasta: Input file for fasta exercise 
-    Temperatures: Input files for the shell scripting excercises 
-                1800.csv
-                1801.csv
-                1802.csv
-                1803.csv
-    spawannxs.txt: Input files for practice excercises in Unix and shell scripting 
-
-    Sandbox: A practice directory for work practice.
-
-
-# list every directory and what it did and whats in 
-# e.g. week 1: bash shel, wek 2: ... 
-
-#list all code files that are in the directories and what they do 
-#need to know whats in and whats - languages, packages ( VERSIONS) 
-#user guide- no other context 
-#this week you;; need this stuff you need etc 
-#inputs **********************************************************************
+**********************************************************************
 
 ======================================================================
 Looking for the weekly directories...
 
-Found 1 weekly directories: Week1
+Found 9 weekly directories: Week1, Week2, week3, week4, week5, week6, week7, week8, week9
 
 The Week1 directory will be assessed 
 
@@ -140,109 +111,62 @@ Assessing WEEK1...
 
 Found the following directories: Code, Data, Sandbox, Results
 
-Found the following files: README.txt
+Found the following files: README.md
 
 Checking for readme file in weekly directory...
 
-Found README in parent directory, named: README.txt
+Found README in parent directory, named: README.md
 
-Printing contents of README.txt:
+Printing contents of README.md:
 **********************************************************************
-CMEE Coursework Repository- readme.txt 
+# CMEE Coursework Repository- README.md
 
-Files included: 
-Week1
-    Code 
-        boilerplate.sh      tabtocsv.sh        variables.sh       MyExampleScript.sh 
-        CountLines.sh       ConcatenateTwoFiles.sh                tiff2png.sh
-        csvtospace.sh       UnixPrac1.txt
-    Data
-        407228326.fasta     407228412.fasta    E.coli.fasta        spawannxs.txt
-        Temperature:    
-                    1800.csv    1801.csv       1802.csv         1803.csv 
-    Sandbox 
-        test.txt        test.txt.csv        ListRootDir.txt
-        TestWild
+## Week1
+
+- Unix Week:  Learnt the basics of UNIX including shell scripting, key commands such as grep and running functions. 
+
+### Code: Bold scripts are part of the practical coursework for week 1 
+
+| Script       | Function     | Input     | Output    |
+| :------------- | :----------: | -----------: |-----------: |
+|  `boilerplate.sh` | Shell script that recites 'This is a shell script!' when run   | None    | 'This is a shell script!    |
+|   `CompileLaTeX.sh` | Compiles latex with bibtex  | File that needs to be compiled with bibtex    | Latex document   |
+|  `ConcatenateTwoFiles.sh` | Concatenates two files   | Var1 Var2: Two file paths to be merged and Var3: file to be merged to | Merged files in var 3   |
+|  `CountLines.sh` | Counts lines in a file   | File directory | Number of lines   |
+|  `csvtospace.sh` | Takes comma separated values and converts it to space separated values whilst not changing the input file.   | csv datafile    | Separate file that is space separated   |
+|   `FirstBiblio.bib` | The bibliography of a paper   | Bibliography of desired paper    | Bibliography of paper  |
+|   `FirstExample.tex` | Latex file template  | No input    | Latex document   |
+|  `MyExampleScript.sh` | Example script   | No input | 'Hello' and the Username of the user twice when run.    |
+|  `tabtocsv.sh` | Shell script to substitute all tabs with commas.    | File for the script to be run on    | File with commas instead of tabs |    
+|  `tiff2png.sh` | Converts a tiff file to a png  | tiff file | png file   |
+|   **`UnixPrac1.txt`** | The first practical submission of the CMEE Course Work covering the chapter in UNIX  | fasta files    | How many lines in each fasta file; Prints everything in E.coli.fasta file except first lines; Count the sequence length of genome in fasta file; Count matches of "ATGC" in genome; AT/GC ratio of E.coli.fasta file  |
+|  `variables.sh` | Shell script to show the use of variables.    | 1 string and two variables.    | Value of string and adds the two variables together    |
 
 
+### Data: 
 
-File functions: 
-Week1 
-    Code
-        boilerplate.sh: 
-            Function: Shell script that recites 'This is a shell script!' when run
+Files
 
-        tabtocsv.sh: Shell script to substitute all tabs with commas. 
-            Input: File for the script to be run on
-            Output: File with commas instead of tabs 
-
-        variables.sh: Shell script to show the use of variables. 
-            Input: 1 string and two variables. 
-            Output: Value of string and adds the two variables together  
-
-        MyExampleScript.sh: Bash script that outputs 'Hello' and the Username of the user twice when run. 
-
-        CountLines: Bash script that counts the number of lines in a file. 
-            Input: File directory 
-
-        ConcatenateTwoFiles: Bash script that concatenates the contents of two files. 
-            Input: Var1 Var2; Two file paths to be merged and Var3; file to be merged to  
-
-        tiff2png.sh: Bash script that converts a tiff file to a png
-                     ********* Need to have installed imagemagick on unix system. ************
-            Input: tiff file
-            Output: png file
-
-        csvtospace.sh: Takes comma seperated values and converts it to space seperated values whilst not changing the input file. 
-            Input: csv datafile    
-            Output: Seperate file saved under different name 
-                        
-        UnixPrac1.txt: The first practical submission of the CMEE Course Work covering the chapter in UNIX 
-            Input: fasta files  
-            Output: How many lines in each fasta file
-                    Prints everything in E.coli.fasta file except first lines
-                    Count the sequence length of genome in fasta file 
-                    Count matches of "ATGC" in genome 
-                    AT/GC ratio of E.coli.fasta file
-        
-        FirstExample.tex: Latex file template 
-        
-        FirstBiblio.bib: The bibliography of a paper 
-
-        CompileLaTeX.sh: Compiles latex with bibtex
-            Input: File that needs to be compiled with bibtex
-        
-    Data
-    407228326.fasta: Input file for fasta exercise    
-    407228412.fasta: Input file for fasta exercise 
-    E.coli.fasta: Input file for fasta exercise 
-    Temperatures: Input files for the shell scripting excercises 
+	407228326.fasta: Input file for fasta exercise    
+	407228412.fasta: Input file for fasta exercise 
+	E.coli.fasta: Input file for fasta exercise 
+	Temperatures: Input files for the shell scripting exercises 
                 1800.csv
                 1801.csv
                 1802.csv
                 1803.csv
-    spawannxs.txt: Input files for practice excercises in Unix and shell scripting 
-    
-    Sandbox: A practice directory for work practice.
-
-
-# list every directory and what it did and whats in 
-# e.g. week 1: bash shel, wek 2: ... 
-
-#list all code files that are in the directories and what they do 
-#need to know whats in and whats - languages, packages ( VERSIONS) 
-#user guide- no other context 
-#this week you;; need this stuff you need etc 
-#inputs **********************************************************************
+ 	spawannxs.txt: Input files for practice exercises in Unix and shell scripting 
+ 
+ #### Sandbox: 
+ A practice directory for rough work and practice 
+ 
+ ## Additional notes on packages required for scripts: 
+ tiff2png.sh: _Need to have installed imagemagick on unix system_
+**********************************************************************
 
 Found following files in results directory: ...
 
 Found 12 code files: ConcatenateTwoFiles.sh, CountLines.sh, variables.sh, CompileLaTeX.sh, tiff2png.sh, csvtospace.sh, FirstExample.tex, MyExampleScript.sh, FirstBiblio.bib, UnixPrac1.txt, tabtocsv.sh, boilerplate.sh
-
-Found the following extra files: .DS_Store
-0.5 pt deducted per extra file
-
-Current Points = 99.5
 
 ======================================================================
 Testing script/code files...
@@ -253,7 +177,7 @@ Inspecting script file ConcatenateTwoFiles.sh...
 File contents are:
 **********************************************************************
 #!/bin/bash
-
+# File that outputs the result of two files merged into one
 cat $1 > $3
 cat $2 >> $3
 echo "Merged File is "
@@ -282,6 +206,7 @@ File contents are:
 **********************************************************************
 #!/bin/bash 
 
+# Script that goes through and counts the number of lines a file has 
 NumLines=`wc -l < $1` #This is a L not a 1 
 echo "The file $1 has $NumLines lines"
 echo**********************************************************************
@@ -297,7 +222,7 @@ The file  has  lines
 **********************************************************************
 
 Encountered error (or warning):
-CountLines.sh: line 3: $1: ambiguous redirect
+CountLines.sh: line 4: $1: ambiguous redirect
 
 ======================================================================
 Inspecting script file variables.sh...
@@ -314,6 +239,7 @@ read MyVar
 echo 'the current value of the variable is' $MyVar 
 
 ##Reading mutiple values 
+## Shows how to assign inputs to scripts and how to incorporate them 
 echo 'Enter two numbers separated by space(e)'
 read a b 
 echo 'you entered' $a 'and' $b '. Their sum is:'
@@ -392,29 +318,29 @@ rm: cannot remove '*.out': No such file or directory
 rm: cannot remove '*.snm': No such file or directory
 rm: cannot remove '*.toc': No such file or directory
 
-** (evince:8130): WARNING **: Error when getting information for file '/home/mhasoba/Documents/Teaching/IC_CMEE/2019-20/Coursework/StudentRepos/EmmaDeeks_EAD19/Week1/Code/.pdf': No such file or directory
+** (evince:11784): WARNING **: Error when getting information for file '/home/mhasoba/Documents/Teaching/IC_CMEE/2019-20/Coursework/StudentRepos/EmmaDeeks_EAD19/Week1/Code/.pdf': No such file or directory
 
-** (evince:8130): WARNING **: Error setting file metadata: No such file or directory
+** (evince:11784): WARNING **: Error setting file metadata: No such file or directory
 
-** (evince:8130): WARNING **: Error setting file metadata: No such file or directory
+** (evince:11784): WARNING **: Error setting file metadata: No such file or directory
 
-** (evince:8130): WARNING **: Error setting file metadata: No such file or directory
+** (evince:11784): WARNING **: Error setting file metadata: No such file or directory
 
-** (evince:8130): WARNING **: Error setting file metadata: No such file or directory
+** (evince:11784): WARNING **: Error setting file metadata: No such file or directory
 
-** (evince:8130): WARNING **: Error setting file metadata: No such file or directory
+** (evince:11784): WARNING **: Error setting file metadata: No such file or directory
 
-** (evince:8130): WARNING **: Error setting file metadata: No such file or directory
+** (evince:11784): WARNING **: Error setting file metadata: No such file or directory
 
-** (evince:8130): WARNING **: Error setting file metadata: No such file or directory
+** (evince:11784): WARNING **: Error setting file metadata: No such file or directory
 
-** (evince:8130): WARNING **: Error setting file metadata: No such file or directory
+** (evince:11784): WARNING **: Error setting file metadata: No such file or directory
 
-** (evince:8130): WARNING **: Error setting file metadata: No such file or directory
+** (evince:11784): WARNING **: Error setting file metadata: No such file or directory
 
-** (evince:8130): WARNING **: Error setting file metadata: No such file or directory
+** (evince:11784): WARNING **: Error setting file metadata: No such file or directory
 
-** (evince:8130): WARNING **: Error setting file metadata: No such file or directory
+** (evince:11784): WARNING **: Error setting file metadata: No such file or directory
 
 ======================================================================
 Inspecting script file tiff2png.sh...
@@ -422,7 +348,7 @@ Inspecting script file tiff2png.sh...
 File contents are:
 **********************************************************************
 #!/bin/bash
-
+# For loop that converts any tif file into a jpeg
 for f in *.tif;
     do
         echo "Converting $f";
@@ -455,7 +381,8 @@ File contents are:
 #Arguments: 1 -> tab delimited file 
 #Date: Oct 2019 
 
-for f in `ls ../Data/Temperatures/*.csv`; #goes to the directory containing the csv files 
+
+for f in `ls ../data/Temperatures/*.csv`; #goes to the directory containing the csv files 
     do
         echo "Creating a comma delimited version of ${f} ..."; 
         a=`echo ${f}| cut -f 3 -d "."`  # cuts the .csv from the end value so instead of .csv.txt it is just .txt. defines a as the new variable
@@ -473,7 +400,7 @@ Output (only first 500 characters):
 **********************************************************************
 
 Encountered error (or warning):
-ls: cannot access '../Data/Temperatures/*.csv': No such file or directory
+ls: cannot access '../data/Temperatures/*.csv': No such file or directory
 
 ======================================================================
 Inspecting script file FirstExample.tex...
@@ -521,6 +448,7 @@ File contents are:
 **********************************************************************
 #!/bin/bash
 
+# Script illustrating different ways to use the eco comand and also how to access user name in different ways
 msg1="Hello"
 msg2=$USER
 echo "$msg1 $msg2"
@@ -540,7 +468,7 @@ Hello mhasoba
 
 Code ran without errors
 
-Time consumed = 0.00461s
+Time consumed = 0.00591s
 
 ======================================================================
 Inspecting script file FirstBiblio.bib...
@@ -567,22 +495,22 @@ File contents are:
 #1 
 #Counts and outputs the number of lines via the wc -l command of any fasta file in the 'Data' directory.
 #Output only includes the first three lines because the fourth line was the total of all the lines in every file which was not needed. 
-wc -l ../Data/*.fasta | head -n +3 
+wc -l ../data/*.fasta | head -n +3 
 
 #2 
 #Prints the fasta file but omits the first line of the sequence via the 'sed 1d' command
 #Output only shows the second line of the file via head -1 as the fasta file is big so the output is cut short for convenience
-sed 1d ../Data/E.coli.fasta | head -1 
+sed 1d ../data/E.coli.fasta | head -1 
  
 #3 
 #Tail -n +2 is an alternative way to sed 1d of removing the first line of a file. 
 #New line characters are deleted via 'tr -d "\n" ' and the number of characters of the E.coli.fasta file excluding the heading are counted via wc -m
-tail -n +2 ../Data/E.coli.fasta | tr -d "\n" | wc -m  
+tail -n +2 ../data/E.coli.fasta | tr -d "\n" | wc -m  
 
 #4 
 #This command removes the first line of the file and moves the file contents to a temporary file called 'tmpfile' then moves it back into the original E.coli.fasta file. 
 #Grep looks for the pattern 'ATGC' and the wc command counts the number of matches
-sed '1d' ../Data/E.coli.fasta > tmpfile; mv tmpfile ../Data/E.coli.fasta | grep -o "ATGC" ../Data/E.coli.fasta | wc -l 
+sed '1d' ../data/E.coli.fasta > tmpfile; mv tmpfile ../data/E.coli.fasta | grep -o "ATGC" ../data/E.coli.fasta | wc -l 
 
 #5  
 #This command asigns two variables. 
@@ -590,7 +518,7 @@ sed '1d' ../Data/E.coli.fasta > tmpfile; mv tmpfile ../Data/E.coli.fasta | grep 
 #The second variable 'b' is the output of a grep search for the number of 'G's and 'C's in the E.coli.fasta file
 #The basic calculator (bc) is used to calculate what the ratio of the A+Ts and the G+Cs is by dividing the two variables. 
 #The output is rounded to two decimall places via the "scale=2" part of the bc calculation. 
-a=`grep 'A\|T' -o ../Data/E.coli.fasta | wc -l` && b=`grep 'G\|C' -o ../Data/E.coli.fasta | wc -l` && echo "scale=2;$a/$b"|bc 
+a=`grep 'A\|T' -o ../data/E.coli.fasta | wc -l` && b=`grep 'G\|C' -o ../data/E.coli.fasta | wc -l` && echo "scale=2;$a/$b"|bc 
 
 
 
@@ -629,7 +557,7 @@ Done!
 
 Code ran without errors
 
-Time consumed = 0.00655s
+Time consumed = 0.00798s
 
 ======================================================================
 Inspecting script file boilerplate.sh...
@@ -660,7 +588,7 @@ This is a shell script!
 
 Code ran without errors
 
-Time consumed = 0.00330s
+Time consumed = 0.00460s
 
 ======================================================================
 ======================================================================
@@ -673,6 +601,6 @@ Ran into 6 errors
 
 FINISHED WEEKLY ASSESSMENT
 
-Current Points for the Week = 99.5
+Current Points for the Week = 100
 
 NOTE THAT THESE ARE POINTS, NOT MARKS FOR THE WEEK!

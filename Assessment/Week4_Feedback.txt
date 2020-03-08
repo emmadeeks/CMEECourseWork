@@ -1,0 +1,433 @@
+Starting weekly assessment for Emma, Week4
+
+Current Points = 100
+
+Note that: 
+(1) Major sections begin with a double "====" line 
+(2) Subsections begin with a single "====" line 
+(3) Code output or text file content are printed within single "*****" lines 
+
+======================================================================
+======================================================================
+Your Git repo size this week is about 59.65 MiB on disk 
+
+PART 1: Checking project workflow...
+
+Found the following directories in parent directory: Week1, week4, Assessment, week3, week6, project, Week2, week9, week7, week5, .git, rda files, week8, error:output files
+
+Found the following files in parent directory: edeeks_HPC_2019.zip, .gitignore, README.md
+
+Checking for key files in parent directory...
+
+Found .gitignore in parent directory, great! 
+
+Printing contents of .gitignore:
+**********************************************************************
+*~
+*.tmp
+*.bbl
+*.blg
+*.pdf
+*.aux
+*.log
+__pycache__
+.DS_Store
+.Rapp.history
+<<<<<<< HEAD
+.Rhistory
+*.rda
+*.sh.*
+project/data 
+project/data/Chagos_ALL_acoustic_2019.txt 
+project/data/shape_files
+. -size +50M
+=======
+.Rhistory
+>>>>>>> 0d7590ae85f1493548f944ace5922e4c47068ab7
+week8/code/.ipynb_checkpoints/FunRes-checkpoint.ipynb
+**********************************************************************
+
+Found README in parent directory, named: README.md
+
+Printing contents of README.md:
+**********************************************************************
+# CMEE Coursework Repository- README.md 
+
+
+Files included: 
+### week1: 
+Unix Week:  Learnt the basics of UNIX including shell scripting, key commands such as grep and running functions. 
+### week2: Focuses on the basics of Python; Topics covered include:
+	- Basics of python syntax and data structures
+	- Python's object-oriented features
+	- How to write and run python code
+	- Understand and implement python control flow tools
+	- Learning to use the ipython environment 
+	- Writing, debugging, using, and testing python functions 
+	- Learning efficient numerical programming in python
+	- Using regular expressions in python
+	- Introduction to certain particularly useful python packages
+	- Using python for building and modifying databases
+	- Using python to run other, non-python tasks and code
+	- Using python to patch together data analysis and/or numerical simulation work flows
+### week3: 
+Focuses on the basics of R as well as data exploration, management and visualisation; Topics covered include:
+	- Basic R syntax and programming conventions assuming you have never set your eyes on R
+	- Principles of data processing and exploration (including visualization) using R
+	- Principles of clean and efficient programming using R
+	- To generate publication quality graphics in R
+	- To develop reproducible data analysis "work flows" so you (or anybody else) can run and re-run your analyses, graphics outputs and all, in R
+	- To make R simulations more efficient using vectorization
+	- To find and fix errors in R code using debugging
+	- To make data wrangling and analyses more efficient and convenient using custom tools such as tidyr
+	- Some additional tools and topics in R (accessing databases, building your own packages, etc.).
+### week4
+Stats week
+
+### week5
+GIS week
+### week6
+Miniproject week
+### week7
+Python II 
+### week8
+HPC week 
+
+**********************************************************************
+
+======================================================================
+Looking for the weekly directories...
+
+Found 9 weekly directories: Week1, Week2, week3, week4, week5, week6, week7, week8, week9
+
+The Week4 directory will be assessed 
+
+======================================================================
+======================================================================
+PART 2: Checking weekly code and workflow...
+
+======================================================================
+Assessing WEEK4...
+
+Found the following directories: code
+
+Found the following files: README.md
+
+Checking for readme file in weekly directory...
+
+Found README in parent directory, named: README.md
+
+Printing contents of README.md:
+**********************************************************************
+# CMEE Coursework Repository- README.md
+
+## Week4
+
+
+**********************************************************************
+
+Data directory missing!
+
+Results directory missing!
+
+Creating Results directory...
+
+Found 4 code files: sparrowstats.R, linearmodels.R, sparrowpractical.R, anova.R
+
+======================================================================
+Testing script/code files...
+
+======================================================================
+Inspecting script file sparrowstats.R...
+
+File contents are:
+**********************************************************************
+
+
+d<-read.table("SparrowSize.txt", header=TRUE)
+d1<-subset(d, d$Wing!="NA")
+summary(d1$Wing)
+hist(d1$Wing)
+model1 <- lm(Wing~Sex.1, data = d1)
+summary(model1)
+
+boxplot(d1$Wing~d1$Sex.1, ylab="Wing length (mm)")
+anova(model1)
+
+t.test(d1$Wing~d1$Sex.1, var.equal=TRUE)
+boxplot(d1$Wing~d1$BirdID, ylab = "Wing length (mm)")
+install.packages("dplyr")
+require(dplyr)
+
+tbl_df(d1)
+glimpse(d1)
+d$Mass %>% cor.test(d$Tarsus, na.rm=TRUE)
+d1 %>%
+  group_by(BirdID) %>%
+  summarise (count=length(BirdID))
+
+
+d1 %>%
+  group_by(BirdID) %>%
+  summarise (count=length(BirdID))
+
+
+d1 %>%
+  group_by(BirdID) %>%
+  summarise (count=length(BirdID)) %>%
+  count(count)
+
+count(d1, d1$BirdID) %>%
+  count(count)
+
+model3<-lm(Wing~as.factor(BirdID), data=d1)
+anova(model3)
+
+
+boxplot(d$Mass~d$Year)
+m2<-lm(d$Mass~as.factor(d$Year))
+anova(m2)
+summary(m2)
+
+t(model.matrix(m2))
+
+
+
+
+
+
+
+
+**********************************************************************
+
+Testing sparrowstats.R...
+
+Output (only first 500 characters): 
+
+**********************************************************************
+
+**********************************************************************
+
+Encountered error (or warning):
+Error in file(file, "rt") : cannot open the connection
+Calls: read.table -> file
+In addition: Warning message:
+In file(file, "rt") :
+  cannot open file 'SparrowSize.txt': No such file or directory
+Execution halted
+
+======================================================================
+Inspecting script file linearmodels.R...
+
+File contents are:
+**********************************************************************
+
+setwd("/Users/emmadeeks/Desktop/CMEECourseWork/week5/data")
+
+library(repr) ; options(repr.plot.width=4, repr.plot.height= 4)
+rm(list = ls())
+graphics.off()
+install.packages('repr')
+library(repr)
+install.packages
+require("minpack.lm")
+options(repr.plot.width=4, repr.plot.height=4)
+
+
+
+powMod <- function(x, a, b) {
+  return(a * x^b)
+}
+
+
+MyData <- read.csv("../data/GenomeSize.csv")
+Data2Fit <- subset(MyData,Suborder == "Anisoptera")
+
+Data2Fit <- Data2Fit[!is.na(Data2Fit$TotalLength),] # remove NA's
+plot(Data2Fit$TotalLength, Data2Fit$BodyWeight)
+
+
+library("ggplot2")
+
+ggplot(Data2Fit, aes(x = TotalLength, y = BodyWeight)) + 
+  geom_point(size = (3),color="red") + theme_bw() + 
+  labs(y="Body mass (mg)", x = "Wing length (mm)")
+
+PowFit <- nlsLM(BodyWeight ~ powMod(TotalLength, a, b), data = Data2Fit, start = list(a = .1, b = .1))
+
+summary(PowFit)
+Lengths <- seq(min(Data2Fit$TotalLength),max(Data2Fit$TotalLength),len=200)
+coef(PowFit)["a"]
+coef(PowFit)["b"]
+Predic2PlotPow <- powMod(Lengths,coef(PowFit)["a"],coef(PowFit)["b"])
+plot(Data2Fit$TotalLength, Data2Fit$BodyWeight)
+lines(Lengths, Predic2PlotPow, col = 'blue', lwd = 2.5)
+confint(PowFit)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+**********************************************************************
+
+Testing linearmodels.R...
+
+Output (only first 500 characters): 
+
+**********************************************************************
+
+**********************************************************************
+
+Encountered error (or warning):
+Error in setwd("/Users/emmadeeks/Desktop/CMEECourseWork/week5/data") : 
+  cannot change working directory
+Execution halted
+
+======================================================================
+Inspecting script file sparrowpractical.R...
+
+File contents are:
+**********************************************************************
+setwd("/Users/emmadeeks/Desktop/CMEECourseWork/week5/sandbox/data")
+d <- read.csv("rodents.csv")
+
+
+
+d <- subset(d, d$sex!='P')
+d <- subset(d, d$sex!='Z')
+d <- subset(d, d$sex!='R')
+d <- subset(d, d$sex!='')
+
+require(ggplot2)
+ggplot(data = d, aes(x=d$yr, y=d$precip, fill=d$sex)) + geom_bar(position = "fill", stat = "identity")
+
+
+t.test(d$precip~d$sex, na.rm=TRUE)
+
+
+male <- subset(d, sex=="M")
+female <- subset(d, sex=="F")
+a <- mean(female$precip)
+b <- mean(male$precip)
+barplot(a,b)
+ggplot(data=d, aes(x=year, y=amount)) + geom_bar(stat="identity")**********************************************************************
+
+Testing sparrowpractical.R...
+
+Output (only first 500 characters): 
+
+**********************************************************************
+
+**********************************************************************
+
+Encountered error (or warning):
+Error in setwd("/Users/emmadeeks/Desktop/CMEECourseWork/week5/sandbox/data") : 
+  cannot change working directory
+Execution halted
+
+======================================================================
+Inspecting script file anova.R...
+
+File contents are:
+**********************************************************************
+rm(list=ls())
+setwd("~/Desktop/CMEENotes/HandOutsandData'18/")
+daphnia <- read.delim("daphnia.txt")
+summary(daphnia)
+par(mfrow = c(1, 2))
+plot(Growth.rate ~ Detergent, data = daphnia) 
+plot(Growth.rate ~ Daphnia, data = daphnia)
+
+
+require(dplyr)
+daphnia %>%
+  group_by(Detergent) %>%
+  summarise(variance=var(Growth.rate))
+
+daphnia %>%
+  group_by(Daphnia) %>%
+  summarise(variance=var(Growth.rate))
+
+hist(daphnia$Growth.rate)
+
+
+
+
+seFun <- function(x) {
+  sqrt(var(x)/length(x)) }
+detergentMean <- with(daphnia, tapply(Growth.rate, INDEX = Detergent, FUN = mean))
+detergentSEM <- with(daphnia, tapply(Growth.rate, INDEX = Detergent, FUN = seFun))
+cloneMean <- with(daphnia, tapply(Growth.rate, INDEX = Daphnia, FUN = mean)) 
+cloneSEM <- with(daphnia, tapply(Growth.rate, INDEX = Daphnia, FUN = seFun))
+
+
+
+par(mfrow=c(2,1),mar=c(4,4,1,1))
+barMids <- barplot(detergentMean, xlab = "Detergent type", ylab = "Population growth rate",
+                   ylim = c(0, 5))
+arrows(barMids, detergentMean - detergentSEM, barMids, detergentMean +
+         detergentSEM, code = 3, angle = 90)
+barMids <- barplot(cloneMean, xlab = "Daphnia clone", ylab = "Population growth rate",
+                   ylim = c(0, 5))
+arrows(barMids, cloneMean - cloneSEM, barMids, cloneMean + cloneSEM,
+       code = 3, angle = 90)
+
+
+daphniaMod <- lm(Growth.rate ~ Detergent + Daphnia, data = daphnia)
+anova(daphniaMod)
+
+detergentMean - detergentMean[1]
+cloneMean - cloneMean[1]
+daphniaANOVAMod <- aov(Growth.rate ~ Detergent + Daphnia, data = daphnia)
+summary(daphniaANOVAMod)
+
+
+daphniaModHSD <- TukeyHSD(daphniaANOVAMod)
+daphniaModHSD
+
+
+par(mfrow=c(2,1),mar=c(4,4,1,1))
+plot(daphniaModHSD)
+
+par(mfrow=c(2,2))
+plot(daphniaMod)
+**********************************************************************
+
+Testing anova.R...
+
+Output (only first 500 characters): 
+
+**********************************************************************
+
+**********************************************************************
+
+Encountered error (or warning):
+Error in setwd("~/Desktop/CMEENotes/HandOutsandData'18/") : 
+  cannot change working directory
+Execution halted
+
+======================================================================
+======================================================================
+Finished running scripts
+
+Ran into 4 errors
+
+======================================================================
+======================================================================
+
+FINISHED WEEKLY ASSESSMENT
+
+Current Points for the Week = 100
+
+NOTE THAT THESE ARE POINTS, NOT MARKS FOR THE WEEK!
