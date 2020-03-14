@@ -34,7 +34,7 @@ library(tidyverse)
 library(lubridate)
 library(plyr)
 require(hexbin)
-
+library(ggplot2)
 #chagos_array <- read_sf(dsn = ".", layer = "Chagos_array")
 chagos_v6 <- read_sf(dsn = ".", layer = "Chagos_v6") #read in the shapefiles
 #chagosEEZ <- read_sf(dsn = ".", layer = "ChagosEEZ") # read in the shapefiles
@@ -65,98 +65,6 @@ BPV$Date <- round_date(BPV$Date, unit = "hour")
 
 #THIS DATA NOW WORKS 
 BPV2 <- read.csv("BPV_Position_Data_Combined_2017_2019.csv", header = TRUE, stringsAsFactors = T) # read in the data
-
-
-##################### HEAT MAPS ##############
-april_islands <- ggplot(data=april_10_overlap, aes(x= Longitude.x, y= Latitude.x)) + geom_polygon(data=Chagos_island, aes(x=long, y=lat, group=group), color='black', fill = NA) +
-  geom_hex(bins = 70) +
-  scale_fill_continuous(type = "viridis") +
-  theme_bw()
-
-
-april_islands <- ggplot() + geom_polygon(data=Chagos_island, aes(x=long, y=lat, group=group), color='black', fill = NA) + geom_point(data=april_10_overlap, aes(x= Longitude.x, y= Latitude.x),size=2, pch = 21, colour = "Light Blue", fill = "Blue", alpha=I(0.2)) +
-  geom_raster(aes(fill = density)) +
-  scale_fill_gradientn(colours = terrain.colors(10))
-
-april_islands <- ggplot(data=april_10_overlap, aes(x= Longitude.x, y= Latitude.x)) + geom_polygon(data=Chagos_island, aes(x=long, y=lat, group=group), color='black', fill = NA) +
-  geom_hex(bins = 70) +
-  scale_colour_gradientn(colours = terrain.colors(10)) +
-  theme_bw()
-
-
-########################################## YEAR 2016 ################################
-
-
-BPV_year <- BPV[grep("2016-", BPV$Date),] #extract one year of the data
-acoustic_year <- acoustic[grep("2016-", acoustic$detect_date),] # extract the same year of the data 
-
-map_year <- ggplot() + geom_polygon(data=Chagos_island, aes(x=long, y=lat, group=group), color='black', fill = NA) + geom_point(data=BPV_year, aes(x= Longitude, y= Latitude, size =Value),size=2, pch = 21, colour = "Light Blue", fill = "Blue", alpha=I(0.2)) +
-  geom_point(data=acoustic_year, aes(x= receiver_lon, y= receiver_lat, size = receiver_lat),size=2, pch = 21, colour = "Deep Pink", fill = "Pink", alpha=I(0.5))
-
-
-
-###### Formatting data to be processed by the function 
-cols <- c("Date","Longitude", "Latitude", "Code")
-new_acoustic_year <- data.table(acoustic_year$detect_date, acoustic_year$receiver_lon, acoustic_year$receiver_lat, acoustic_year$code)
-colnames(new_acoustic_year) = cols #assigning column names 
-
-cols_BPV <- c("Date","Longitude", "Latitude")
-new_BPV_year <- data.table(BPV_year$Date, BPV_year$Longitude, BPV_year$Latitude)
-colnames(new_BPV_year) = cols_BPV
-
-
-#longterm <- subset(count(collating_BPV$Date, new_acoustic$Date))
-year_overlap <- merge(new_BPV_year, new_acoustic_year, by = "Date", all.x = TRUE)
-cols_10 <- c("Date","Longitude_BPV", "Latitude_BPV", "Longitude_acoustic", "Latitude_acoustic", "Code")
-colnames(year_overlap) = cols_10
-
-######## This actually works but you just need to make it less than 10km etc
-######## Also need to make it so that it is in km not feet which i think this is in 
-r.ft <- 6378137*3.28084             # radius of the earth, in feet
-r.km   <- r.ft*0.0003048
-sep.km   <- 10
-year_overlap$distance<-distHaversine(year_overlap[,2:3], year_overlap[,4:5], r=r.km)
-year_10_overlap <- year_overlap[year_overlap$distance<sep.km,]
-
-
-year_islands <- ggplot() + geom_polygon(data=Chagos_island, aes(x=long, y=lat, group=group), color='black', fill = NA) + geom_point(data=year_10_overlap, aes(x= Longitude.x, y= Latitude.x),size=2, pch = 21, colour = "Light Blue", fill = "Blue", alpha=I(0.2)) +
-  geom_point(data=year_10_overlap, aes(x= Longitude.y, y= Latitude.y),size=2, pch = 21, colour = "Pink", fill = "Deep Pink", alpha=I(0.5))
-
-year_islands <- ggplot(data=year_10_overlap, aes(x= Longitude.x, y= Latitude.x)) + geom_polygon(data=Chagos_island, aes(x=long, y=lat, group=group), color='black', fill = NA) +
-  geom_hex(bins = 30) +
-  scale_fill_continuous(type = "viridis") +
-  theme_bw()
-
-
-year_islands <- ggplot(data=year_10_overlap, aes(x= Longitude_BPV, y= Latitude_BPV)) + geom_polygon(data=Chagos_island, aes(x=long, y=lat, group=group), color='black', fill = NA) +
-  geom_hex(bins = 30) +
-  scale_fill_continuous(type = "viridis") +
-  theme_bw()
-
-# Trying to create a forloop to iterate 
-year_10_overlap$NewDate <- substr(year_10_overlap$Date, 0, 7)
-
-nestmonths <- year_10_overlap %>%
-  nest(data= -NewDate) #this is experimenting with nesting, by nesting the data i can suset the day by ID and go into that
-
-pdf("myOut.pdf")
-summary_sharks = as.data.frame(matrix(nrow = 1, ncol = 3))
-for (i in 1:length(nestmonths$NewDate)){
-  monthdata <- nestmonths$data[[i]]
-  month <- nestmonths$NewDate[[i]]
-  rows <- nrow(monthdata)
-  no_sharks <- unique(monthdata$Code)
-  no_sharks <- length(no_sharks)
-  year_islands_i <- ggplot(data=monthdata, aes(x= Longitude_BPV, y= Latitude_BPV)) + geom_polygon(data=Chagos_island, aes(x=long, y=lat, group=group), color='black', fill = NA) +
-    geom_hex(bins = 50) +
-    ggtitle(month) +
-    scale_fill_continuous(type = "viridis") +
-    theme_bw()
-  toadd <- c(month, rows, no_sharks)
-  summary_sharks <- rbind(summary_sharks, toadd)
-  plot(year_islands_i)
-}
-dev.off()
 
 
 ######## ALL data but not the new BPV YET ############
@@ -194,6 +102,11 @@ df.new$Latitude <- as.numeric(levels(df.new$Latitude))[df.new$Latitude]
 
 new_BPV_bind <- rbind(new_BPV, df.new)
 ###################### 
+#new_BPV_1 <- new_BPV[,-4]
+#df.new_1 <- df.new[,-4]
+#new_BPV_bind <- rbind(new_BPV_1, df.new_1)
+#new_acoustic <- new_acoustic[,-4]
+
 all_overlap <- merge(new_BPV_bind, new_acoustic, by = "Date", all.x = TRUE, allow.cartesian=TRUE)
 cols_10 <- c("Date","Longitude_BPV", "Latitude_BPV", "Longitude_acoustic", "Latitude_acoustic", "Code")
 colnames(all_overlap) = cols_10
@@ -209,14 +122,18 @@ sep.km   <- 10
 all_overlap$distance<-distHaversine(all_overlap[,2:3], all_overlap[,4:5], r=r.km)
 all_10_overlap <- all_overlap[all_overlap$distance<sep.km,]
 
-
+write.csv(all_10_overlap, "all_10_overlap.csv")
 # Trying to create a forloop to iterate 
 all_10_overlap$NewDate <- substr(all_10_overlap$Date, 0, 7)
 
 all_nestmonths <- all_10_overlap %>%
   nest(data= -NewDate) #this is experimenting with nesting, by nesting the data i can suset the day by ID and go into that
 
-pdf("all_out.pdf")
+setwd("/Users/emmadeeks/Desktop/CMEECourseWork/project/data") #go to the data directory 
+
+
+
+pdf("all_out_acoustic.pdf")
 summary_sharks = as.data.frame(matrix(nrow = 1, ncol = 3))
 for (i in 1:length(all_nestmonths$NewDate)){
   monthdata <- all_nestmonths$data[[i]]
@@ -224,10 +141,10 @@ for (i in 1:length(all_nestmonths$NewDate)){
   rows <- nrow(monthdata)
   no_sharks <- unique(monthdata$Code)
   no_sharks <- length(no_sharks)
-  year_islands_i <- ggplot(data=monthdata, aes(x= Longitude_BPV, y= Latitude_BPV)) + geom_polygon(data=Chagos_island, aes(x=long, y=lat, group=group), color='black', fill = NA) +
-    geom_hex(bins = 50) +
+  year_islands_i <- ggplot(data=monthdata, aes(x= Longitude_acoustic, y= Latitude_acoustic)) + geom_polygon(data=Chagos_island, aes(x=long, y=lat, group=group), color='black', fill = NA) +
     ggtitle(month) +
-    scale_fill_continuous(type = "viridis") +
+    geom_hex(aes(x=Longitude_acoustic,y=Latitude_acoustic)) +
+    scale_fill_continuous(type = "viridis", limits = c(0, 2000), oob = scales::squish) +
     theme_bw()
   toadd <- c(month, rows, no_sharks)
   summary_sharks <- rbind(summary_sharks, toadd)
@@ -235,22 +152,89 @@ for (i in 1:length(all_nestmonths$NewDate)){
 }
 dev.off()
 
-summary <- c("month", "count", "number_of_different_sharks")
-colnames(summary_sharks) <- summary
-summary_sharks <- summary_sharks[-1,]
-summary_sharks <- as.data.frame(summary_sharks, header=TRUE,stringsAsFactors=TRUE)
-summary_sharks$month2<-as.Date(format(summary_sharks$month, "%Y-%m-%d"))
-df2<-aggregate(count~month2, data=summary_sharks, FUN=sum)
-summary_sharks$newdate <- substr(summary_sharks$month, 0, 4)
-summary_sharks$newmonth <- substr(summary_sharks$month, 6, 7)
-plot(summary_sharks[,1], summary_sharks[,4], typ="l")
 
 
-
-plot(as.numeric(summary_sharks$month),summary_sharks$row_counts, type = "l",xaxt="n",main = "Counts")
-pdf("shark_counts.pdf")
-plot(x = summary_sharks$month, y = summary_sharks$row_counts, col="green", lwd=5, xlab="months", ylab="shark count", main="Count frequency", ylim = c(1,710) )
+############## LOGGING BINS
+pdf("all_out_acoustic_LOG.pdf")
+for (i in 1:length(all_nestmonths$NewDate)){
+  monthdata <- all_nestmonths$data[[i]]
+  month <- all_nestmonths$NewDate[[i]]
+  year_islands_i <- ggplot(data=monthdata, aes(x= Longitude_acoustic, y= Latitude_acoustic)) + geom_polygon(data=Chagos_island, aes(x=long, y=lat, group=group), color='black', fill = NA) +
+    ggtitle(month) +
+    geom_hex(aes(fill = stat(log(count)))) +
+    scale_fill_continuous(type = "viridis", limits = c(0, 7.5), oob = scales::squish) +
+    theme_bw()
+  plot(year_islands_i)
+}
 dev.off()
 
+
+
+##### 
+summary <- c("month", "count", "number_sharks")
+colnames(summary_sharks) <- summary
+summary_sharks <- summary_sharks[-1,]
+write.csv(summary_sharks,'summary_sharks.csv')
+summary <- read.csv('summary_sharks.csv')
+
+# Plotting summary without log 
+pdf("month_counts_NO_LOG.pdf")
+ggplot(summary, aes(x=as.factor(summary$month), y=summary$count, group=1)) + geom_path() +
+theme(axis.text.x = element_text(angle = 90, hjust = 1))
+dev.off()
+# Plotting summary with log 
+summary$new <- log(summary$count)
+pdf("month_counts_LOG.pdf")
+ggplot(summary, aes(x=as.factor(summary$month), y=summary$new, group=1)) + geom_path() +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1))
+dev.off()
+
+
+setwd("/Users/emmadeeks/Dropbox/Overlap_data")
+tags <- read.csv('Chagos_ALL_tag_metadata_Apr2018.csv')
+tags19 <- read.csv('Chagos_2019_tagging_EMMA_DEEKS.csv')
+
+setwd("/Users/emmadeeks/Desktop/CMEECourseWork/project/data/")
+tag_additions = as.data.frame(matrix(nrow = 1, ncol = 3))
+y13 <- nrow(tags[grep("2013", tags$taggingdate),])
+y14 <- nrow(tags[grep("2014", tags$taggingdate),])
+y15 <- nrow(tags[grep("2015", tags$taggingdate),])
+y16 <- nrow(tags[grep("2016", tags$taggingdate),])
+y17 <- nrow(tags[grep("2017", tags$taggingdate),])
+y18 <- nrow(tags[grep("2018", tags$taggingdate),])
+y19 <- nrow(tags19)
+
+y141 <- summary[grep("2014", summary$month),]
+y141$X <- y14
+y141$cumulative <- 30
+
+y151 <- summary[grep("2015", summary$month),]
+y151$X <- y15
+y151$cumulative <- 86
+
+y161 <- summary[grep("2016", summary$month),]
+y161$X <- y16
+y161$cumulative <- 220
+ 
+y171 <- summary[grep("2017", summary$month),]
+y171$X <- y17
+y171$cumulative <- 220
+
+y181 <- summary[grep("2018", summary$month),]
+y181$X <- y18
+y181$cumulative <- 291
+
+y191 <- summary[grep("2019", summary$month),]
+y191$X <- y19
+y191$cumulative <- 357
+
+summary_tags <- rbind(y141, y151, y161, y171, y181, y191)
+
+tag_names <- c("tags_added", "month" ,"count", "number_sharks", "cumulative_tags")
+colnames(summary_tags) <- tag_names
+
+setwd("/Users/emmadeeks/Desktop/CMEECourseWork/project/data")
+write.csv(summary_tags,'summary_tags.csv')
+#write.csv(all_10_overlap, "all_overlap_10.csv")
 
 
