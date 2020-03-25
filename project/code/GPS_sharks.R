@@ -62,27 +62,113 @@ colnames(GPS_all) <- cols
 BPV <- data.frame(BPV, stringsAsFactors=FALSE)
 GPS_all <- data.frame(GPS_all, stringsAsFactors=FALSE)
 
-
+BPV <- BPV[,-5]
+BPV <- BPV[,-1]
 GPS_all$Date <- dmy_hm(GPS_all$Date)
 GPS_all$Date <- round_date(GPS_all$Date, unit = "hour")
 
+BPV$Date <- as.POSIXct(BPV$Date, format="%Y-%m-%d %H:%M:%S")
+BPV$Date <- round_date(BPV$Date, unit = "hour")
+BPV$Longitude <- as.numeric(levels(BPV$Longitude))[BPV$Longitude]
+BPV$Latitude <- as.numeric(levels(BPV$Latitude))[BPV$Latitude]
+
+
+
 m1 <- merge(GPS_all, BPV, by.x = "Date", by.y = "Date")
 
+
+
 cols_10 <- c("Date","Code", "Longitude_GPS", "Latitude_GPS", "Longitude_BPV", "Latitude_BPV")
+
 colnames(m1) = cols_10
+
+
+
+
 
 r.ft <- 6378137*3.28084             # radius of the earth, in feet
 r.km   <- r.ft*0.0003048
-sep.km   <- 30
+sep.km   <- 20
 m1$distance<-distHaversine(m1[,4:3], m1[,5:6], r=r.km)
 GPS_10_overlap <- m1[m1$distance<sep.km,]
 
+trying <- GPS_10_overlap[GPS_10_overlap[,4]>72.3 & GPS_10_overlap[,4]<72.5,]
+trying2 <- GPS_10_overlap[GPS_10_overlap[,4]>72.3 & GPS_10_overlap[,4]<72.5 & GPS_10_overlap[,3]> -7 & GPS_10_overlap[,3]< -7.6,]
+
+yourdata %>%
+  filter(columntofilter >= 1.5 & columntofilter <=2)
+
+
+pdf("../results/overlap_10.pdf")
+ ggplot() + geom_polygon(data=Chagos_island, aes(x=long, y=lat, group=group), color='black', fill = NA) + 
+  geom_point(data=GPS_10_overlap, aes(x= Longitude_BPV, y= Latitude_BPV),size=2, pch = 21, colour = "Blue", fill = "Blue") +
+  geom_point(data=GPS_10_overlap, aes(x= Latitude_GPS, y= Longitude_GPS),size=2, pch = 21, colour = "Red", fill = "Red")
+dev.off()
+
+
+################ Rounding overlap by day 
+
+BPV$Day <- substr(BPV$Date, 0, 10)
+GPS_all$Day <- substr(GPS_all$Date, 0, 10)
+m1_day <- merge(GPS_all, BPV, by.x = "Day", by.y = "Day")
+cols_10 <- c("Day","Code", "Date", "Longitude_GPS", "Latitude_GPS", "Date", "Longitude_BPV", "Latitude_BPV")
+colnames(m1_day) = cols_10
+
+m1_day$distance<-distHaversine(m1_day[,5:4], m1_day[,7:8], r=r.km)
+GPS_10_overlap_day <- m1_day[m1_day$distance<sep.km,]
+
+GPS_10_overlap_day <- GPS_10_overlap_day[,-3]
+
+
+pdf("../results/overlap_20_DAY_GPS_extended_sharks.pdf")
 ggplot() + geom_polygon(data=Chagos_island, aes(x=long, y=lat, group=group), color='black', fill = NA) + 
-  geom_point(data=GPS_30_overlap, aes(x= Longitude_BPV, y= Latitude_BPV),size=2, pch = 21, colour = "Blue", fill = "Blue") +
-  geom_point(data=GPS_30_overlap, aes(x= Latitude_GPS, y= Longitude_GPS),size=2, pch = 21, colour = "Pink", fill = "Pink")
+  geom_point(data=GPS_10_overlap_day, aes(x= Latitude_GPS, y= Longitude_GPS),size=2, pch = 21, colour = "Red", fill = "Red")
+dev.off()
+
+############# Overlap by one day ##################
 
 
-sep.km   <- 10
-m1$distance<-distHaversine(m1[,4:3], m1[,5:6], r=r.km)
-GPS_30_overlap <- m1[m1$distance<sep.km,]
+GPS_all$Round <- round_date(GPS_all$Date, "12 hours")
+BPV$Round <- round_date(BPV$Date, "12 hours")
+
+m1_4 <- merge(GPS_all, BPV, by = "Round", all.x = T)
+cols_10 <- c("Round","Code", "Date", "Longitude_GPS", "Latitude_GPS", "Date_BPV", "Longitude_BPV", "Latitude_BPV")
+colnames(m1_4) = cols_10
+
+m1_4 <- m1_4[,-3]
+m1_4 <- m1_4[,-5]
+m1_4$distance<-distHaversine(m1_4[,4:3], m1_4[,5:6], r=r.km)
+#m1_4 <- m1_4[, -9]
+GPS_10_overlap_4 <- m1_4[m1_4$distance<sep.km,]
+
+
+
+
+pdf("../results/overlap_10_DAY.pdf")
+ggplot() + geom_polygon(data=Chagos_try, aes(x=long, y=lat, group=group), color='black', fill = NA) + 
+  geom_point(data=GPS_10_overlap_4, aes(x= Longitude_BPV, y= Latitude_BPV),size=2, pch = 21, colour = "Blue", fill = "Blue") +
+  geom_point(data=GPS_10_overlap_4, aes(x= Latitude_GPS, y= Longitude_GPS),size=2, pch = 21, colour = "Red", fill = "Red")
+dev.off()
+
+########### looking at one shark route 
+
+shark1 <- GPS_all[which(GPS_all$Code=='135902'), ]
+ggplot() + geom_polygon(data=Chagos_island, aes(x=long, y=lat, group=group), color='black', fill = NA) + 
+  geom_point(data=shark1, aes(x= Longitude , y= Latitude),size=2, pch = 21, colour = "Blue", fill = "Blue")
+
+all_nestmonths <- GPS_all %>%
+  nest(data= -Code) #this is experimenting with nesting, by nesting the data i can suset the day by ID and go into that
+
+
+pdf("GPS_sharks_outer.pdf")
+for (i in 1:length(all_nestmonths$Code)){
+  monthdata <- all_nestmonths$data[[i]]
+  month <- all_nestmonths$Code[[i]]
+  year_islands_i <- ggplot() + geom_polygon(data=Chagos_try, aes(x=long, y=lat, group=group), color='black', fill = NA) + 
+    geom_point(data=monthdata, aes(x= Longitude , y= Latitude),size=2, pch = 21, colour = "Blue", fill = "Blue") +
+    ggtitle(month) 
+  plot(year_islands_i)
+}
+dev.off()
+
 

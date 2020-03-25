@@ -67,8 +67,9 @@ BPV$NewDate <- substr(BPV$Date, 0, 7)
 
 ######## preliminary plotting 
 
-map_april <- ggplot(april_overlap, aes(x= Longitude.x, y= Latitude.x)) + geom_polygon(data=Chagos_island, aes(x=long, y=lat, group=group), color='black', fill = NA) + geom_hex(aes(fill = stat(log(count)))) +
-  scale_fill_continuous(type = "viridis")
+map_april <- ggplot(overlap_18, aes(x= Longitude, y= Latitude)) + geom_polygon(data=Chagos_island, aes(x=long, y=lat, group=group), color='black', fill = NA) + 
+  geom_polygon(data=Chagos_island, aes(x=long, y=lat, group=group), color='black', fill = NA) +
+  geom_point() 
 
 map_april + geom_density_2d(aes(color = ..level..)) 
 
@@ -81,37 +82,44 @@ overlap_18$Longitude <-  as.numeric(as.character(overlap_18$Longitude))
 overlap_18$Latitude<-  as.numeric(as.character(overlap_18$Latitude))
 
 
-april_islands <- ggplot() + geom_polygon(data=Chagos_island, aes(x=long, y=lat, group=group), color='black', fill = NA) + geom_point(data=overlap_18, aes(x= Longitude, y= Latitude),size=2, pch = 21, colour = "Blue", fill = "Blue") 
+april_islands <- ggplot() + 
+  geom_polygon(data=Chagos_island, aes(x=long, y=lat, group=group), color='black', fill = NA) + geom_point(data=overlap_18, aes(x= Longitude, y= Latitude),size=2, pch = 21, colour = "Blue", fill = "Blue") 
 
 april_islands
 
 geom_hex(aes(fill = stat(log(count)))) +
   scale_fill_continuous(type = "viridis")
 
-overlap_18$time <- c(1:977)
 ########### animating preliminary plot through time 
 
-p <- ggplot() + geom_polygon(data=Chagos_island, aes(x=long, y=lat, group=group), color='black', fill = NA) + 
-  geom_point(data=overlap_18, aes(x= Longitude, y= Latitude),size=2, pch = 21, colour = "Blue", fill = "Blue") +
-  #geom_hex(aes(fill = stat(log(count)))) +
-  #scale_fill_continuous(type = "viridis") +
-  theme_minimal() +
-  transition_states(NewDate, 3, 1) + 
-  ease_aes() 
+
+# https://github.com/thomasp85/gganimate/issues/222
 
 
-animate(p, duration = 30, fps = 20, renderer = gifski_renderer())
-anim_save("myfilename.gif",p)
 
-p <- ggplot() + geom_polygon(data=Chagos_island, aes(x=long, y=lat, group=group), color='black', fill = NA) + 
-  geom_point(data=overlap_18, aes(x= Longitude, y= Latitude),size=2, pch = 21, colour = "Blue", fill = "Blue") +
-  #geom_hex(aes(fill = stat(log(count)))) +
-  #scale_fill_continuous(type = "viridis") +
-  theme_minimal() +
-  transition_states(time, 3, 1) + 
-  ease_aes() 
+library(gapminder)
 
-animate(p, duration = 5, fps = 20, renderer = gifski_renderer())
+p <- ggplot(
+  airquality,
+  aes(Day, Temp, group = Month, color = factor(Month))
+) +
+  geom_line() +
+  scale_color_viridis_d() +
+  labs(x = "Day of Month", y = "Temperature") +
+  theme(legend.position = "top")
+p
 
-# https://d4tagirl.com/2017/05/how-to-plot-animated-maps-with-gganimate
 
+p <- ggplot(overlap_18, aes(x= Longitude, y= Latitude)) + geom_polygon(data=Chagos_island, aes(x=long, y=lat, group=group), color='black', fill = NA) + 
+  geom_polygon(data=Chagos_island, aes(x=long, y=lat, group=group), color='black', fill = NA) + geom_line()
+
+
+overlap_18$NewDate <- substr(overlap_18$Date, 0, 10)
+overlap_18$NewDate <- as.POSIXct(overlap_18$NewDate, format="%Y-%m-%d")
+p + 
+  geom_point() +
+  transition_reveal(overlap_18$NewDate) +
+  shadow_wake(wake_length = 0.5)
+
+
+anim_save("month_example.gif")

@@ -51,17 +51,14 @@ chagos_v6 <- readOGR(dsn = ".", layer = "Chagos_v6") %>%
 Chagos_island <- fortify(chagos_v6)
 
 
-setwd("/Users/emmadeeks/Desktop/CMEECourseWork/project/data") #go to the data directory 
-
-all_overlap <- read.csv("all_overlap_10.csv", header = T, stringsAsFactors = F)
-april_overlap <- read.csv("april_overlap.csv", header = T, stringsAsFactors = F)
-BPV <- read.csv("BPV_formatted_times.csv", header = T, stringsAsFactors = F)
-acoustic <- read.csv("acoustic_formatted_times.csv", header = T, stringsAsFactors = F)
+setwd("/Users/emmadeeks/Desktop/CMEECourseWork/project/data")
 
 
-cross_tab = xtabs(~ Code + NewDate, all_overlap)
-write.csv(cross_tab, "all_sharks_numbers_2.csv")
-
-
+setwd("/Users/emmadeeks/Dropbox/Overlap_data")
+stations <- read.csv("Station_attributes_full.csv")
+station_plot <- ggplot() + geom_polygon(data=Chagos_island, aes(x=long, y=lat, group=group), color='black', fill = NA) +
+  geom_point(data=stations, aes(x= x, y= y), colour = "Blue", shape = 7) +
+  ggtitle("Station") +
+  theme_bw()
 
 

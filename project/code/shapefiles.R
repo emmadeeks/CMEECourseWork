@@ -238,3 +238,25 @@ write.csv(summary_tags,'summary_tags.csv')
 #write.csv(all_10_overlap, "all_overlap_10.csv")
 
 
+
+
+
+
+
+
+p <- ggplot(overlap_18, aes(x= Longitude, y= Latitude)) + geom_polygon(data=Chagos_island, aes(x=long, y=lat, group=group), color='black', fill = NA) + 
+  geom_polygon(data=Chagos_island, aes(x=long, y=lat, group=group), color='black', fill = NA) + geom_point()
+
+p + stat_density2d()
+
+p + stat_density2d(aes(fill=..level..), geom="polygon",bins=12)+
+  scale_fill_gradient(low="skyblue2", high="firebrick1", name="Distribution")
+
+a <- p +  geom_density2d() + stat_density2d(aes(fill = ..level.., alpha = ..level..), size = 0.01, bins = 16, geom = 'polygon') +
+     scale_fill_gradient(low = "green", high = "red") +
+     scale_alpha(range = c(0.00, 0.25), guide = FALSE)
+
+
+
+all[grep("59999", all$Code), ]
+

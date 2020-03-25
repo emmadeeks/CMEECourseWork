@@ -534,3 +534,30 @@ p <- ggplot(data= BPV_april, aes(x= Longitude, y= Latitude))+
 animate(p, duration = 5, fps = 20, width = 200, height = 200, renderer = gifski_renderer())
 anim_save("myfilename.gif",p)
 
+
+
+
+
+p <- ggplot() + geom_polygon(data=Chagos_island, aes(x=long, y=lat, group=group), color='black', fill = NA) + 
+  geom_point(data=overlap_18, aes(x= Longitude, y= Latitude),size=2, pch = 21, colour = "Blue", fill = "Blue") +
+  #geom_hex(aes(fill = stat(log(count)))) +
+  #scale_fill_continuous(type = "viridis") +
+  theme_minimal() +
+  transition_states(NewDate, 3, 1) + 
+  ease_aes() 
+
+
+animate(p, duration = 30, fps = 20, renderer = gifski_renderer())
+anim_save("myfilename.gif",p)
+
+p <- ggplot() + geom_polygon(data=Chagos_island, aes(x=long, y=lat, group=group), color='black', fill = NA) + 
+  geom_point(data=overlap_18, aes(x= Longitude, y= Latitude),size=2, pch = 21, colour = "Blue", fill = "Blue") +
+  #geom_hex(aes(fill = stat(log(count)))) +
+  #scale_fill_continuous(type = "viridis") +
+  theme_minimal() +
+  transition_states(time, 3, 1) + 
+  ease_aes() 
+
+animate(p, duration = 5, fps = 20, renderer = gifski_renderer())
+
+overlap_18$time <- c(1:977)
