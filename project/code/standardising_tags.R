@@ -59,9 +59,13 @@ setwd("/Users/emmadeeks/Desktop/CMEECourseWork/project/data")
 summary_tags <- read.csv('summary_tags.csv', header = T)
 
 summary_tags$standard <- (summary_tags$count / summary_tags$cumulative_tags) * 100
+summary_tags <- read.csv("acoustic/standardised_tags_summary.csv")  
+summary_tags$standard <- (summary_tags$count / summary_tags$count_tag)
+summary_tags$sharks_standard <- (summary_tags$number_sharks/summary_tags$count_tag)
+summary_tags$tags_standard <- (summary_tags$number_sharks/summary_tags$count)
 
-
-summary_tags$year <- substr(summary_tags$month, 0, 4)
+summary_tags$year <- substr(summary_tags$monthyear, 0, 4)
+summary_tags$monthyear <- substr(summary_tags$month, 0, 7)
 summary_tags$month <- substr(summary_tags$month, 6, 7)
 
 pdf("../results/overlaid_years_counts.pdf")
@@ -139,4 +143,117 @@ dat <- mtcars %>% tibble::rownames_to_column(var="outlier") %>% group_by(cyl) %>
 dat$outlier[which(is.na(dat$is_outlier))] <- as.numeric(NA)
 
 ggplot(dat, aes(y=drat, x=factor(cyl))) + geom_boxplot() + geom_text(aes(label=outlier),na.rm=TRUE,nudge_y=0.05)
-        
+
+
+
+
+######################## FURTHER STANDARDISATION OF THE DATA FROM DAVIDS POINT OF VIEW #################
+write.csv(summary_tags, "acoustic/after_standardisation_summary.csv") 
+
+summary_tags <- read.csv("acoustic/after_standardisation_summary.csv")
+#merging <- combined <- merge(acoustic, BPV, by.x = "Date", by.y = "Date")
+
+pdf("../results/acoustic/standardised/standardised_OVERLAP_overlaid.pdf")
+ggplot(summary_tags, aes(x=month, y=standard, fill=year, colour = year, group=factor(year))) + geom_line(size=0.8) + 
+  geom_point(size = 2, shape=21) +
+  xlab("Month") +# for the x axis label
+  ylab("Number of overlaps") +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1)) + 
+  theme_bw() + theme(panel.border = element_blank(), panel.grid.major = element_blank(),
+                     panel.grid.minor = element_blank(), axis.line = element_line(colour = "black"))
+
+dev.off()
+
+pdf("../results/acoustic/standardised/standardised_OVERLAP_plots_not_overlaid.pdf")
+ggplot(summary_tags, aes(x=monthyear, y=standard, group = 1)) + 
+  geom_line() +
+  geom_point() + 
+  xlab("Month") +# for the x axis label
+  ylab("Number of overlaps") +
+  theme_bw() + theme(axis.text.x = element_text(angle = 90, hjust = 1), panel.border = element_blank(), panel.grid.major = element_blank(),
+                     panel.grid.minor = element_blank(), axis.line = element_line(colour = "black"))
+
+dev.off()
+
+
+
+
+pdf("../results/acoustic/standardised/standardised_SHARKS_overlaid_years.pdf")
+ggplot(summary_tags, aes(x=month, y=sharks_standard, fill=year, colour = year, group=factor(year))) + geom_line(size=0.8) + 
+  geom_point(size = 2, shape=21) +
+  xlab("Month") +# for the x axis label
+  ylab("Proportion of sharks at liberty that were intercepted") +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1)) + 
+  theme_bw() + theme(panel.border = element_blank(), panel.grid.major = element_blank(),
+                     panel.grid.minor = element_blank(), axis.line = element_line(colour = "black"))
+
+dev.off()
+
+
+pdf("../results/acoustic/standardised/standardised_SHARKS_not_overlaid.pdf")
+ggplot(summary_tags, aes(x=monthyear, y=sharks_standard, group = 1)) + 
+  geom_line() +
+  geom_point() + 
+  xlab("Month") +# for the x axis label
+  ylab("Proportion of sharks at liberty that were intercepted") +
+  theme_bw() + theme(axis.text.x = element_text(angle = 90, hjust = 1), panel.border = element_blank(), panel.grid.major = element_blank(),
+                     panel.grid.minor = element_blank(), axis.line = element_line(colour = "black"))
+
+dev.off()
+
+
+########################################### FURTHER STANDARDISATION OF STATIONS ###########
+
+setwd("/Users/emmadeeks/Dropbox/Overlap_data")
+stations <- read.csv("Station_attributes_full.csv")
+table(stations$Year.Installed)
+
+summary_tags$stations <- ifelse(summary_tags$year == 2013, 29,
+                                ifelse(summary_tags$year == 2014, 49, 
+                                       ifelse(summary_tags$year == 2015, 64, 93)
+                                )
+)
+                         
+                         
+#summary_tags$overlap_station <-  (summary_tags$standard / summary_tags$stations)            
+#summary_tags$count_station <-  (summary_tags$sharks_standard / summary_tags$stations)   
+summary_tags$overlap_score <- (summary_tags$count / 744)
+summary_tags$overlap_metric1 <- (summary_tags$standard * summary_tags$overlap_score)
+
+
+
+pdf("../results/acoustic/standardised/standardised_OVERLAP_overlaid.pdf")
+ggplot(summary_tags, aes(x=month, y=overlap_metric1, fill=year, colour = year, group=factor(year))) + geom_line(size=0.8) + 
+  geom_point(size = 2, shape=21) +
+  xlab("Month") +# for the x axis label
+  ylab("Number of overlaps") +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1)) + 
+  theme_bw() + theme(panel.border = element_blank(), panel.grid.major = element_blank(),
+                     panel.grid.minor = element_blank(), axis.line = element_line(colour = "black"))
+
+dev.off()
+
+pdf("../results/acoustic/standardised/standardised_OVERLAP_plots_not_overlaid.pdf")
+ggplot(summary_tags, aes(x=monthyear, y=overlap_metric1, group = 1)) + 
+  geom_line() +
+  geom_point() + 
+  xlab("Month") +# for the x axis label
+  ylab("Number of overlaps") +
+  theme_bw() + theme(axis.text.x = element_text(angle = 90, hjust = 1), panel.border = element_blank(), panel.grid.major = element_blank(),
+                     panel.grid.minor = element_blank(), axis.line = element_line(colour = "black"))
+
+dev.off()
+
+
+
+
+
+
+
+ggplot(summary_tags, aes(x=month, y=log(overlap_metric1), fill=year, colour = year, group=factor(year))) + geom_line(size=0.8) + 
+  geom_point(size = 2, shape=21) +
+  xlab("Month") +# for the x axis label
+  ylab("Proportion of sharks at liberty that were intercepted") +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1)) + 
+  theme_bw() + theme(panel.border = element_blank(), panel.grid.major = element_blank(),
+                     panel.grid.minor = element_blank(), axis.line = element_line(colour = "black"))

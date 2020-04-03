@@ -56,6 +56,9 @@ setwd("/Users/emmadeeks/Desktop/CMEECourseWork/project/data")
 BPV <- read.csv("BPV_formatted_times.csv", header = T)
 GPS_all <- read.csv("shark_GPS_all.csv", colClasses=c("numeric", "character", "numeric", "numeric"))
 
+trying3 <- GPS_all[with(GPS_all, !((Latitude_GPS >= 72.3 & Latitude_GPS <= 72.5) | (Longitude_GPS >= -7 & Longitude_GPS <= -7.6))), ]
+
+
 cols <- c("Code", "Date", "Latitude", "Longitude")
 colnames(GPS_all) <- cols 
 
@@ -92,8 +95,10 @@ sep.km   <- 20
 m1$distance<-distHaversine(m1[,4:3], m1[,5:6], r=r.km)
 GPS_10_overlap <- m1[m1$distance<sep.km,]
 
-trying <- GPS_10_overlap[GPS_10_overlap[,4]>72.3 & GPS_10_overlap[,4]<72.5,]
-trying2 <- GPS_10_overlap[GPS_10_overlap[,4]>72.3 & GPS_10_overlap[,4]<72.5 & GPS_10_overlap[,3]> -7 & GPS_10_overlap[,3]< -7.6,]
+
+trying3 <- GPS_10_overlap[with(GPS_10_overlap, !((Latitude_GPS >= 72.3 & Latitude_GPS <= 72.5) | (Longitude_GPS >= -7 & Longitude_GPS <= -7.6))), ]
+
+
 
 yourdata %>%
   filter(columntofilter >= 1.5 & columntofilter <=2)
@@ -105,7 +110,8 @@ pdf("../results/overlap_10.pdf")
   geom_point(data=GPS_10_overlap, aes(x= Latitude_GPS, y= Longitude_GPS),size=2, pch = 21, colour = "Red", fill = "Red")
 dev.off()
 
-
+ggplot() + geom_polygon(data=Chagos_island, aes(x=long, y=lat, group=group), color='black', fill = NA) + 
+  geom_point(data=trying3, aes(x= Latitude_GPS, y= Longitude_GPS),size=2, pch = 21, colour = "Red", fill = "Red")
 ################ Rounding overlap by day 
 
 BPV$Day <- substr(BPV$Date, 0, 10)

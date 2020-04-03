@@ -87,8 +87,17 @@ df.new$olddate <- dmy_hms(df.new$olddate)
 
 new_BPV_bind <- rbind(new_BPV, df.new)
 
+
+new_BPV_bind$Longitude <- as.numeric(levels(new_BPV_bind$Longitude))[new_BPV_bind$Longitude]
+new_BPV_bind$Latitude <- as.numeric(levels(new_BPV_bind$Latitude))[new_BPV_bind$Latitude]
+BPV_formatted <- new_BPV_bind[with(new_BPV_bind, !((Longitude >= 72.3 & Longitude <= 72.5) | (Latitude >= -7 & Latitude <= -7.6))), ]
+
+acoustic_formatted <- new_acoustic[with(new_acoustic, !((Longitude >= 72.3 & Longitude <= 72.5) | (Latitude >= -7 & Latitude <= -7.6))), ]
+
+
+write.csv(BPV_formatted, "BPV_no_DG.csv")
 write.csv(new_BPV_bind, "BPV_formatted_times.csv")
 write.csv(new_acoustic, "acoustic_formatted_times.csv")
-
+write.csv(acoustic_formatted, "acoustic_no_DG.csv")
 
 ################## 
