@@ -51,7 +51,7 @@ Chagos_island <- fortify(chagos_v6)
 
 setwd("/Users/emmadeeks/Desktop/CMEECourseWork/project/data") #go to the data directory 
 acoustic <- read.csv("acoustic_no_DG.csv")
-BPV <- read.csv("BPV_no_DG.csv")
+BPV <- read.csv("New_data_no_dg_hour/BPV_formatted_CORRECT_hour_no_dg.csv")
 #BPV$Longitude <- as.numeric(levels(BPV$Longitude))[BPV$Longitude]
 #BPV$Latitude <- as.numeric(levels(BPV$Latitude))[BPV$Latitude]
 

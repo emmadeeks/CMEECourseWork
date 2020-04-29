@@ -98,8 +98,8 @@ GPS_10_overlap <- m1[m1$distance<sep.km,]
 
 
 
-pdf("../../results/satellite/overlap_20_hour.pdf")
-ggplot() + geom_polygon(data=Chagos_island, aes(x=long, y=lat, group=group), color='black', fill = NA) + 
+pdf("../results/satellite/overlap_20_hour.pdf")
+ggplot() + geom_polygon(data=Chagos_try, aes(x=long, y=lat, group=group), color='black', fill = NA) + 
   geom_point(data=GPS_10_overlap, aes(x= Longitude_BPV, y= Latitude_BPV),size=2, pch = 21, colour = "Blue", fill = "Blue") +
   geom_point(data=GPS_10_overlap, aes(x= Latitude_GPS, y= Longitude_GPS),size=2, pch = 21, colour = "Red", fill = "Red")
 dev.off()
