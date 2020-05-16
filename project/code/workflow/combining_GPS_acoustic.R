@@ -67,6 +67,23 @@ all_combined <- okay %>%
   nest(data= -NewDate) #
 
 ############# PLOTTING INITIAL DATA TO HAVE A LOOK AT SPATIAL DISTRIBUTION #####
+#GPS_acoustic <- read.csv("acoustic_no_elas.csv")
+#GPS_acoustic <- GPS_acoustic[!duplicated(GPS_acoustic[c('Date', 'Code')]),] 
+#pdf("../results/EVERY_acoustic_no_repeat.pdf")
+#ggplot() + 
+#  geom_point() +
+#  geom_polygon(data=Chagos_island, aes(x=long, y=lat, group=group), color='black', fill = NA) +
+#  ggtitle("All acoustic data") +
+#  geom_hex(data=GPS_acoustic, aes(x= Longitude, y= Latitude, fill = stat(log(count)))) +
+#  scale_fill_continuous(type = "viridis", limits = c(0, 11), oob = scales::squish) +
+#  theme_bw() + 
+  #geom_density2d() + stat_density2d(aes(fill = ..level.., alpha = ..level..), size = 0.01, bins = 16, geom = 'polygon') +
+#  coord_equal() +
+#  ggsn::scalebar(Chagos_island,transform = T, dist = 50, dist_unit = "km", model = 'WGS84') +
+  #scale_fill_gradient(low = "green", high = "red") +
+#  scale_alpha(range = c(0.00, 0.25), guide = FALSE)
+#dev.off()
+
 
 pdf("../results/acoustic_GPS/EVERY_acoustic_GPS_BPV_nodg.pdf")
 for (i in 1:length(all_combined$NewDate)){
@@ -329,13 +346,14 @@ names <- c("monthyear", "X", "month", "count", "number_sharks", "count_tag", "Bo
 colnames(new_df) <- names
 
 ############## Standardisation 1 ########
+summary_tags <- read.csv('../results/acoustic_GPS/AG_NR_summary_sharks_no_dg_NOREPEATS.csv')
 summary_tags$month <- substr(summary_tags$month, 6, 7)
-summary_tags$standard1 <- (summary_tags$count / (summary_tags$Boat_station_freq * summary_tags$count_tag * summary_tags$stations))
+summary_tags$standard1 <- (summary_tags$count / (summary_tags$Boat_station_freq * summary_tags$count_tag))
 trying <- rbind(new_df, summary_tags)
 trying$monthyear <- paste0(trying$monthyear, "-01")
 
 summary_tags <- trying[order(as.Date(trying$monthyear, format="%Y-%m-%d")),]
-
+summary_tags$monthyear <- substr(summary_tags$monthyear, 0 ,7)
 write.csv(summary_tags,'../results/acoustic_GPS/AG_NR_summary_sharks_no_dg_NOREPEATS.csv')
 
 scale_fill_manual(name = "Area", labels = c("Other", "Hrs in DG", "Hrs patrolling"), values = c('#798E87','#C27D38','#CCC591', '#29211F', '#02401B', '#972D15')) 
@@ -343,7 +361,7 @@ pal <- RColorBrewer::brewer.pal(13, "wes_palette")[1:5]
 RColorBrewer::brewer.pal(5, wes_palette("FantasticFox1"))
 
 pdf("../results/acoustic_GPS/AG_NO_REPEAT_standardised_1_OVERLAP_overlaid.pdf")
-ggplot(summary_tags, aes(x=month, y=standard1, fill=year, colour = year, group=factor(year))) + geom_line(size=1.1) + 
+ggplot(summary_tags, aes(x= as.factor(month), y=standard1, fill=factor(year), colour = factor(year), group=factor(year))) + geom_line(size=1.1) + 
   geom_point(size = 3) +
   xlab("Month") +# for the x axis label
   ylab("Proportion of successful overlaps compared to the potential (station~BPV)") +
@@ -377,10 +395,10 @@ summary(lm(summary_tags$standard2 ~ poly(summary_tags$X, 2, raw = TRUE)))
 
 
 
-summary_tags$standard2 <- (summary_tags$count / (744 * summary_tags$count_tag * summary_tags$stations))
+summary_tags$standard2 <- (summary_tags$count / (744 * summary_tags$count_tag))
 
 pdf("../results/acoustic_GPS/AG_NO_REPEAT_standardised_2_OVERLAP_overlaid.pdf")
-ggplot(summary_tags, aes(x=month, y=standard2, fill=year, colour = year, group=factor(year))) + geom_line(size=0.8) + 
+ggplot(summary_tags, aes(x=month, y=standard2, fill= factor(year), colour = factor(year), group=factor(year))) + geom_line(size=0.8) + 
   geom_point(size = 2, shape=21) +
   xlab("Month") +# for the x axis label
   ylab("Proportion of successful overlaps compared to 744 and sharks at liberty") +

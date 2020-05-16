@@ -220,3 +220,99 @@ april_islands <- ggplot() + geom_polygon(data=Chagos_island, aes(x=long, y=lat, 
 
 write.csv(april_10_overlap, "april_overlap.csv")
 
+
+
+
+############### 30/04/2020 PROPORTION PLOT FIRST ATEMPT 
+################## In Diego Garcia ###########
+adding = as.data.frame(matrix(nrow = 1, ncol = 4))
+cols <- c("month", "Hrs_in_DG", "Hrs_in_centre_(no_DG)", "hrs_in_outer_MPA")
+colnames(adding) <- cols
+
+
+for ( i in 1:nrow(BPV_loop)){
+  data <- BPV_loop$data[[i]]
+  month <- BPV_loop$NewDate[[i]]
+  border <- data[which(data$Latitude >= -11 & data$Latitude <= -2), ]
+  #border_num <- (nrow(data) - nrow(border))
+  DG <- data%>% filter(between(Latitude, -7.6, -7.0))
+  within_dg <- DG%>% filter(between(Longitude, 72.3, 72.5))
+  DG_final <- nrow(within_dg)
+  border_nodg <- border[!border$Date %in% within_dg$Date,]
+  centre <- border_nodg%>% filter(between(Latitude, -8, -5))
+  centre_nodg <- centre%>% filter(between(Longitude, 71, 73))
+  centre_final <- nrow(centre_nodg)
+  elsewhere <- border_nodg[!border_nodg$Date %in% centre_nodg$Date,]
+  elsewhere_num <- nrow(elsewhere)
+  toadd <- c(month, DG_final, centre_final, elsewhere_num)
+  adding <- rbind(adding, toadd)
+}
+
+
+
+ggplot(within_dg, aes(x=Longitude, y=Latitude)) + 
+  geom_polygon(data=Chagos_try, aes(x=long, y=lat, group=group), color='black', fill = NA) +
+  geom_point(size = 1, shape=21) +
+  ggtitle(month) +
+  xlab("Month") +# for the x axis label
+  ylab("Number of overlaps") +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1)) + 
+  theme_bw()
+
+adding <- adding[-1,]
+
+stations_BPV <- read.csv("standard/BPV_stations_10km.csv")
+
+stations_BPV$monthyear<- substr(stations_BPV$Date, 0, 7)
+#summary_tags$monthyear<- substr(summary_tags$month, 0, 7)
+
+
+table <- table(stations_BPV$monthyear)
+table <- as.data.frame(table)
+cols <- c("month", "Boat_station_freq")
+colnames(table) <- cols
+
+summary_activity <- merge(adding, table, by = "month")
+cols <- c("month", "Hrs_in_DG", "Hrs_in_centre_no_DG", "hrs_in_outer_MPA", "Boat_station_freq")
+colnames(summary_activity) <- cols
+summary_activity$Hrs_in_centre_no_DG_STATION <- summary_activity[,4] - summary_activity[,6]
+summary_activity$Hrs_in_centre_no_DG_STATION <- as.numeric(summary_activity$Hrs_in_centre_no_DG) - as.numeric(summary_activity$Boat_station_freq)
+
+
+############ stacked bar plot 
+plotting <- adding
+plotting$year <- substr(plotting$month, 0, 4)
+
+year_plotting <- plotting %>%
+  nest(data= -year)
+
+pdf("../results/acoustic/no_repeats/BPV_summary_reduced.pdf", onefile = TRUE)
+par(mfrow = c(3, 4))
+for (i in 2:nrow(year_plotting)){
+  trial <- year_plotting$data[[i]]
+  year <- year_plotting$year[[i]]
+  long <- trial %>% gather(period, n, -month)
+  long$month <- substr(long$month, 6, 7)
+  eight <- ggplot(long, aes(x = month, y = n)) + 
+    geom_bar(aes(fill = period), stat = "identity", position="fill") +
+    ylab("Hours in each vincinity") +
+    coord_cartesian(ylim=c(0.5)) +
+    #scale_fill_discrete(name = "Area", labels = c("Hrs in centre (noDG)", "Hrs in DG", "Hrs in outer MPA")) +
+    scale_fill_manual(name = "Area", labels = c("Hrs in centre (noDG)", "Hrs in DG", "Hrs in outer MPA"), values = c('#d8b365','#999999','#5ab4ac')) +
+    ggtitle(year) +
+    theme_bw() +
+    theme(axis.text.y=element_blank(),
+          axis.ticks.y=element_blank(), panel.grid = element_blank(), panel.spacing = unit(-0.8, "lines"))
+}
+dev.off()
+
+
+
+
+pdf("../results/acoustic/no_repeats/BPV_summary.pdf", onefile = TRUE)
+p 
+dev.off()
+
+p <- plot_grid(two, three, four, six, seven, eight, labels = "AUTO", ncol = 2)
+
+

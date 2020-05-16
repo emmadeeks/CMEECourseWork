@@ -63,6 +63,8 @@ ggplot(data=stations, aes(x= x, y= y, colour = factor(Year.Installed))) +
   geom_polygon(data=Chagos_island, aes(x=long, y=lat, group=group), color='black', fill = NA) +
   geom_point(size = 3) +
   ggtitle("Station") +
+  coord_equal() +
+  ggsn::scalebar(Chagos_island,transform = T, dist = 25, dist_unit = "km", model = 'WGS84') +
   theme_bw()
 dev.off()
 
