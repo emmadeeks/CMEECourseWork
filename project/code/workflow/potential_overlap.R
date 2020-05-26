@@ -183,7 +183,7 @@ colnames(IUU_tab) <- names
 
 
 
-ggplot() + geom_bar(IUU_tab, mapping = aes(x=NewDate, y=IUU_events), stat="identity", colour = "black", alpha = 0.3) +
+ggplot() + geom_bar(summary_tags_2, mapping = aes(x=NewDate, y=IUU_events), stat="identity", colour = "black", alpha = 0.3) +
   ylab("Number of detections of acoustically tagged sharks standardised by tags at liberty") +
   #geom_line(summary_tags, mapping = aes(x=monthyear, y=standard2, group = 1)) +
   #geom_bar(alpha = 0.5) +
@@ -198,6 +198,29 @@ summary_original$std_2_plot <- summary_original$standard2 * 50
 summary_tags_2$std_2_plot <- summary_tags_2$standard2 * 50
 
 write_csv(summary_tags_2, '../results/acoustic_GPS/POTENIAL_summary_sharks_no_dg_NOREPEATS.csv')
+
+
+
+######### regression on IUU events 
+summary_tags_2 <- read.csv('../results/acoustic_GPS/POTENIAL_summary_sharks_no_dg_NOREPEATS.csv')
+
+ggplot(summary_tags_2, mapping = aes(x=NewDate, y=IUU_events)) +
+  geom_point() +
+  ylab("Number of detections of acoustically tagged sharks standardised by tags at liberty") +
+  #geom_line(summary_tags, mapping = aes(x=monthyear, y=standard2, group = 1)) +
+  #geom_bar(alpha = 0.5) +
+  #theme(axis.text.x = element_text(angle = 90)) +
+  theme_bw() + theme(panel.border = element_blank(), panel.grid.major = element_blank(), axis.text.x = element_text(angle = 90), 
+                     panel.grid.minor = element_blank(), axis.line = element_line(colour = "black")) 
+
+
+summary_tags_2$X <- 1:nrow(summary_tags_2)
+
+summary(lm(summary_tags_2$IUU_events ~ poly(summary_tags_2$X, 1, raw = TRUE)))
+
+
+##################################################
+
 
 Fig_3 <- cbind(as.character(summary_original$monthyear), summary_original$std_2_plot)
 Fig_3_2 <- cbind(as.character(summary_tags_2$NewDate), summary_tags_2$std_2_plot, summary_tags_2$IUU_events)
@@ -265,3 +288,23 @@ ggplot(final, aes(x=month_plot, y=actual_plot, fill= factor(year), colour = fact
                      panel.grid.minor = element_blank(), axis.line = element_line(colour = "black"))
 
 dev.off()
+
+
+
+######## stations 
+
+priority = as.data.frame(matrix(nrow = 1, ncol = 10))
+rows <- colnames(monthdata)
+colnames(priority) <- rows
+for (i in 1:length(all_combined$Date)){
+  monthdata <- all_combined$data[[i]]
+  month <- all_combined$Date[[i]]
+  variable <- names(sort(table(monthdata$station), decreasing=TRUE)[1])
+  high_rows <- monthdata[monthdata$station == variable,]
+  high_rows$NewDate.y <- month
+  priority <- rbind(priority, high_rows)
+}
+
+priority <- priority[-1,]
+
+

@@ -245,7 +245,7 @@ ggplot(summary_tags, aes(x=monthyear, y=standard2, group = 1)) +
 
 #dev.off()
 
-######   
+######   plotting 
 
 
 original_summary <- read.csv('../results/acoustic_GPS/AG_NR_summary_sharks_no_dg_NOREPEATS.csv')
@@ -255,15 +255,23 @@ permute3 <- read.csv("../results/acoustic_GPS/permute_test/summary_permute_3_20.
 permute4 <- read.csv("../results/acoustic_GPS/permute_test/summary_permute_4_20.csv")
 permute5 <- read.csv("../results/acoustic_GPS/permute_test/summary_permute_5_20.csv")
 
-pdf("../results/acoustic_GPS/permute_test/permute_figure.pdf")
+permute1$monthyear <- substr(permute1$monthyear, 0, 7)
+permute2$monthyear <- substr(permute2$monthyear, 0, 7)
+permute3$monthyear <- substr(permute3$monthyear, 0, 7)
+permute4$monthyear <- substr(permute4$monthyear, 0, 7)
+permute5$monthyear <- substr(permute5$monthyear, 0, 7)
+
+#original_summary$standard2 <- original_summary$standard2 / 50
+
+#pdf("../results/acoustic_GPS/permute_test/permute_figure.pdf")
 ggplot(original_summary, aes(x=monthyear, y=standard2, group = 1)) + 
-  geom_line(original_summary, mapping =aes(x=monthyear, y=standard2, group = 1), colour = "black", size = 2) +
-  geom_line(permute1,mapping =  aes(x=monthyear, y=standard2, group = 1), colour="orange", size = 1) +
-  geom_line(permute2, mapping = aes(x=monthyear, y=standard2, group = 1), colour="red", size = 1) +
-  geom_line(permute3, mapping = aes(x=monthyear, y=standard2, group = 1), colour="pink", size = 1) +
-  geom_line(permute4, mapping = aes(x=monthyear, y=standard2, group = 1), colour="green", size = 1) +
-  geom_line(permute5, mapping = aes(x=monthyear, y=standard2, group = 1), colour="blue", size = 1) +
-  geom_point() + 
+  geom_line(original_summary, mapping =aes(x=monthyear, y=log(standard2), group = 1), colour = "black", size = 2) +
+  geom_line(permute1,mapping =  aes(x=monthyear, y=log(standard2), group = 1), colour="orange", size = 1) +
+  geom_line(permute2, mapping = aes(x=monthyear, y=log(standard2), group = 1), colour="red", size = 1) +
+  geom_line(permute3, mapping = aes(x=monthyear, y=log(standard2), group = 1), colour="pink", size = 1) +
+  geom_line(permute4, mapping = aes(x=monthyear, y=log(standard2), group = 1), colour="green", size = 1) +
+  geom_line(permute5, mapping = aes(x=monthyear, y=log(standard2), group = 1), colour="blue", size = 1) +
+  #geom_point() + 
   xlab("Month") +# for the x axis label
   ylab("Proportion of successful overlaps compared to 744 and sharks at liberty") +
   #geom_line(summary,mapping =  aes(x=acoustic_date, y=standard2, group = 1), colour="#000099") +
@@ -271,7 +279,23 @@ ggplot(original_summary, aes(x=monthyear, y=standard2, group = 1)) +
                      panel.grid.minor = element_blank(), axis.line = element_line(colour = "black"))
 
 
-dev.off()
+#dev.off()
+
+
+ggplot() + 
+  geom_line(original_summary, mapping =aes(x=monthyear, y=log(standard2), group = 1), colour = "red", size = 2) +
+  geom_line(permute1, mapping =  aes(x=monthyear, y=log(standard2), group = 1), colour="black", size = 1) +
+  geom_line(permute2, mapping = aes(x=monthyear, y=log(standard2), group = 1), colour="black", size = 1) +
+  geom_line(permute3, mapping = aes(x=monthyear, y=log(standard2), group = 1), colour="black", size = 1) +
+  geom_line(permute4, mapping = aes(x=monthyear, y=log(standard2), group = 1), colour="black", size = 1) +
+  geom_line(permute5, mapping = aes(x=monthyear, y=log(standard2), group = 1), colour="black", size = 1) +
+  #geom_point() + 
+  xlab("Month") +# for the x axis label
+  ylab("Proportion of successful overlaps compared to 744 and sharks at liberty") +
+  #geom_line(summary,mapping =  aes(x=acoustic_date, y=standard2, group = 1), colour="#000099") +
+  theme_bw() + theme(axis.text.x = element_text(angle = 90, hjust = 1), panel.border = element_blank(), panel.grid.major = element_blank(),
+                     panel.grid.minor = element_blank(), axis.line = element_line(colour = "black"))
+
 
 
 
@@ -409,5 +433,65 @@ ggplot(original_summary, aes(x=monthyear, y=standard2, group = 1)) +
                      panel.grid.minor = element_blank(), axis.line = element_line(colour = "black"))
 
 
+############################# shuffle loop 
+
+for (i in 1:5) {
+  shuffle_acoustic <- acoustic[sample(nrow(acoustic)),] #shuffle rows 
+  shuffle_BPV <- BPV[sample(nrow(BPV)),] #shuffle rows 
+  shuffle_acoustic <- shuffle_acoustic[,-1]
+  shuffle_BPV <- shuffle_BPV[,-1]
+  
+  shuffle_acoustic <- transform(shuffle_acoustic, id=match(NewDate, unique(NewDate))) ###### after shuffling rows you assign a unique id for each NewDate
+  shuffle_BPV <- transform(shuffle_BPV, id=match(NewDate, unique(NewDate)))
+  
+  ######## create a pretend date with the time, day and the ID as the month and then merge like you do with the overlap analysis 
+  shuffle_acoustic$new <- substr(shuffle_acoustic$Date, 8, 19)
+  shuffle_acoustic$new <- paste(shuffle_acoustic$id,shuffle_acoustic$new, sep = "")
+  
+  shuffle_BPV$new <- substr(shuffle_BPV$Date, 8, 19)
+  shuffle_BPV$new <- paste(shuffle_BPV$id,shuffle_BPV$new, sep = "")
+  
+  ####### merge and match the made up dates 
+  m1 <- merge(shuffle_acoustic, shuffle_BPV, by = "new")
+
+  all_overlap <- m1
+
+  r.ft <- 6378137*3.28084             # radius of the earth, in feet
+  r.km   <- r.ft*0.0003048
+  sep.km   <- 20
+  all_overlap$distance<-distHaversine(all_overlap[,3:4], all_overlap[,10:11], r=r.km)
+  all_10_overlap <- all_overlap[all_overlap$distance<sep.km,]
+  
+  overlap <- all_10_overlap
+  new_uniq <- overlap[!duplicated(overlap[c('new', 'Code')]),] 
+  
+  all_nestmonths <- overlap %>%
+    nest(data= -id.x) #this is experimenting with nesting, by nesting the data i can suset the day by ID and go into that
+  
+  setwd("/Users/emmadeeks/Desktop/CMEECourseWork/project/data") #go to the data directory 
+  
+  summary_sharks = as.data.frame(matrix(nrow = 1, ncol = 5))
+  for (i in 1:length(all_nestmonths$id.x)){
+    monthdata <- all_nestmonths$data[[i]]
+    month <- all_nestmonths$id.x[[i]]
+    rows <- nrow(monthdata)
+    date_ac <- as.character(substr(monthdata$Date.y, 0, 10))
+    date_ac <- date_ac[1]
+    date_BPV <- as.character(monthdata$NewDate.x[1])
+    no_sharks <- unique(monthdata$Code)
+    no_sharks <- length(no_sharks)
+    toadd <- c(as.character(month), rows, no_sharks, date_ac, date_BPV)
+    summary_sharks <- rbind(summary_sharks, toadd)
+  }
+  
+  summary <- c("month", "count", "number_sharks", "acoustic_date", "BPV_date")
+  colnames(summary_sharks) <- summary
+  summary_sharks <- summary_sharks[-2,]
+  
+  
+  nam <- paste("A", i, sep = "")
+  assign(nam, new_uniq)
+  
+}
 
 

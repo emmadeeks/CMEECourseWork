@@ -68,6 +68,9 @@ ggplot(data=stations, aes(x= x, y= y, colour = factor(Year.Installed))) +
   theme_bw()
 dev.off()
 
+
+
+
 setwd("/Users/emmadeeks/Desktop/CMEECourseWork/project/data") #go to the data directory 
 #acoustic <- read.csv("acoustic_no_DG.csv")
 #BPV <- read.csv("BPV_no_DG.csv")

@@ -120,20 +120,22 @@ ggplot(border_nodg, aes(x=Longitude, y=Latitude)) +
   theme_bw()
 
 adding <- adding[-1,]
+
+missing_dataframe = as.data.frame(matrix(nrow = 18, ncol = 3))
+missing <- c("2016-07", "2016-08", "2016-09", "2016-10", "2016-11", "2016-12", "2017-01", "2017-02", "2017-03", "2017-04", "2017-05", "2018-01", "2018-07", "2019-08", "2019-09", "2019-10", "2019-11", "2019-12")
+missing_dataframe <- cbind(missing, missing_dataframe)
+missing_dataframe <- data.table(missing_dataframe)
+
+names <- c("month", "Hrs_in_DG", "Hrs_patrol", "elsewhere")
+colnames(missing_dataframe) <- names
+new_df <- missing_dataframe
+
+
+
 long_adding <- adding %>% gather(period, n, -month)
 long_adding$group_fill <- long_adding$period
 
 
-
-missing_dataframe = as.data.frame(matrix(nrow = 13, ncol = 3))
-missing <- c("2016-07", "2016-08", "2016-09", "2016-10", "2016-11", "2016-12", "2017-01", "2017-02", "2017-03", "2017-04", "2017-05", "2018-01", "2018-07")
-missing_dataframe$month <- missing
-missing_dataframe <- data.table(missing_dataframe)
-
-new_df <- missing_dataframe %>% 
-  select(month, everything())
-names <- c("month", "Hrs_in_DG", "Hrs_patrol", "elsewhere")
-colnames(new_df) <- names
 long_df <- new_df %>% gather(period, n, -month)
 long_df$group_fill <- 'no'
 long_df$n <- 1
@@ -141,11 +143,10 @@ long_df$n <- 1
 adding_long <- rbind(long_adding, long_df)
 
 #adding[57:69,2:5] <- NA
-#adding$month <- paste0(adding$month, "-01")
+#new_df$month <- paste0(new_df$month, "-01")
 
-#adding <- adding[order(as.Date(adding$month, format="%Y-%m-%d")),]
-#adding$month<- substr(adding$month, 0, 7)
-
+#new_df <- new_df[order(as.Date(new_df$month, format="%Y-%m-%d")),]
+#new_df$month<- substr(new_df$month, 0, 7)
 
 plotting <- adding_long
 #plotting <- adding
@@ -164,7 +165,8 @@ year_plotting <- plotting %>%
 pal <- RColorBrewer::brewer.pal(4, "wes_palette")[3:5]
 RColorBrewer::brewer.pal(5, wes_palette("Royal1"))
 
-for (i in 2:nrow(year_plotting)){
+i = 2
+#for (i in 2:nrow(year_plotting)){
   trial <- year_plotting$data[[i]]
   year <- year_plotting$year[[i]]
   #long <- trial %>% gather(period, n, -month)
@@ -180,14 +182,122 @@ for (i in 2:nrow(year_plotting)){
     theme(axis.text.y=element_blank(),
           axis.ticks.y=element_blank(), panel.grid = element_blank(), panel.spacing = unit(-0.8, "lines"))
   
+  trial <- year_plotting$data[[2]]
+  year <- year_plotting$year[[2]]
+  #long <- trial %>% gather(period, n, -month)
+  trial$month <- substr(trial$month, 6, 7)
+  two <- ggplot(trial, aes(x = month, y = n, fill = group_fill), color= 'white') +
+    geom_bar(aes(fill = group_fill), stat = "identity", position="fill") +
+    coord_cartesian(ylim=c(0.5)) +
+    ylab("Proportion of BPV enforcement vessel activity") +
+    #xlab("Month") + 
+    scale_color_manual(values = c('grey1','#74A089','grey80', 'white'),  guide = FALSE) +
+    scale_fill_manual(name = "Area", labels = c("Other", "Hrs in DG", "Hrs patrolling", "no data"), values = c('grey1','#74A089','grey80', 'white')) +
+    ggtitle(year) +
+    #scale_x_discrete(breaks = 1:10) +
+    theme_bw() +
+    theme(axis.text.y=element_blank(),
+          axis.ticks.y=element_blank(), axis.title.y=element_blank(), panel.grid = element_blank(), panel.spacing = unit(-0.8, "lines"), legend.position = "none", axis.title.x=element_blank(),
+          axis.text.x=element_blank(), plot.title = element_text(hjust = 0.5))
   
-}
-dev.off()
+    
+  trial <- year_plotting$data[[3]]
+  year <- year_plotting$year[[3]]
+  #long <- trial %>% gather(period, n, -month)
+  trial$month <- substr(trial$month, 6, 7)
+    three <- ggplot(trial, aes(x = month, y = n, fill = group_fill), color= 'white') +
+      geom_bar(aes(fill = group_fill), stat = "identity", position="fill") +
+      coord_cartesian(ylim=c(0.5)) +
+      #ylab("Proportion of BPV enforcement vessel activity") +
+      #xlab("Month")
+     scale_color_manual(values = c('grey1','#74A089','grey80', 'white'),  guide = FALSE) +
+      scale_fill_manual(name = "Area", labels = c("Other", "Hrs in DG", "Hrs patrolling", "no data"), values = c('grey1','#74A089','grey80', 'white')) +
+      ggtitle(year) +
+      #scale_x_discrete(breaks = 1:10) +
+      theme_bw() +
+      theme(axis.text.y=element_blank(),
+            axis.ticks.y=element_blank(),axis.title.y=element_blank(),  panel.grid = element_blank(), panel.spacing = unit(-0.8, "lines"), legend.position = "none", axis.title.x=element_blank(),
+            axis.text.x=element_blank(), plot.title = element_text(hjust = 0.5))
+    
+    
+    trial <- year_plotting$data[[4]]
+    year <- year_plotting$year[[4]]
+    #long <- trial %>% gather(period, n, -month)
+    trial$month <- substr(trial$month, 6, 7)
+    four <- ggplot(trial, aes(x = month, y = n, fill = group_fill), color= 'white') +
+      geom_bar(aes(fill = group_fill), stat = "identity", position="fill") +
+      coord_cartesian(ylim=c(0.5)) +
+      ylab("Proportion of BPV activity") +
+      #xlab("Month")
+      scale_color_manual(values = c('grey1','#74A089','grey80', 'white'),  guide = FALSE) +
+      scale_fill_manual(name = "Area", labels = c("Other", "Hrs in DG", "Hrs patrolling", "no data"), values = c('grey1','#74A089','grey80', 'white')) +
+      ggtitle(year) +
+      #scale_x_discrete(breaks = 1:10) +
+      theme_bw() +
+      theme(axis.text.y=element_blank(),
+            axis.ticks.y=element_blank(),  panel.grid = element_blank(), panel.spacing = unit(-0.8, "lines"), legend.position = "none", axis.title.x=element_blank(),
+            axis.text.x=element_blank(), plot.title = element_text(hjust = 0.5))
+    
+    
+    trial <- year_plotting$data[[6]]
+    year <- year_plotting$year[[6]]
+    #long <- trial %>% gather(period, n, -month)
+    trial$month <- substr(trial$month, 6, 7)
+    six <- ggplot(trial, aes(x = month, y = n, fill = group_fill), color= 'white') +
+      geom_bar(aes(fill = group_fill), stat = "identity", position="fill") +
+      coord_cartesian(ylim=c(0.5)) +
+      ylab("Proportion of BPV enforcement vessel activity") +
+      #xlab("Month")
+      scale_color_manual(values = c('grey1','#74A089','grey80', 'white'),  guide = FALSE) +
+      scale_fill_manual(name = "Area", labels = c("Other", "Hrs in DG", "Hrs patrolling", "No data"), values = c('grey1','#74A089','grey80', 'white')) +
+      ggtitle(year) +
+      #scale_x_discrete(breaks = 1:10) +
+      theme_bw() +
+      theme(axis.text.y=element_blank(),
+            axis.ticks.y=element_blank(), axis.title.y=element_blank(), panel.grid = element_blank(), panel.spacing = unit(-0.8, "lines"), axis.title.x=element_blank(), legend.position = "none", 
+            axis.text.x=element_blank(), plot.title = element_text(hjust = 0.5))  
+#}
+#dev.off()
+    
+    trial <- year_plotting$data[[7]]
+    year <- year_plotting$year[[7]]
+    #long <- trial %>% gather(period, n, -month)
+    trial$month <- substr(trial$month, 6, 7)
+    seven <- ggplot(trial, aes(x = month, y = n, fill = group_fill), color= 'white') +
+      geom_bar(aes(fill = group_fill), stat = "identity", position="fill") +
+      coord_cartesian(ylim=c(0.5)) +
+      ylab("Proportion of BPV enforcement vessel activity") +
+      xlab("Month") +
+      scale_color_manual(values = c('grey1','#74A089','grey80', 'white'),  guide = FALSE) +
+      scale_fill_manual(name = "Area", labels = c("Other", "Hrs in DG", "Hrs patrolling", "No data"), values = c('grey1','#74A089','grey80', 'white')) +
+      ggtitle(year) +
+      #scale_x_discrete(breaks = 1:10) +
+      theme_bw() +
+      theme(axis.text.y=element_blank(),
+            axis.ticks.y=element_blank(), axis.title.y=element_blank(), panel.grid = element_blank(), panel.spacing = unit(-0.8, "lines"), legend.position = "none", plot.title = element_text(hjust = 0.5))  
+    #}
 
-
-
-
-pdf("../results/acoustic_GPS/BPV_summary.pdf", onefile = TRUE)
+    trial <- year_plotting$data[[8]]
+    year <- year_plotting$year[[8]]
+    #long <- trial %>% gather(period, n, -month)
+    trial$month <- substr(trial$month, 6, 7)
+    eight <- ggplot(trial, aes(x = month, y = n, fill = group_fill), color= 'white') +
+      geom_bar(aes(fill = group_fill), stat = "identity", position="fill") +
+      coord_cartesian(ylim=c(0.5)) +
+      #ylab("Proportion of BPV enforcement vessel activity") +
+      xlab("Month") +
+      scale_color_manual(values = c('grey1','#74A089','grey80', 'white'),  guide = FALSE) +
+      scale_fill_manual(name = "Area", labels = c("Other", "Hrs in DG", "Hrs patrolling", "No data"), values = c('grey1','#74A089','grey80', 'white')) +
+      ggtitle(year) +
+      #scale_x_discrete(breaks = 1:10) +
+      theme_bw() +
+      theme(axis.text.y=element_blank(),
+            axis.ticks.y=element_blank(), axis.title.y=element_blank(), panel.grid = element_blank(), panel.spacing = unit(-0.8, "lines"), legend.position = c(1, 1), 
+            legend.justification = c(1, 1), plot.title = element_text(hjust = 0.5))  
+    
+    
+    
+pdf("../results/acoustic_GPS/BPV_summary_2.pdf", onefile = TRUE)
 p 
 dev.off()
 
@@ -206,6 +316,23 @@ adding$month <- paste0(adding$month, "-01")
 adding$month <- as.Date(adding$month, format="%Y-%m-%d")
 adding$month <- substr(adding$month, 0, 7)
 plot(adding$month, adding$patrol_per)
+
+ggplot(adding, aes(x=month, y=Hrs_patrol, group = 1)) + 
+  ylab("Number of hours the vessel spends patrolling in each month") +
+  geom_point() +
+  geom_line() +
+  geom_smooth(method="lm", se=TRUE, fill=NA, formula=y ~ poly(x, 1, raw=TRUE),colour="red") +
+  #geom_line(summary_tags, mapping = aes(x=monthyear, y=standard2, group = 1)) +
+  #geom_bar(alpha = 0.5) +
+  #theme(axis.text.x = element_text(angle = 90)) +
+  theme_bw() + theme(panel.border = element_blank(), panel.grid.major = element_blank(), axis.text.x = element_text(angle = 90), 
+                     panel.grid.minor = element_blank(), axis.line = element_line(colour = "black")) 
+
+adding$X <- 1:nrow(adding)
+lm(standard~X, data = summary_tags)
+summary(lm(adding$Hrs_in_DG ~ poly(adding$X, 1, raw = TRUE)))
+
+
 
 pdf("../results/Hrs_patrolling.pdf")
 ggplot(adding, aes(x=month, y=Hrs_patrol, group = 1)) + geom_bar(stat="identity", colour = "black", alpha = 0.3) +
@@ -228,4 +355,15 @@ ggplot(adding, aes(x=month, y=Hrs_patrol, group = 1)) +
   ylab("Proportion of successful overlaps compared to the potential (station~BPV)") +
   theme_bw() + theme(axis.text.x = element_text(angle = 90, hjust = 1), panel.border = element_blank(), panel.grid.major = element_blank(),
                      panel.grid.minor = element_blank(), axis.line = element_line(colour = "black"))
+
+
+
+
+
+pdf("../results/chagos_island.pdf")
+ggplot() + geom_polygon(data=Chagos_island, aes(x=long, y=lat, group=group), color='black', fill = NA) +
+  scalebar(Chagos_island,transform = T, dist = 40, dist_unit = "km", model = 'WGS84') +
+  north(Chagos_island, symbol= 3, location = "topleft") +
+  theme_bw()
+dev.off()
   

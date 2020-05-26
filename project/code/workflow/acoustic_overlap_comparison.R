@@ -23,7 +23,8 @@ library(ggplot2)
 library(tidyverse)
 library("wesanderson")
 
-
+library(cowplot)
+library(dplyr)
 
 chagos_v6 <- read_sf(dsn = ".", layer = "Chagos_v6") #read in the shapefiles
 #chagosEEZ <- read_sf(dsn = ".", layer = "ChagosEEZ") # read in the shapefiles
@@ -66,37 +67,37 @@ IUU_6 <- IUU[IUU$Year == 2016,]
 IUU_7 <- IUU[IUU$Year == 2017,]
 IUU_8 <- IUU[IUU$Year == 2018,]
 
-plot_ov_18 <- ggplot(data=ov_18, aes(x= Longitude_GPS, y= Latitude_GPS)) + geom_polygon(data=Chagos_island, aes(x=long, y=lat, group=group), color='black', fill = NA) +
-  ggtitle("Overlap for 2018") +
+plot_ov_16 <- ggplot(data=ov_16, aes(x= Longitude_GPS, y= Latitude_GPS)) + geom_polygon(data=Chagos_island, aes(x=long, y=lat, group=group), color='black', fill = NA) +
+  ggtitle("Overlap for 2016") +
   geom_hex(aes(x=Longitude_GPS,y=Latitude_GPS)) +
   scale_fill_continuous(type = "viridis", limits = c(0, 100), oob = scales::squish) +
-  xlim(70,74) +
-  ylim(-8.5, -4) +
+  xlim(71,73) +
+  ylim(-7.5, -4.5) +
   #geom_point(data= IUU, aes(x= Longitude, y= Latitude), shape = 23, fill = "lightblue", size = 1) +
-  geom_point(data= IUU_8, aes(x= Longitude, y= Latitude), shape = 23, fill = "orange", size = 2) +
+  geom_point(data= IUU_6, aes(x= Longitude, y= Latitude), shape = 23, fill = "orange", size = 2) +
   coord_equal() +
   ggsn::scalebar(Chagos_island,transform = T, dist = 50, dist_unit = "km", model = 'WGS84') +
   theme_bw()
 
 
-plot_ac_18 <- ggplot(data=ac_18, aes(x= Longitude, y= Latitude)) + geom_polygon(data=Chagos_island, aes(x=long, y=lat, group=group), color='black', fill = NA) +
-  ggtitle("Acoustic detections for 2018") +
+plot_ac_16 <- ggplot(data=ac_16, aes(x= Longitude, y= Latitude)) + geom_polygon(data=Chagos_island, aes(x=long, y=lat, group=group), color='black', fill = NA) +
+  ggtitle("Acoustic detections for 2016") +
   #geom_hex(aes(x=Longitude,y=Latitude)) +
   geom_hex(aes(fill = stat(log(count)), xbins = 60)) +
   scale_fill_continuous(type = "viridis", limits = c(0, 9), oob = scales::squish) +
-  xlim(70,74) +
-  ylim(-8.5, -4) +
+  xlim(71,73) +
+  ylim(-7.5, -4.5) +
   #geom_point(data= IUU, aes(x= Longitude, y= Latitude), shape = 23, fill = "lightblue", size = 2) +
-  geom_point(data= IUU_8, aes(x= Longitude, y= Latitude), shape = 23, fill = "orange", size = 2) +
+  geom_point(data= IUU_6, aes(x= Longitude, y= Latitude), shape = 23, fill = "orange", size = 2) +
   coord_equal() +
   ggsn::scalebar(Chagos_island,transform = T, dist = 50, dist_unit = "km", model = 'WGS84') +
   theme_bw()
 
 pdf("../results/acoustic/comparison_overlap_aocustic.pdf", onefile = TRUE)
-p <- plot_grid(plot_ov_16, plot_ac_16, plot_ov_17, plot_ac_17, plot_ov_18, plot_ac_18, labels = "AUTO", ncol = 2)
+p
 dev.off()
 
-
+p <- plot_grid(plot_ov_16, plot_ac_16, plot_ov_17, plot_ac_17, plot_ov_18, plot_ac_18, labels = "AUTO", ncol = 2)
 
 
 

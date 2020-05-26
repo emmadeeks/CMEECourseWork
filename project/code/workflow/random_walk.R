@@ -2,8 +2,6 @@ rm(list=ls()) #Clear global environment
 setwd("/Users/emmadeeks/Desktop/CMEECourseWork/project/data/shape_files/")
 
 
-
-
 #install.packages("remotes")
 #remotes::install_github("jsta/glatos")
 library(glatos)
@@ -33,6 +31,8 @@ require(hexbin)
 library(ggplot2)
 library(tidyverse)
 library("wesanderson")
+library(cowplot)
+library(dplyr)
 
 
 
@@ -51,7 +51,8 @@ chagos_v6 <- readOGR(dsn = ".", layer = "Chagos_v6") %>%
 Chagos_island <- fortify(chagos_v6)
 
 
-my_polygon <- crw_in_polygon(spdf, initPos=c(72.5,-7.5), stepLen = 20000, initHeading = 180, nsteps = 303, sp_out = F)
+my_polygon <- crw_in_polygon(tracts, initPos=c(72.5,-7.5), theta = c(0,40), stepLen = 20000, initHeading = 180, nsteps = 303, sp_out = F)
+my_polygon <- crw_in_polygon(tracts, initPos=c(72.5,-7.5), stepLen = 20000, initHeading = 180, nsteps = 303, sp_out = F)
 #theta = c(0,90)
 #fort <- as.data.frame(my_polygon)
 
@@ -124,12 +125,12 @@ summary_sharks = as.data.frame(matrix(nrow = 1, ncol = 3))
   
 summary_original <- read.csv('../results/acoustic_GPS/AG_NR_summary_sharks_no_dg_NOREPEATS.csv')
 original_2k14 <- summary_original[12,]
-counts <- c(5, 36)
+counts <- c(4, 36)
 months <- c("random_BPV", "original_BPV")
 to_plot <- data.frame(months, counts)
 
-pdf("../results/acoustic_GPS/random_walk/2k14_12_random_walk_No-repeat.pdf")
-barplot(to_plot$counts, main = "2014-12 acoustic data overlap with random walk compared to original BPV route", ylab = "Counts of overlap", col="#69b3a2", names.arg = c("random_BPV", "original_BPV"))
+pdf("../results/acoustic_GPS/random_walk/2k14_03_random_walk_No-repeat.pdf")
+barplot(to_plot$counts, ylim=c(0,143), main = "2014-03 acoustic data overlap with random walk compared to original BPV route", ylab = "Counts of overlap", col="#69b3a2", names.arg = c("random_BPV", "original_BPV"))
 dev.off()
 ######## nice way of plotting islands 
 sp::plot(chagos_v6, col = "lightgrey", border = "grey")
@@ -164,10 +165,10 @@ centre <- BPV%>% filter(between(Latitude, -7.5, -4.5))
 centre_nodg <- centre%>% filter(between(Longitude, 71, 73))
 
 
-high_month_BPV <- centre_nodg [centre_nodg$NewDate == '2014-12',]
-high_month_ac <- GPS_acoustic[GPS_acoustic$NewDate == '2014-12',]
+high_month_BPV <- centre_nodg [centre_nodg$NewDate == '2014-03',]
+high_month_ac <- GPS_acoustic[GPS_acoustic$NewDate == '2014-03',]
 
-my_polygon <- crw_in_polygon(spdf, initPos=c(72.5,-7.4), theta = c(0,40), stepLen = 20000, initHeading = 180, nsteps = 253, sp_out = F)
+my_polygon <- crw_in_polygon(spdf, initPos=c(72.5,-7.4), theta = c(0,40), stepLen = 20000, initHeading = 337, nsteps = 219, sp_out = F)
 #theta = c(0,90)
 #fort <- as.data.frame(my_polygon)
 
@@ -200,7 +201,7 @@ all_10_overlap <- all_10_overlap[!duplicated(all_10_overlap[c('Date', 'Code')]),
 summary_sharks = as.data.frame(matrix(nrow = 1, ncol = 3))
 #pdf("../results/acoustic_GPS/AG_NR_all_overlap_no_dg_NOREPEAT.pdf")
 monthdata <- all_10_overlap
-month <- "2014-12_random_BPV"
+month <- "2014-03_random_BPV"
 rows <- nrow(monthdata)
 no_sharks <- unique(monthdata$Code)
 no_sharks <- length(no_sharks)
@@ -221,12 +222,19 @@ summary_sharks <- summary_sharks[-1,]
 
 summary_original <- read.csv('../results/acoustic_GPS/AG_NR_summary_sharks_no_dg_NOREPEATS.csv')
 original_2k14 <- summary_original[12,]
-counts <- c(11, 36)
+counts_03 <- c(10, 143)
+counts_12 <- c(4, 36)
 months <- c("random_BPV", "original_BPV")
-to_plot <- data.frame(months, counts)
+to_plot_12 <- data.frame(months, counts_12)
+to_plot_03 <- data.frame(months, counts_03)
 
-pdf("../results/acoustic_GPS/random_walk/2k14_12_random_walk_No-repeat.pdf")
-barplot(to_plot$counts, main = "2014-12 acoustic data overlap with random walk compared to original BPV route", ylab = "Counts of overlap", col="#69b3a2", names.arg = c("random_BPV", "original_BPV"))
+pdf("../results/acoustic_GPS/random_walk/high_low_barplots.pdf")
+
+par(mfrow=c(2,1))
+barplot(to_plot_12$counts_12, ylim=c(0,143), main = "2014-12 acoustic data overlap with random walk compared to original BPV route", ylab = "Counts of overlap", col="#69b3a2", names.arg = c("random_BPV", "original_BPV"))
+
+barplot(to_plot_03$counts_03, ylim=c(0,143), main = "2014-03 acoustic data overlap with random walk compared to original BPV route", ylab = "Counts of overlap", col="#69b3a2", names.arg = c("random_BPV", "original_BPV"))
+
 dev.off()
-
-
+#c <- barplot(to_plot$counts, ylim=c(0,143), main = "2017-09 acoustic data overlap with random walk compared to original BPV route", ylab = "Counts of overlap", col="#69b3a2", names.arg = c("random_BPV", "original_BPV"))
+#dev.off()

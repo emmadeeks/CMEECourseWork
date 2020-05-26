@@ -59,15 +59,27 @@ for (i in 1:nrow(all_combined)) {
 
 detections <- detections[-52,]
 detections <- detections[-1,]
-detections$V1 <- paste0(detections$V1, "-01")
+detections$V1 <- paste0(detections$V1, "-15")
 
 detections$V1 <- as.Date(detections$V1, format="%Y-%m-%d")
 detections$V1 <- as.factor(as.character(detections$V1))
 
 
-plot(detections$V1, detections$V2)
+#plot(detections$V1, detections$V2)
 names <- c("monthyear", "count")
 colnames(detections) <- names
+
+tags_at_liberty <- read.csv("../results/acoustic_GPS/AG_standardising_tags.csv")  
+
+
+detections$count_tag <- 
+  sapply(detections$monthyear, function(x)
+    sum(as.Date(tags_at_liberty$min, "%Y-%m-%d") <= as.Date(x, "%Y-%m-%d") &
+          as.Date(tags_at_liberty$max, "%Y-%m-%d") >= as.Date(x, "%Y-%m-%d")))
+
+
+
+
 summary_original <- read.csv('../results/acoustic_GPS/AG_NR_summary_sharks_no_dg_NOREPEATS.csv')
 
 
@@ -82,8 +94,14 @@ new_frame$plot1 <- (new_frame$count / new_frame$count_tag)
 new_frame$plot2 <- (new_frame$count / new_frame$number_sharks)
 
 
+detections$count_tag <- as.numeric(as.character(detections$count_tag))
+detections$count <- as.numeric(as.character(detections$count))
+detections$plot1 <- detections$count / detections$count_tag
+detections$monthyear <- substr(detections$monthyear, 0 , 7)
+
+
 pdf("../results/acoustic/acoustic_detections_tags_at_lib.pdf")
-ggplot() + geom_bar(new_frame, mapping = aes(x=monthyear, y=plot1), stat="identity", colour = "black", alpha = 0.3) +
+ggplot() + geom_bar(detections, mapping = aes(x=monthyear, y=plot1), stat="identity", colour = "black", alpha = 0.3) +
   ylab("Number of detections of acoustically tagged sharks standardised by tags at liberty") +
   #geom_line(summary_tags, mapping = aes(x=monthyear, y=standard2, group = 1)) +
   #geom_bar(alpha = 0.5) +
