@@ -38,7 +38,7 @@ setwd("/Users/emmadeeks/Desktop/CMEECourseWork/project/data") #go to the data di
 acoustic <- read.csv("New_data_no_dg_hour/acoustic_GPS_no_elas.csv")
 BPV <- read.csv("New_data_no_dg_hour/BPV_formatted_CORRECT_hour_no_dg.csv")
 
-acoustic$NewDate <- substr(acoustic$Date, 0, 7)
+acoustic$NewDate <- substr(acoustic$Date, 0, 10)
 
 BPV$year <- substr(BPV$Date, 0, 4)
 BPV$month <- substr(BPV$Date, 6, 7)
@@ -57,9 +57,46 @@ for (i in 1:length(nest_BPV$NewDate)){
 }
 
 priority <- priority[-1,]
-############################# shuffle loop 
 
-for (i in 1:10) {
+
+########## removing unneeded months from acoustic dataset 
+
+acoustic <- acoustic[order(as.Date(acoustic$NewDate, format="%Y-%m-%d")),]
+
+acoustic <- acoustic[-(1:102409),]
+acoustic$NewDate <- substr(acoustic$Date, 0, 7)
+missing <- c("2016-07", "2016-08", "2016-09", "2016-10", "2016-11", "2016-12", "2017-01", "2017-02", "2017-03", "2017-04", "2017-05", "2018-01", "2018-07")
+
+for (i in 1:13) {
+  to_remove = missing[i]
+  acoustic = acoustic[!acoustic$NewDate == to_remove, ]
+}
+
+nest_acoustic <- acoustic %>%
+  nest(data= -NewDate)
+
+sharks_lib = as.data.frame(matrix(nrow = 1, ncol = 2))
+rows <- c("monthyear", "sharks_study")
+colnames(sharks_lib) <- rows
+for (i in 1:length(nest_acoustic$NewDate)){
+  monthdata <- nest_acoustic$data[[i]]
+  month <- nest_acoustic$NewDate[[i]]
+  sharks_site <- unique(monthdata$Code)
+  sharks_site_total <- length(sharks_site)
+  new <- c(as.character(month), sharks_site_total)
+  sharks_lib <- rbind(sharks_lib, new)
+}
+sharks_lib <- sharks_lib[-1,]
+############################# shuffle loop 
+original_summary <- read.csv("../results/acoustic_GPS/updated_AG_NR_summary_sharks_no_dg_NOREPEATS.csv")  
+
+average_table <- cbind(as.character(original_summary$monthyear), original_summary$standard2)
+cols <- c("acoustic_date", "original")
+colnames(average_table) <- cols 
+average_table <- as.data.frame(average_table)
+
+
+for (i in 1:20) {
   shuffle_acoustic <- acoustic[sample(nrow(acoustic)),] #shuffle rows 
   shuffle_BPV <- BPV[sample(nrow(BPV)),] #shuffle rows 
   shuffle_acoustic <- shuffle_acoustic[,-1]
@@ -133,30 +170,76 @@ for (i in 1:10) {
   summary <- merge(summary_sharks, priority, by= 'BPV_date', all.x = T)
   summary$standard2 <- (as.numeric(summary$count) / (as.numeric(summary$actual_hours) * as.numeric(summary$count_tag)))
   
+  summary$acoustic_date <- substr(summary$acoustic_date, 0, 7)
+  new_dat <- cbind(as.character(summary$acoustic_date), summary$standard2)
+  new_dat <- as.data.frame(new_dat)
+  
+  
+  
   nam <- paste("A", i, sep = "")
+  cols <- c("acoustic_date", nam)
+  colnames(new_dat) <- cols 
+  average_table <- merge(average_table, new_dat, by = 'acoustic_date', all.x = T)
+  
+  
   assign(nam, summary)
   
 }
 
-original_summary <- read.csv("../results/acoustic_GPS/updated_AG_NR_summary_sharks_no_dg_NOREPEATS.csv")  
+View(average_table)
 
-A1$acoustic_date <- substr(A1$acoustic_date, 0, 7)
-A2$acoustic_date <- substr(A2$acoustic_date, 0, 7)
-A3$acoustic_date <- substr(A3$acoustic_date, 0, 7)
-A4$acoustic_date <- substr(A4$acoustic_date, 0, 7)
-A5$acoustic_date <- substr(A5$acoustic_date, 0, 7)
-A6$acoustic_date <- substr(A6$acoustic_date, 0, 7)
-A7$acoustic_date <- substr(A7$acoustic_date, 0, 7)
-A8$acoustic_date <- substr(A8$acoustic_date, 0, 7)
-A9$acoustic_date <- substr(A9$acoustic_date, 0, 7)
-A10$acoustic_date <- substr(A10$acoustic_date, 0, 7)
+#average_table <- as.data.frame(average_table)
+library(data.table)
+long <- melt(setDT(average_table), id.vars = c("acoustic_date"), variable.name = "Standard")
 
+long$value <- as.numeric(as.character(long$value))
+long$value <- round(long$value, digits = 3)
+
+average_table[,3:22] <- lapply(average_table[,3:22], function(x) as.numeric(as.character(x)))
+
+
+average_table$mean=rowMeans(average_table[,-c(1:2)], na.rm = TRUE)
+
+average_table$mean <- as.numeric(as.character(average_table$mean))
+average_table$acoustic_date <- as.character(average_table$acoustic_date)
+
+pdf("../results/acoustic_GPS/permute_test/compare_permute_mean_original.pdf")
+ggplot() + 
+  geom_line(average_table, mapping = aes(x=as.character(acoustic_date), y=as.numeric(as.character(mean)), group = 1), colour = "red", size = 1) +
+  geom_line(average_table, mapping = aes(x=as.character(acoustic_date), y=as.numeric(as.character(original)), group = 1), colour="black", size = 1) +
+  scale_x_discrete() +
+  #geom_point() + 
+  xlab("Acoustic date") +# for the x axis label
+  ylab("Overlap scoree (Standardisation 2)") +
+  #geom_line(summary,mapping =  aes(x=acoustic_date, y=standard2, group = 1), colour="#000099") +
+  theme_bw() + theme(axis.text.x = element_text(angle = 90, hjust = 1), panel.border = element_blank(), panel.grid.major = element_blank(),
+                     panel.grid.minor = element_blank(), axis.line = element_line(colour = "black"))
+
+dev.off()
+
+
+
+
+pdf("../results/acoustic_GPS/permute_test/permute_boxplot.pdf")
+ggplot(long) + 
+  geom_boxplot(aes(x=acoustic_date, y= value)) +
+  xlab("Acoustic date") +# for the x axis label
+  ylab("Overlap scoree (Standardisation 2)") +
+  geom_line(average_table, mapping = aes(x=as.character(acoustic_date), y=as.numeric(as.character(original)), group = 1), colour="black", size = 1) +
+  theme_bw() + theme(axis.text.x = element_text(angle = 90, hjust = 1), panel.border = element_blank(), panel.grid.major = element_blank(),
+                     panel.grid.minor = element_blank(), axis.line = element_line(colour = "black"))
+
+dev.off()
+
+average_table$X <- 1:nrow(average_table)
+#lm(standard~X, data = summary_tags)
+summary(lm(average_table$mean ~ poly(average_table$X, 2, raw = TRUE)))
 #original_summary$standard2 <- original_summary$standard2 / 50
 
-#pdf("../results/acoustic_GPS/permute_test/permute_figure.pdf")
+
 ggplot(original_summary, aes(x=monthyear, y=standard2, group = 1)) + 
   geom_line(original_summary, mapping =aes(x=monthyear, y=log(standard2), group = 1), colour = "black", size = 2) +
-  geom_line(A1,mapping =  aes(x=acoustic_date, y=log(standard2), group = 1), colour="grey", size = 1) +
+  geom_line(A1, mapping =  aes(x=acoustic_date, y=log(standard2), group = 1), colour="grey", size = 1) +
   geom_line(A2, mapping = aes(x=acoustic_date, y=log(standard2), group = 1), colour="grey", size = 1) +
   geom_line(A3, mapping = aes(x=acoustic_date, y=log(standard2), group = 1), colour="grey", size = 1) +
   geom_line(A4, mapping = aes(x=acoustic_date, y=log(standard2), group = 1), colour="grey", size = 1) +
@@ -192,7 +275,36 @@ dev.off()
 
 
 
+lm(standard~X, data = summary_tags)
+summary(lm(original_summary$standard2 ~ poly(original_summary$X.2, 2, raw = TRUE)))
 
+original_summary <- merge(original_summary, sharks_lib, by = "monthyear", all.x = T)
+
+original_summary$standard2.2 <- (as.numeric(original_summary$count) / (as.numeric(original_summary$actual_hours) * as.numeric(original_summary$sharks_study)))
+
+original_summary$standard1.2 <- (as.numeric(original_summary$count) / (as.numeric(original_summary$Boat_station_freq) * as.numeric(original_summary$sharks_study)))
+
+
+
+
+
+ggplot(original_summary, aes(x=monthyear, y=standard1.2, group = 1)) + 
+  geom_line(original_summary, mapping =  aes(x=monthyear, y=standard1.2, group = 1), colour="black", size = 0.8) +
+  #geom_line(original_summary, mapping =aes(x=monthyear, y=standard2, group = 1), colour = "black", size = 1.2) +
+  #geom_point() + 
+  xlab("Month") +# for the x axis label
+  ylab("Proportion of successful overlaps") +
+  #geom_line(summary,mapping =  aes(x=acoustic_date, y=standard2, group = 1), colour="#000099") +
+  theme_bw() + theme(axis.text.x = element_text(angle = 90, hjust = 1), panel.border = element_blank(), panel.grid.major = element_blank(),
+                     panel.grid.minor = element_blank(), axis.line = element_line(colour = "black"))
+
+
+summary(lm(original_summary$standard2.2 ~ poly(original_summary$X.2, 2, raw = TRUE)))
+
+
+summary(lm(original_summary$standard1.2 ~ poly(original_summary$X.2, 2, raw = TRUE)))
+
+write.csv(original_summary, "../results/acoustic_GPS/new_summary_study_site_sharks.csv")
 
 #pdf("../results/acoustic/stat_each_month_BPV_plotted_compare.pdf")
 
@@ -205,10 +317,3 @@ trying <- rbind(new_df, summary_tags)
 trying$monthyear <- paste0(trying$monthyear, "-01")
 
 summary_tags <- trying[order(as.Date(trying$monthyear, format="%Y-%m-%d")),]
-
-#write.csv(summary_tags,'../results/acoustic_GPS/AG_NR_summary_sharks_no_dg_NOREPEATS.csv')
-
-##################### Standardised 2 ###########################
-summary_tags[is.na(summary_tags)] <- 0
-
-summary_tags$standard2 <- (as.numeric(summary_tags$count) / (as.numeric(744) * as.numeric(summary_tags$cou

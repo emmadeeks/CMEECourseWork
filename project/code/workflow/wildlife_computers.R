@@ -22,11 +22,26 @@ library(cowplot)
 library(dplyr)
 
 
-GPS <- read.csv("/Users/emmadeeks/Dropbox/Emma_sat_tag/122507-1-GPE3_emma.csv") #read in the data
+acoustic <- read.table("/Users/emmadeeks/Dropbox/Overlap_data/Chagos_ALL_acoustic_2019.txt", header = TRUE, sep = ",", dec = ".") #read in the data 
 
-SST <- GPS[GPS$Observation.Type == 'SST', ]
+setwd("project/data/sat_tag_stuff")
 
-light <- GPS[GPS$Observation.Type == ' Light - Dawn', ]
+code_needed <- acoustic[acoustic$code == '54877', ]
+new <- data.frame()
+sort_data <- function(code_needed) {code_needed$date <- substr(code_needed$detect_date, 0, 10)
+code_needed$time <- substr(code_needed$detect_date, 12, 19)
+code_needed <- code_needed[!duplicated(code_needed[c('date', 'station')]),] 
+new <- cbind(code_needed$date, code_needed$time, code_needed$receiver_lat, code_needed$receiver_lon)
+new <- as.data.frame(new)
+new$V1 <- format(as.Date(new$V1, format = "%Y-%m-%d"), "%d-%b-%Y")
+name <- code_needed$code[1]
+write.table(new, file = paste(name, "GPSsat.txt", sep = "_"), col.names = F, row.names = F, quote = FALSE)
+print(new)
+return(new)
+}
+
+sort_data(code_needed)
+
 
 
 

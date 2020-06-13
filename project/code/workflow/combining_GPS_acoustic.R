@@ -211,6 +211,7 @@ dev.off()
 summary <- c("month", "count", "number_sharks")
 colnames(summary_sharks) <- summary
 summary_sharks <- summary_sharks[-1,]
+summary_sharks <- summary_sharks[,-4]
 write.csv(summary_sharks,'../results/acoustic_GPS/AG_NR_summary_sharks_no_dg_NOREPEATS.csv')
 summary <- read.csv('../results/acoustic_GPS/AG_NR_summary_sharks_no_dg_NOREPEATS.csv')
 
@@ -278,11 +279,11 @@ summary_tags$count_tag <-
 
 ###### testing if this works- youd expect 5 This one is a test of tags at liberty 
 
-sum(as.Date(date, "%Y-%m-%d") <= as.Date(summary_tags$month[19], "%Y-%m-%d") &
-      as.Date(date2, "%Y-%m-%d") >= as.Date(summary_tags$month[19], "%Y-%m-%d"))
+#sum(as.Date(date, "%Y-%m-%d") <= as.Date(summary_tags$month[19], "%Y-%m-%d") &
+#      as.Date(date2, "%Y-%m-%d") >= as.Date(summary_tags$month[19], "%Y-%m-%d"))
 
-date <- c("2014-03-01", "2014-01-01", "2013-03-04", "2018-01-01", "2015-07-01", "2015-08-01", "2015-01-01", "2014-01-01", "2015-01-01", "2015-08-01", "2015-01-01")
-date2 <- c("2018-02-01", "2014-05-01", "2015-08-01", "2017-02-01", "2016-02-01", "2015-06-01", "2015-04-01", "2016-04-01", "2016-04-01", "2015-09-01", "2015-04-01")
+#date <- c("2014-03-01", "2014-01-01", "2013-03-04", "2018-01-01", "2015-07-01", "2015-08-01", "2015-01-01", "2014-01-01", "2015-01-01", "2015-08-01", "2015-01-01")
+#date2 <- c("2018-02-01", "2014-05-01", "2015-08-01", "2017-02-01", "2016-02-01", "2015-06-01", "2015-04-01", "2016-04-01", "2016-04-01", "2015-09-01", "2015-04-01")
 
 
 
@@ -339,22 +340,25 @@ summary_tags$stations <- ifelse(summary_tags$year == 2013, 29,
 
 missing_dataframe = as.data.frame(matrix(nrow = 13, ncol = 10))
 missing <- c("2016-07", "2016-08", "2016-09", "2016-10", "2016-11", "2016-12", "2017-01", "2017-02", "2017-03", "2017-04", "2017-05", "2018-01", "2018-07")
-missing_dataframe$monthyear <- missing
-new_df <- missing_dataframe %>% select(monthyear, everything())
+new_df <- cbind(missing, missing_dataframe)
 
-names <- c("monthyear", "X", "month", "count", "number_sharks", "count_tag", "Boat_station_freq", "year", "stations", "standard1", "standard2")
+
+
+names <- c("monthyear", "X", "month", "count", "number_sharks", "count_tag", "Boat_station_freq", "year", "stations", "standard1", 'standard3')
 colnames(new_df) <- names
 
 ############## Standardisation 1 ########
-summary_tags <- read.csv('../results/acoustic_GPS/AG_NR_summary_sharks_no_dg_NOREPEATS.csv')
-summary_tags$month <- substr(summary_tags$month, 6, 7)
+#summary_tags <- read.csv('../results/acoustic_GPS/AG_NR_summary_sharks_no_dg_NOREPEATS.csv')
+summary_tags$month <- substr(summary_tags$monthyear, 6, 7)
 summary_tags$standard1 <- (summary_tags$count / (summary_tags$Boat_station_freq * summary_tags$count_tag))
 trying <- rbind(new_df, summary_tags)
 trying$monthyear <- paste0(trying$monthyear, "-01")
+summary_tags$standard3 <- (summary_tags$count / (summary_tags$Boat_station_freq * summary_tags$number_sharks))
+
 
 summary_tags <- trying[order(as.Date(trying$monthyear, format="%Y-%m-%d")),]
 summary_tags$monthyear <- substr(summary_tags$monthyear, 0 ,7)
-write.csv(summary_tags,'../results/acoustic_GPS/AG_NR_summary_sharks_no_dg_NOREPEATS.csv')
+#write.csv(summary_tags,'../results/acoustic_GPS/AG_NR_summary_sharks_no_dg_NOREPEATS.csv')
 
 scale_fill_manual(name = "Area", labels = c("Other", "Hrs in DG", "Hrs patrolling"), values = c('#798E87','#C27D38','#CCC591', '#29211F', '#02401B', '#972D15')) 
 pal <- RColorBrewer::brewer.pal(13, "wes_palette")[1:5]
@@ -387,18 +391,44 @@ ggplot(summary_tags, aes(x=monthyear, y=standard1, group = 1)) +
 dev.off()
 
 lm(standard~X, data = summary_tags)
-summary(lm(summary_tags$standard2 ~ poly(summary_tags$X, 2, raw = TRUE)))
+summary(lm(summary_tags$standard3 ~ poly(summary_tags$X, 2, raw = TRUE)))
 
 
 
 ##################### Standardised 2 ###########################
+#BPV <- read.csv("New_data_no_dg_hour/BPV_formatted_CORRECT_hour_no_dg.csv")
 
+BPV$year <- substr(BPV$Date, 0, 4)
+BPV$month <- substr(BPV$Date, 6, 7)
 
+nest_BPV <- BPV %>%
+  nest(data= -NewDate)
 
-summary_tags$standard2 <- (summary_tags$count / (744 * summary_tags$count_tag))
+#pdf("../results/acoustic/stat_each_month_BPV_plotted_compare.pdf")
+
+priority = as.data.frame(matrix(nrow = 1, ncol = 2))
+rows <- c("monthyear", "actual_hours")
+colnames(priority) <- rows
+for (i in 1:length(nest_BPV$NewDate)){
+  monthdata <- nest_BPV$data[[i]]
+  month <- nest_BPV$NewDate[[i]]
+  rows <- nrow(monthdata)
+  new <- c(as.character(month), rows)
+  priority <- rbind(priority, new)
+}
+
+priority <- priority[-1,]
+
+summary_tags <- merge(summary_tags, priority, by = "monthyear", all.x = T)
+
+summary_tags$actual_hours <- as.numeric(as.character(summary_tags$actual_hours))
+
+summary_tags$standard2 <- (summary_tags$count / (summary_tags$actual_hours * summary_tags$count_tag))
+summary_tags$standard4 <- (summary_tags$count / (summary_tags$actual_hours * summary_tags$number_sharks))
+
 
 pdf("../results/acoustic_GPS/AG_NO_REPEAT_standardised_2_OVERLAP_overlaid.pdf")
-ggplot(summary_tags, aes(x=month, y=standard2, fill= factor(year), colour = factor(year), group=factor(year))) + geom_line(size=0.8) + 
+ggplot(summary_tags, aes(x=month, y=standard4, fill= factor(year), colour = factor(year), group=factor(year))) + geom_line(size=0.8) + 
   geom_point(size = 2, shape=21) +
   xlab("Month") +# for the x axis label
   ylab("Proportion of successful overlaps compared to 744 and sharks at liberty") +
@@ -411,7 +441,7 @@ ggplot(summary_tags, aes(x=month, y=standard2, fill= factor(year), colour = fact
 dev.off()
 
 pdf("../results/acoustic_GPS/AG_NO_REPEAT_standardised_2_OVERLAP_plots_not_overlaid.pdf")
-ggplot(summary_tags, aes(x=monthyear, y=standard2, group = 1)) + 
+ggplot(summary_tags, aes(x=monthyear, y=standard4, group = 1)) + 
   geom_line() +
   geom_point() + 
   stat_smooth(method="lm", se=TRUE, fill=NA, formula=y ~ poly(x, 2, raw=TRUE),colour="red") +
@@ -421,6 +451,10 @@ ggplot(summary_tags, aes(x=monthyear, y=standard2, group = 1)) +
                      panel.grid.minor = element_blank(), axis.line = element_line(colour = "black"))
 
 dev.off()
+
+lm(standard~X, data = summary_tags)
+summary(lm(summary_tags$standard4 ~ poly(summary_tags$X, 2, raw = TRUE)))
+
 
 ######   
 ###################### Making barchart of effort through months #############
@@ -475,6 +509,32 @@ ggplot(data=overlap, aes(x= Longitude_GPS, y= Latitude_GPS)) +
   geom_point(data= IUU, aes(x= Longitude, y= Latitude), shape = 23, fill = "orange", size = 3) +
   theme_bw() 
 dev.off()
+
+pdf("../results/IUU_MPA.pdf")
+ggplot() + 
+  geom_polygon(data=Chagos_try, aes(x=long, y=lat, group=group), color='black', fill = NA) + 
+  #scale_fill_gradientn(colours = pal) +
+  coord_equal() +
+  ggsn::scalebar(Chagos_try,transform = T, dist = 100, dist_unit = "km", model = 'WGS84') +
+  geom_point(data= IUU, aes(x= Longitude, y= Latitude), shape = 23, fill = "orange", size = 3) +
+  theme_bw() 
+dev.off()
+
+new <- table(IUU$Year)
+new <- as.data.frame(new)
+new2 <- new[7:14,]
+
+lm(new$X, data = new)
+plot(new$X, new$Freq)
+abline(lm(new$Freq ~ new$X))
+summary(lm(new$Freq ~ poly(new$X, 2, raw = TRUE)))
+
+new2 <- new2[-8,]
+new2$X <- 1:nrow(new2)
+plot(new2$X, new2$Freq)
+abline(lm(new2$Freq ~ new2$X))
+summary(lm(new2$Freq ~ poly(new2$X, 3, raw = TRUE)))
+
 
 
 

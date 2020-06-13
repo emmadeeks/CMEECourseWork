@@ -45,6 +45,17 @@ Chagos_island <- fortify(chagos_v6)
 
 setwd("/Users/emmadeeks/Desktop/CMEECourseWork/project/data") #go to the data directory 
 
+pdf("../results/chagos_mpa.pdf")
+ggplot() + 
+  geom_point() +
+  geom_polygon(data=Chagos_try, aes(x=long, y=lat, group=group), color='black', fill = NA) +
+  theme_bw() + theme(axis.text.x = element_text(angle = 90, hjust = 1), panel.border = element_blank(), panel.grid.major = element_blank(),
+                     panel.grid.minor = element_blank(), axis.line = element_line(colour = "black"))
+
+dev.off()
+
+
+
 ################# acoustic and BPV 1
 acoustic <- read.table("/Users/emmadeeks/Dropbox/Overlap_data/Chagos_ALL_acoustic_2019.txt", header = TRUE, sep = ",", dec = ".") #read in the data 
 BPV <- read.csv("BPV Pacific Marlin 2013-2016.csv", header = TRUE) # read in the data

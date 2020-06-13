@@ -95,6 +95,8 @@ pal <- wes_palette("Zissou1", 100, type = "continuous")
                      contour = T, 
                          n = 1000 ,
                          bins = 1000, alpha=.3) +
+        xlim(70.5,73.5) +
+          ylim(-8, -4.5) +
        scale_fill_viridis(name = "Log count", option="magma") +
        geom_polygon(data=Chagos_island, aes(x=long, y=lat, group=group), color='black', fill = NA) + 
      coord_equal() +
@@ -137,8 +139,17 @@ setwd("/Users/emmadeeks/Dropbox/Overlap_data")
 stations <- read.csv("Station_attributes_full.csv")
 
 setwd("/Users/emmadeeks/Desktop/CMEECourseWork/project/data")
-#ggplot() +
-#geom_polygon(data=Chagos_island, aes(x=long, y=lat, group=group), color='black', fill = NA) +
+a <- ggplot() +
+geom_polygon(data=Chagos_island, aes(x=long, y=lat, group=group), color='black', fill = NA) +
+  xlim(71.5,72.5) +
+  ylim(-6, -5) +
+  coord_equal() +
+  scalebar(Chagos_island,transform = T, dist = 5, dist_unit = "km", model = 'WGS84', location = "bottomleft", st.size = 2.5) +
+  north(Chagos_island, symbol= 3, location = "bottomright") +
+  theme_bw() +
+  theme(axis.ticks.y=element_blank(), plot.margin = unit(c(0, 0, 0, 0), "cm"), axis.title.y=element_blank(), panel.grid = element_blank(), panel.spacing = unit(-0.8, "lines"), 
+        axis.title.x=element_blank())
+
 #geom_point(stations, mapping = aes(x=x, y=y, color=as.factor(stations$Year), shape=as.factor(stations$Year)), size = 4) + 
 #scale_shape_manual(values=c(15, 16, 17, 18))+ 
 #scale_color_manual(values=c('#FDDDA0','#74A089', '#56B4E9', '#972D15'))+
@@ -153,7 +164,9 @@ setwd("/Users/emmadeeks/Desktop/CMEECourseWork/project/data")
 
 c <-  ggplot(stations, mapping = aes(x=x, y=y, color=as.factor(stations$Year))) +
   geom_polygon(data=Chagos_island, aes(x=long, y=lat, group=group), color='black', fill = NA) +
-  geom_point(size = 2) +
+  geom_point(size = 2, shape = 17) +
+  xlim(70.5,73.5) +
+  ylim(-8, -4.5) +
   #ylab("Proportion of BPV enforcement vessel activity") +
   #scale_color_manual(values = c('#FDDDA0','#74A089', '#56B4E9', '#972D15'),  guide = FALSE) +
   scale_color_manual(name = "Year", labels = c("2013", "2014", "2015", "2016"), values = c('#FDDDA0','#74A089', '#56B4E9', '#972D15')) +
@@ -215,14 +228,12 @@ month <- nest_BPV_2$NewDate[[29]]
 #dev.off()
 
 ########## plotting figure 1 
-  p <- plot_grid(NULL, b, c, d, labels = "AUTO", ncol = 2, align="v")
-pdf("../results/fig_1.2_results.pdf")
+  p <- plot_grid(b, c, a, d, labels = "AUTO", ncol = 2, align="v")
+pdf("../results/fig_1.3_results.pdf")
 p
 dev.off()
 
-par(mfrow=c(2,2))
-plot(b)
-plot(c)
+
 ###################### FIGURE 2 
 
 #summary_tags <- read.csv('../results/acoustic_GPS/AG_NR_summary_sharks_no_dg_NOREPEATS.csv')
@@ -343,6 +354,14 @@ l <- ggplot(summary_tags, aes(x=monthyear, y=potential, group = 1)) +
 
 lm(standard~X, data = summary_tags)
 summary(lm(summary_tags$potential ~ poly(summary_tags$X, 2, raw = TRUE)))
+
+
+############### plotting the other four plots 
+summary_tags$std5_s1_ss <- summary_tags$count / summary_tags$Boat_station_freq * summary_tags$number_sharks
+summary(lm(summary_tags$std5_s1_ss ~ poly(summary_tags$X, 2, raw = TRUE)))
+
+summary_tags$std6_s2_ss <- summary_tags$count / summary_tags$actual_hours * summary_tags$number_sharks
+summary(lm(summary_tags$std6_s2_ss ~ poly(summary_tags$X, 2, raw = TRUE)))
 
 
 

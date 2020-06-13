@@ -91,14 +91,18 @@ for (i in 1:length(all_nestmonths$NewDate.x)){
 
 
 summary_original <- read.csv('../results/acoustic_GPS/AG_NR_summary_sharks_no_dg_NOREPEATS.csv')
+#summary_original <- read.csv("../results/acoustic_GPS/new_summary_study_site_sharks.csv")
+data_merge <- cbind(as.character(summary_original$monthyear), summary_original$month, summary_original$count_tag, summary_original$Boat_station_freq, summary_original$year, summary_original$stations, summary_original$actual_hours, summary_original$count)
 
-data_merge <- cbind(as.character(summary_original$monthyear), summary_original$month, summary_original$count_tag, summary_original$Boat_station_freq, summary_original$year, summary_original$stations)
 data_merge <- as.data.frame(data_merge)  
-names <- c("NewDate", "month", "count_tag", "Boat_station_freq", "year", "stations")
+names <- c("NewDate", "month", "count_tag", "Boat_station_freq", "year", "stations", "actual_hours", "ORIGINAL_count")
 colnames(data_merge) <- names
 
 potential <- merge(summary_sharks, data_merge, by = "NewDate", all = T)
 summary_tags <- potential
+summary_tags <- summary_tags[-1,]
+
+
 
 #summary_tags$NewDate <- paste0(summary_tags$NewDate, "-01")
 
@@ -106,16 +110,25 @@ summary_tags <- potential
 #summary_tags$NewDate <- substr(summary_tags$NewDate, 0 ,7)
 
 #summary_tags <- data.table(summary_tags)
-summary_tags$standard1 <- (as.numeric(summary_tags$count) / (as.numeric(summary_tags$Boat_station_freq) * as.numeric(summary_tags$count_tag)))
+summary_tags$actual_hours <- as.numeric(as.character(summary_tags$actual_hours))
+summary_tags$ORIGINAL_count <- as.numeric(as.character(summary_tags$ORIGINAL_count))
 summary_tags$count <- as.numeric(as.character(summary_tags$count))
+summary_tags$unstandardised_potential <- (summary_tags$ORIGINAL_count) / (summary_tags$count)
+summary_tags$unstandardised_potential <- as.numeric(as.character(summary_tags$unstandardised_potential))
 summary_tags$count_tag <- as.numeric(as.character(summary_tags$count_tag))
+summary_tags$Boat_station_freq <- as.numeric(as.character(summary_tags$Boat_station_freq))
+summary_tags$number_sharks <- as.numeric(as.character(summary_tags$number_sharks))
 
-summary_tags$standard2 <- summary_tags$count / (744 * summary_tags$count_tag)
 
 
+summary_tags$standard1 <- (summary_tags$unstandardised_potential / (summary_tags$Boat_station_freq * summary_tags$count_tag))
+summary_tags$standard3 <- (summary_tags$unstandardised_potential / (summary_tags$Boat_station_freq * summary_tags$number_sharks))
+summary_tags$standard2 <- (summary_tags$unstandardised_potential / (summary_tags$actual_hours * summary_tags$count_tag))
+summary_tags$standard4 <- (summary_tags$unstandardised_potential / (summary_tags$actual_hours * summary_tags$number_sharks))
 
+summary_tags <- summary_tags[-64,]
 #pdf("../results/acoustic_GPS/AG_NO_REPEAT_standardised_2_OVERLAP_overlaid.pdf")
-ggplot(summary_tags, aes(x=month, y=standard2, fill= factor(year), colour = factor(year), group=factor(year))) + geom_line(size=0.8) + 
+ggplot(summary_tags, aes(x=month, y=standard4, fill= factor(year), colour = factor(year), group=factor(year))) + geom_line(size=0.8) + 
   geom_point(size = 2, shape=21) +
   xlab("Month") +# for the x axis label
   ylab("Proportion of successful overlaps compared to 744 and sharks at liberty") +
@@ -128,10 +141,10 @@ ggplot(summary_tags, aes(x=month, y=standard2, fill= factor(year), colour = fact
 #dev.off()
 
 #pdf("../results/acoustic_GPS/AG_NO_REPEAT_standardised_2_OVERLAP_plots_not_overlaid.pdf")
-ggplot(summary_tags, aes(x=NewDate, y=standard2, group = 1), colour = '#B40F20') + 
+ggplot(summary_tags, aes(x=NewDate, y=standard4, group = 1), colour = '#B40F20') + 
   geom_line(size = 1) +
   #geom_point() + 
-  geom_line(summary_original, mapping = aes(x = monthyear, y = standard2, group = 1), colour = 'dark green', size = 1) +
+  geom_line(summary_tags, mapping = aes(x = NewDate, y = standard4, group = 1), colour = 'dark green', size = 1) +
   #scale_colour_manual(values = c('#B40F20', 'dark green')) +
   stat_smooth(method="lm", se=TRUE, fill=NA, formula=y ~ poly(x, 2, raw=TRUE),colour="red") +
   xlab("Month") +# for the x axis label
@@ -154,8 +167,9 @@ ggplot() +
 
 #dev.off()
 
-summary(lm(summary_original$standard2 ~ poly(summary_original$X.2, 2, raw = TRUE)))
-summary(lm(summary_tags$standard2 ~ poly(summary_tags$X, 2, raw = TRUE)))
+summary_tags$X <- 1:nrow(summary_tags)
+#summary(lm(summary_original$standard2 ~ poly(summary_original$X.2, 2, raw = TRUE)))
+summary(lm(summary_tags$standard4 ~ poly(summary_tags$X, 2, raw = TRUE)))
 
 
 
@@ -185,7 +199,7 @@ colnames(IUU_tab) <- names
 
 ggplot() + geom_bar(summary_tags_2, mapping = aes(x=NewDate, y=IUU_events), stat="identity", colour = "black", alpha = 0.3) +
   ylab("Number of detections of acoustically tagged sharks standardised by tags at liberty") +
-  #geom_line(summary_tags, mapping = aes(x=monthyear, y=standard2, group = 1)) +
+  geom_line(summary_tags, mapping = aes(x=monthyear, y=standard2, group = 1)) +
   #geom_bar(alpha = 0.5) +
   #theme(axis.text.x = element_text(angle = 90)) +
   theme_bw() + theme(panel.border = element_blank(), panel.grid.major = element_blank(), axis.text.x = element_text(angle = 90), 
@@ -194,9 +208,13 @@ ggplot() + geom_bar(summary_tags_2, mapping = aes(x=NewDate, y=IUU_events), stat
 summary_tags_2 <- merge(summary_tags, IUU_tab, by = "NewDate", all = T)
 summary_tags_2$IUU_events[is.na(summary_tags_2$IUU_events)] <- 0
 
+
+
+############# 13th June 2020 
 summary_original$std_2_plot <- summary_original$standard2 * 50
 summary_tags_2$std_2_plot <- summary_tags_2$standard2 * 50
 
+summary_tags_2 <- summary_tags_2[-1,]
 write_csv(summary_tags_2, '../results/acoustic_GPS/POTENIAL_summary_sharks_no_dg_NOREPEATS.csv')
 
 
