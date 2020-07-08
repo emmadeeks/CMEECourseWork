@@ -171,7 +171,7 @@ i = 2
   year <- year_plotting$year[[i]]
   #long <- trial %>% gather(period, n, -month)
   trial$month <- substr(trial$month, 6, 7)
-  eight <- ggplot(trial, aes(x = month, y = n, fill = group_fill), color= 'white') +
+  two <- ggplot(trial, aes(x = month, y = n, fill = group_fill), color= 'white') +
     geom_bar(aes(fill = group_fill), stat = "identity", position="fill") +
     coord_cartesian(ylim=c(0.5)) +
     scale_color_manual(values = c('#FDDDA0','#74A089','#972D15', 'white'),  guide = FALSE) +
@@ -191,8 +191,9 @@ i = 2
     coord_cartesian(ylim=c(0.5)) +
     ylab("Proportion of BPV enforcement vessel activity") +
     #xlab("Month") + 
-    scale_color_manual(values = c('grey1','#74A089','grey80', 'white'),  guide = FALSE) +
-    scale_fill_manual(name = "Area", labels = c("Other", "Hrs in DG", "Hrs patrolling", "no data"), values = c('grey1','#74A089','grey80', 'white')) +
+    scale_color_grey() +
+    #scale_color_manual(values = c('grey1','#74A089','grey80', 'white'),  guide = FALSE) +
+    scale_fill_manual(name = "Area", labels = c("Other", "Hrs in DG", "Hrs patrolling", "no data"), values = c('grey19','grey58','grey80', 'white')) +
     ggtitle(year) +
     #scale_x_discrete(breaks = 1:10) +
     theme_bw() +
@@ -211,7 +212,7 @@ i = 2
       #ylab("Proportion of BPV enforcement vessel activity") +
       #xlab("Month")
      scale_color_manual(values = c('grey1','#74A089','grey80', 'white'),  guide = FALSE) +
-      scale_fill_manual(name = "Area", labels = c("Other", "Hrs in DG", "Hrs patrolling", "no data"), values = c('grey1','#74A089','grey80', 'white')) +
+      scale_fill_manual(name = "Area", labels = c("Other", "Hrs in DG", "Hrs patrolling", "no data"), values = c('grey1','grey58','grey80', 'white')) +
       ggtitle(year) +
       #scale_x_discrete(breaks = 1:10) +
       theme_bw() +
@@ -230,7 +231,7 @@ i = 2
       ylab("Proportion of BPV activity") +
       #xlab("Month")
       scale_color_manual(values = c('grey1','#74A089','grey80', 'white'),  guide = FALSE) +
-      scale_fill_manual(name = "Area", labels = c("Other", "Hrs in DG", "Hrs patrolling", "no data"), values = c('grey1','#74A089','grey80', 'white')) +
+      scale_fill_manual(name = "Area", labels = c("Other", "Hrs in DG", "Hrs patrolling", "no data"), values = c('grey1','grey58','grey80', 'white')) +
       ggtitle(year) +
       #scale_x_discrete(breaks = 1:10) +
       theme_bw() +
@@ -249,7 +250,7 @@ i = 2
       ylab("Proportion of BPV enforcement vessel activity") +
       #xlab("Month")
       scale_color_manual(values = c('grey1','#74A089','grey80', 'white'),  guide = FALSE) +
-      scale_fill_manual(name = "Area", labels = c("Other", "Hrs in DG", "Hrs patrolling", "No data"), values = c('grey1','#74A089','grey80', 'white')) +
+      scale_fill_manual(name = "Area", labels = c("Other", "Hrs in DG", "Hrs patrolling", "No data"), values = c('grey1','grey58','grey80', 'white')) +
       ggtitle(year) +
       #scale_x_discrete(breaks = 1:10) +
       theme_bw() +
@@ -269,7 +270,7 @@ i = 2
       ylab("Proportion of BPV enforcement vessel activity") +
       xlab("Month") +
       scale_color_manual(values = c('grey1','#74A089','grey80', 'white'),  guide = FALSE) +
-      scale_fill_manual(name = "Area", labels = c("Other", "Hrs in DG", "Hrs patrolling", "No data"), values = c('grey1','#74A089','grey80', 'white')) +
+      scale_fill_manual(name = "Area", labels = c("Other", "Hrs in DG", "Hrs patrolling", "No data"), values = c('grey1','grey58','grey80', 'white')) +
       ggtitle(year) +
       #scale_x_discrete(breaks = 1:10) +
       theme_bw() +
@@ -287,7 +288,7 @@ i = 2
       #ylab("Proportion of BPV enforcement vessel activity") +
       xlab("Month") +
       scale_color_manual(values = c('grey1','#74A089','grey80', 'white'),  guide = FALSE) +
-      scale_fill_manual(name = "Area", labels = c("Other", "Hrs in DG", "Hrs patrolling", "No data"), values = c('grey1','#74A089','grey80', 'white')) +
+      scale_fill_manual(name = "Area", labels = c("Other", "Hrs in DG", "Hrs patrolling", "No data"), values = c('grey1','grey58','grey80', 'white')) +
       ggtitle(year) +
       #scale_x_discrete(breaks = 1:10) +
       theme_bw() +
@@ -297,7 +298,7 @@ i = 2
     
     
     
-pdf("../results/acoustic_GPS/BPV_summary_2.pdf", onefile = TRUE)
+pdf("../results/Thesis_figures//BPV_summary_2.pdf", onefile = TRUE)
 p 
 dev.off()
 

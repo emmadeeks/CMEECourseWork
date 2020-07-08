@@ -460,6 +460,19 @@ summary(lm(summary_tags$standard4 ~ poly(summary_tags$X, 2, raw = TRUE)))
 ###################### Making barchart of effort through months #############
 
 write.csv(summary_tags, '../results/acoustic_GPS/AG_NR_summary_sharks_no_dg_NOREPEATS.csv')
+summary_tags <-  read.csv('../results/acoustic_GPS/AG_NR_summary_sharks_no_dg_NOREPEATS.csv')
+
+summary_tags$std5_stat <- (summary_tags$count / (summary_tags$actual_hours * summary_tags$count_tag * summary_tags$stations))
+
+ggplot(summary_tags, aes(x=monthyear, y=standard2, group = 1)) + 
+  geom_line() +
+  geom_point() + 
+  stat_smooth(method="lm", se=TRUE, fill=NA, formula=y ~ poly(x, 2, raw=TRUE),colour="red") +
+  xlab("Month") +# for the x axis label
+  ylab("Proportion of successful overlaps compared to the potential (station~BPV)") +
+  theme_bw() + theme(axis.text.x = element_text(angle = 90, hjust = 1), panel.border = element_blank(), panel.grid.major = element_blank(),
+                     panel.grid.minor = element_blank(), axis.line = element_line(colour = "black"))
+
 
 
 summary_tags$year <- substr(summary_tags$monthyear, 0, 4)

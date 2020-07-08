@@ -24,9 +24,14 @@ library(dplyr)
 
 acoustic <- read.table("/Users/emmadeeks/Dropbox/Overlap_data/Chagos_ALL_acoustic_2019.txt", header = TRUE, sep = ",", dec = ".") #read in the data 
 
-setwd("project/data/sat_tag_stuff")
+setwd("/Users/emmadeeks/Desktop/CMEECourseWork/project/data/sat_tag_stuff")
 
-code_needed <- acoustic[acoustic$code == '54877', ]
+code_needed <- acoustic[acoustic$code == '19505', ]
+
+unique(code_needed$receiver)
+
+
+
 new <- data.frame()
 sort_data <- function(code_needed) {code_needed$date <- substr(code_needed$detect_date, 0, 10)
 code_needed$time <- substr(code_needed$detect_date, 12, 19)
@@ -36,7 +41,7 @@ new <- as.data.frame(new)
 new$V1 <- format(as.Date(new$V1, format = "%Y-%m-%d"), "%d-%b-%Y")
 name <- code_needed$code[1]
 write.table(new, file = paste(name, "GPSsat.txt", sep = "_"), col.names = F, row.names = F, quote = FALSE)
-print(new)
+#print(new)
 return(new)
 }
 

@@ -46,16 +46,22 @@ BPV <- read.csv("New_data_no_dg_hour/BPV_formatted_CORRECT_hour_no_dg.csv")
 
 GPS_acoustic$NewDate <- substr(GPS_acoustic$Date, 0 , 7)
 
+overlap <- read.csv("../results/acoustic_GPS/NO_REPEAT_Ac_GPS_all_10_overlap_no_DG.csv")
+
+overlap_time <- overlap$Date
 #high_month_BPV <- BPV[BPV$NewDate == '2017-09',]
 #high_month_ac <- GPS_acoustic[GPS_acoustic$NewDate == '2017-09',]
 
 m1 <- merge(GPS_acoustic, BPV, by = "Date")
 m1 <- m1[!duplicated(m1[c('Date', 'Code')]),] 
 
+#trying_overlap <- GPS_acoustic[GPS_acoustic$Date %in% overlap_time,]
+
 all_combined <- m1 %>%
   nest(data= -Date) #
 
-
+######### Priority is going through the data  set and for every hour finding the station with the highest station frequency of 
+######## and then inputting them into a dataframe 
 priority = as.data.frame(matrix(nrow = 1, ncol = 10))
 rows <- colnames(monthdata)
 colnames(priority) <- rows
@@ -71,6 +77,10 @@ for (i in 1:length(all_combined$Date)){
 priority <- priority[-1,]
 all_nestmonths <- priority %>%
   nest(data= -NewDate.x)
+
+
+
+
 
 
 summary_sharks = as.data.frame(matrix(nrow = 1, ncol = 3))
@@ -119,6 +129,9 @@ summary_tags$count_tag <- as.numeric(as.character(summary_tags$count_tag))
 summary_tags$Boat_station_freq <- as.numeric(as.character(summary_tags$Boat_station_freq))
 summary_tags$number_sharks <- as.numeric(as.character(summary_tags$number_sharks))
 
+summary_tags$std2_potential <- (summary_tags$count / (summary_tags$actual_hours * summary_tags$count_tag))
+summary_tags$std2_original <- (summary_tags$ORIGINAL_count / (summary_tags$actual_hours * summary_tags$count_tag))
+summary_tags$std2 <- (summary_tags$std2_original / summary_tags$std2_potential)
 
 
 summary_tags$standard1 <- (summary_tags$unstandardised_potential / (summary_tags$Boat_station_freq * summary_tags$count_tag))
@@ -128,7 +141,7 @@ summary_tags$standard4 <- (summary_tags$unstandardised_potential / (summary_tags
 
 summary_tags <- summary_tags[-64,]
 #pdf("../results/acoustic_GPS/AG_NO_REPEAT_standardised_2_OVERLAP_overlaid.pdf")
-ggplot(summary_tags, aes(x=month, y=standard4, fill= factor(year), colour = factor(year), group=factor(year))) + geom_line(size=0.8) + 
+ggplot(summary_tags, aes(x=month, y=std2, fill= factor(year), colour = factor(year), group=factor(year))) + geom_line(size=0.8) + 
   geom_point(size = 2, shape=21) +
   xlab("Month") +# for the x axis label
   ylab("Proportion of successful overlaps compared to 744 and sharks at liberty") +
@@ -141,10 +154,10 @@ ggplot(summary_tags, aes(x=month, y=standard4, fill= factor(year), colour = fact
 #dev.off()
 
 #pdf("../results/acoustic_GPS/AG_NO_REPEAT_standardised_2_OVERLAP_plots_not_overlaid.pdf")
-ggplot(summary_tags, aes(x=NewDate, y=standard4, group = 1), colour = '#B40F20') + 
+ggplot(summary_tags, aes(x=NewDate, y=std2, group = 1), colour = '#B40F20') + 
   geom_line(size = 1) +
   #geom_point() + 
-  geom_line(summary_tags, mapping = aes(x = NewDate, y = standard4, group = 1), colour = 'dark green', size = 1) +
+  #geom_line(summary_tags, mapping = aes(x = NewDate, y = standard4, group = 1), colour = 'dark green', size = 1) +
   #scale_colour_manual(values = c('#B40F20', 'dark green')) +
   stat_smooth(method="lm", se=TRUE, fill=NA, formula=y ~ poly(x, 2, raw=TRUE),colour="red") +
   xlab("Month") +# for the x axis label

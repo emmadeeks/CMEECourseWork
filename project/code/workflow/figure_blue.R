@@ -82,23 +82,34 @@ scaleBathy(papoue_2, deg = 2, x = "bottomleft", inset = 5)
 plot(papoue_2, deep = 0, shallow = 0, step = 0,
      lwd = 0.4, add = TRUE)
 
+setwd("/Users/emmadeeks/Desktop/CMEECourseWork/project/data") #go to the data directory 
+
+######### Overall plot 
+IUU <- read.csv("IUU_Data_catches.csv", header = T)
+IUU <- IUU[,1:4]
 
 points(IUU$Longitude, IUU$Latitude)
 
 
-papoue_2 <- getNOAA.bathy(lon1 = 70.7, lon2 = 73,
-                          lat1 = -8, lat2 = -4.3, resolution = 3)
+#papoue_2 <- getNOAA.bathy(lon1 = 70.7, lon2 = 73,
+#                          lat1 = -8, lat2 = -4.3, resolution = 3)
 
  
 autoplot(papoue_2, geom=c("r", "c"), colour="white", size=0.1) + scale_fill_etopo() +
-  geom_polygon(data=Chagos_island, aes(x=long, y=lat, group=group), color='white', fill = NA) 
-
+  geom_polygon(data=Chagos_island, aes(x=long, y=lat, group=group), color='white', fill = NA, size = 0.1) +
+  geom_point(data= IUU, aes(x= Longitude, y= Latitude), shape = 23, fill = "orange", size = 2) + 
+  xlim(70.7,73) +
+  ylim(-8, -4.3) +
+  #geom_polygon(data=Chagos_island, aes(x=long, y=lat, group=group), color='white', size = 0.07, fill = NA) +
+  #coord_cartesian(expand = 0)+
+  ggtitle("A marmap map with ggplot2") 
 
 autoplot.bathy(papoue_2, geom=c("r","c"), colour="white", size=0.1) + scale_fill_etopo() +
-  scale_fill_gradientn(colours = c("lightsteelblue1", "black", "red", 'blue', 'pink', 'darkgreen'),
+  scale_fill_gradientn(colours = c("lightsteelblue1", "lightsteelblue2", "lightsteelblue3", 'lightblue'),
                        values = scales::rescale(c(-4000, -3000, -2000, -1000, 0, 1000))) +
   #scale_fill_gradient2(low="lightsteelblue1", mid="lightsteelblue3", high="darkgreen") +
   geom_point(data= IUU, aes(x= Longitude, y= Latitude), shape = 23, fill = "orange", size = 2) +
+  geom_polygon(data=Chagos_island, aes(x=long, y=lat, group=group), color='white', fill = NA, size = 0.1) +
   labs(y = "Latitude", x = "Longitude", fill = "Elevation") +
   xlim(70.7,73) +
   ylim(-8, -4.3) +
@@ -116,6 +127,65 @@ plot(papoue_2, deep = 0, shallow = 0, step = 0,
 
 
 
+######### stations 
+library("viridis") 
+
+library(RColorBrewer)
+display.brewer.all()
+brewer.pal(n, name)
+scale_color_grey(start = 0.8, end = 0.2)
+
+setwd("/Users/emmadeeks/Dropbox/Overlap_data")
+stations <- read.csv("Station_attributes_full.csv")
+
+setwd("/Users/emmadeeks/Desktop/CMEECourseWork/project/data")
+
+pdf("../results/Thesis_figures/station_plot.pdf")
+autoplot(papoue_2, geom=c("r", "c"), colour="white", size=0.1, show.legend = FALSE) + scale_fill_etopo() +
+  geom_polygon(data=Chagos_island, aes(x=long, y=lat, group=group), color='lightsteelblue3', fill = NA, size = 0.1) +
+  geom_point(data= stations, mapping = aes(x=x, y=y, color=as.factor(stations$Year)), pch = 17, size = 3) + 
+  xlim(70.7,73) +
+  ylim(-8, -4.3) +
+  scale_color_manual(name = "Year", labels = c("2013", "2014", "2015", "2016"), values = c("#33A02C","#E31A1C", "#FF7F00", "#6A3D9A")) +
+  #geom_polygon(data=Chagos_island, aes(x=long, y=lat, group=group), color='white', size = 0.07, fill = NA) +
+  #coord_cartesian(expand = 0)+
+  theme_bw() +
+  coord_equal() +
+  #scalebar(Chagos_island,transform = T, dist = 40, dist_unit = "km", model = 'WGS84', location = "bottomleft", st.size = 2.5) +
+  north(Chagos_island, symbol= 3, location = "bottomright") +
+  guides(color = guide_legend(override.aes = list(size = 2.1)), guides(shape = guide_legend(override.aes = list(size = 2.1)))) +
+  theme(axis.ticks.y=element_blank(), plot.margin = unit(c(0, 0, 0, 0), "cm"), axis.title.y=element_blank(), panel.grid = element_blank(), panel.spacing = unit(-0.8, "lines"), legend.position = c(0, 1), 
+        legend.justification = c(0, 1), axis.title.x=element_blank(), legend.title = element_text(size = 7), 
+        legend.text = element_text(size = 7)) 
+dev.off()
+
+  ggtitle("A marmap map with ggplot2") 
+
+
+
+  scaleBathy(papoue_2, deg = 2, x = "bottomleft", inset = 5)
+
+  setwd("/Users/emmadeeks/Dropbox/Overlap_data")
+  stations <- read.csv("Station_attributes_full.csv")
+
+ggplot(stations, mapping = aes(x=x, y=y, color=as.factor(stations$Year))) +
+  geom_polygon(data=Chagos_island, aes(x=long, y=lat, group=group), color='black', fill = NA) +
+  geom_point(size = 2, shape = 17) +
+  scale_color_manual(name = "Year", labels = c("2013", "2014", "2015", "2016"), values = c('#FDDDA0','#74A089', '#56B4E9', '#972D15')) +
+  xlim(70.5,73.5) +
+  ylim(-8, -4.5) +
+  #ylab("Proportion of BPV enforcement vessel activity") +
+  scale_color_manual(values = c('#FDDDA0','#74A089', '#56B4E9', '#972D15'),  guide = FALSE) +
+  #scale_color_manual(name = "Year", labels = c("2013", "2014", "2015", "2016"), values = c('#FDDDA0','#74A089', '#56B4E9', '#972D15')) +
+  #scale_x_discrete(breaks = 1:10) +
+  theme_bw() +
+  coord_equal() +
+  scalebar(Chagos_island,transform = T, dist = 40, dist_unit = "km", model = 'WGS84', location = "bottomleft", st.size = 2.5) +
+  north(Chagos_island, symbol= 3, location = "bottomright") +
+  guides(color = guide_legend(override.aes = list(size = 2.1)), guides(shape = guide_legend(override.aes = list(size = 2.1)))) +
+  theme(axis.ticks.y=element_blank(), plot.margin = unit(c(0, 0, 0, 0), "cm"), axis.title.y=element_blank(), panel.grid = element_blank(), panel.spacing = unit(-0.8, "lines"), legend.position = c(0, 1), 
+        legend.justification = c(0, 1), axis.title.x=element_blank(), legend.title = element_text(size = 7), 
+        legend.text = element_text(size = 7)) 
 
 
 

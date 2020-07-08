@@ -34,21 +34,21 @@ nest_BPV <- BPV %>%
 
 #pdf("../results/acoustic/stat_each_month_BPV_plotted_compare.pdf")
 
-priority = as.data.frame(matrix(nrow = 1, ncol = 2))
-rows <- c("monthyear", "actual_hours")
-colnames(priority) <- rows
-for (i in 1:length(nest_BPV$NewDate)){
-monthdata <- nest_BPV$data[[i]]
-month <- nest_BPV$NewDate[[i]]
-rows <- nrow(monthdata)
-new <- c(as.character(month), rows)
-priority <- rbind(priority, new)
-}
+#priority = as.data.frame(matrix(nrow = 1, ncol = 2))
+#rows <- c("monthyear", "actual_hours")
+#colnames(priority) <- rows
+#for (i in 1:length(nest_BPV$NewDate)){
+#monthdata <- nest_BPV$data[[i]]
+#month <- nest_BPV$NewDate[[i]]
+#rows <- nrow(monthdata)
+#new <- c(as.character(month), rows)
+#priority <- rbind(priority, new)
+#}
 
 summary_tags <- read.csv('../results/acoustic_GPS/AG_NR_summary_sharks_no_dg_NOREPEATS.csv')
-final <- read.csv('../results/acoustic_GPS/IUU_POTENIAL_ORIGINAL_summary_sharks_no_dg_NOREPEATS.csv')
+#final <- read.csv('../results/acoustic_GPS/IUU_POTENIAL_ORIGINAL_summary_sharks_no_dg_NOREPEATS.csv')
 
-summary_tags <- merge(summary_tags, priority, by = "monthyear")
+#summary_tags <- merge(summary_tags, priority, by = "monthyear")
 
 
 GPS_acoustic <- read.csv("New_data_no_dg_hour/acoustic_GPS_no_elas.csv")
@@ -56,16 +56,18 @@ BPV <- read.csv("New_data_no_dg_hour/BPV_formatted_CORRECT_hour_no_dg.csv")
 
 GPS_acoustic$NewDate <- substr(GPS_acoustic$Date, 0 , 7)
 
+
+overlap_20km <- read.csv("../results/acoustic_GPS/NO_REPEAT_Ac_GPS_all_10_overlap_no_DG.csv")
 #high_month_BPV <- BPV[BPV$NewDate == '2017-09',]
 #high_month_ac <- GPS_acoustic[GPS_acoustic$NewDate == '2017-09',]
 
-m1 <- merge(GPS_acoustic, BPV, by = "Date")
-m1 <- m1[!duplicated(m1[c('Date', 'Code')]),] 
+#m1 <- merge(GPS_acoustic, BPV, by = "Date")
+#m1 <- m1[!duplicated(m1[c('Date', 'Code')]),] 
 
-all_combined <- m1 %>%
+all_combined <- overlap_20km %>%
   nest(data= -Date) #
 
-
+########## This dataframe now has the number of sharks detected in 
 priority = as.data.frame(matrix(nrow = 1, ncol = 2))
 names <- c("monthyear", "unique_total_sharks")
 colnames(priority) <- names
