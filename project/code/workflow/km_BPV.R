@@ -1,37 +1,16 @@
 rm(list=ls()) #Clear global environment 
 
-#Load the data 
-#install.packages('raster') # Core raster GIS data package
-#install.packages('sf') # Core vector GIS data package
-#install.packages('rgeos') # Extends vector data functionality
-#install.packages('lwgeom') # Extends vector data functionality
-#install.packages('viridis') # Because we like the colour scheme!
-#install.packages('ggmap')
-#install.packages('rgdal')
-#install.packages("hexbin")
-
-library(raster) #Require these packages 
-library(sf)     #Require 
-library(viridis)
-library('units')
-library('rgdal')
-
-require(ggmap)
-require(rgdal)
-require(sf)
-library(data.table)
-library(geosphere)
 library(tidyverse)
 library(lubridate)
 library(plyr)
-require(hexbin)
+
 library(ggplot2)
-library(sp)
-library("wesanderson")
+
+
 library(cowplot)
 library(dplyr)
 
-library(geosphere)
+
 library(dplyr)
 
 
@@ -129,6 +108,11 @@ every_nth = function(n) {
   return(function(x) {x[c(TRUE, rep(FALSE, n - 1))]})
 }
 
+
+write.csv(priority, "stats/km_travelled_not_grouped.csv")
+
+
+
 pdf("../results/Thesis_figures/figure_3_panel.pdf")
 ggplot(priority, aes(x=NewDate, y=km_travelled)) + 
   geom_boxplot(outlier.colour="red", outlier.shape=8,
@@ -183,6 +167,354 @@ summed$X <- 1:nrow(summed)
 
 lm(km_travelled~X, data = summed)
 summary(lm(summed$km_travelled ~ poly(summed$X, 2, raw = TRUE)))
+
+
+
+############################ Making it every 5 days for stats 
+
+data_nest <- priority %>%
+  nest(data= -NewDate) #
+
+data_nest <- data_nest[-32,]
+
+average_km = as.data.frame(matrix(nrow = 1, ncol = 2))
+names <- colnames(data_month)
+colnames(average_km) <- names 
+for (i in 1:nrow(data_nest)) {
+  data_month <- data_nest$data[[i]]
+  data_month <- as.data.frame(data_month)
+  month <- data_nest$NewDate[[i]]
+  #adding <- data_month$Freq
+  detec <- nrow(data_month)
+  null <- average_km[1,]
+  null$km_travelled <- 0
+  if (detec %% 5 == 0) {
+  } else {
+    data_month <- data_month[-1,]
+  }
+  detec <- nrow(data_month)
+  if (detec %% 5 == 0) {
+  } else {
+    data_month <- data_month[-1,]
+  }
+  detec <- nrow(data_month)
+  if (detec %% 5 == 0) {
+  } else {
+    data_month <- data_month[-1,]
+  }
+  detec <- nrow(data_month)
+  if (detec %% 5 == 0) {
+  } else {
+    data_month <- data_month[-1,]
+  }
+  #divide <- nrow(data_month)/6
+  summed <- colMeans(matrix(data_month$km_travelled, nrow=5))
+  df.new = data_month[seq(1, nrow(data_month), 5), ]
+  df.new$km_travelled <- summed 
+  df.new$day <- as.character(df.new$day)
+  
+  average_km <- rbind(average_km, df.new)
+  #toadd <- c(month, detec)
+  #detections <- rbind(detections, toadd)
+}
+
+average_km <- average_km[-1,]
+
+average_km$year <- substr(average_km$day, 0, 4)
+
+average_km$year[average_km$year == 2013] <- "Marlin"
+average_km$year[average_km$year == 2014] <- "Marlin"
+average_km$year[average_km$year == 2015] <- "Marlin"
+average_km$year[average_km$year == 2016] <- "Marlin"
+
+average_km$year[average_km$year == 2017] <- "Grampian"
+average_km$year[average_km$year == 2018] <- "Grampian"
+average_km$year[average_km$year == 2019] <- "Grampian"
+
+average_km <- average_km %>% drop_na()
+
+
+
+ggplot(average_km, aes(x=year, y=km_travelled)) + 
+  geom_boxplot(outlier.colour="red", outlier.shape=8,
+               outlier.size=4, colour = "black") + 
+  #geom_point(size = 0.1) +
+  scale_x_discrete(breaks = every_nth(n = 3)) +
+  ylab("Kilometers travelled") + 
+  xlab("Month") + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+                        panel.background = element_blank(), axis.line = element_line(colour = "black"))
+
+
+
+plot(density(average_km$km_travelled))
+shapiro.test(average_km$km_travelled)
+qqnorm(average_km$km_travelled);qqline(average_km$km_travelled, col = 2)
+
+hist(average_km$km_travelled, 
+     main="Credit Score", 
+     xlab="Credit Score", 
+     border="light blue", 
+     col="blue", 
+     las=1, 
+     breaks=5)
+
+
+
+#############   BOXPLOTS FOR TRAVELLING 
+
+km_inner <- read.csv("../data/stats/km_inner.csv")
+km_outer <- read.csv("../data/stats/km_outer.csv")
+
+km_outer$Date <- as.character(km_outer$Date)
+km_outer <- km_outer[-1,]
+outer_nest <- km_outer %>%
+  nest(data= -day)
+
+
+outer_travel = as.data.frame(matrix(nrow = 1, ncol = 2))
+rows <- c("day", "km_travelled")
+colnames(outer_travel) <- rows
+for (i in 1:length(outer_nest$day)){
+  mydata <- outer_nest$data[[i]]
+  mydata <- arrange(mydata, Date)
+  mydata <- mutate(mydata, 
+                   Distance = distHaversine(cbind(Longitude, Latitude),
+                                            cbind(lag(Longitude), lag(Latitude))))
+  
+  mydata$Distance <- mydata$Distance / 1000
+  sum_km <- sum(mydata$Distance, na.rm = T)
+  date <- substr(mydata$Date[1], 0 , 10)
+  toadd <- c(date, sum_km)
+  outer_travel <- rbind(outer_travel, toadd)
+}
+
+
+
+km_inner$Date <- as.character(km_inner$Date)
+km_inner <- km_inner[-1,]
+inner_nest <- km_inner %>%
+  nest(data= -day)
+
+
+inner_travel = as.data.frame(matrix(nrow = 1, ncol = 2))
+rows <- c("day", "km_travelled")
+colnames(inner_travel) <- rows
+for (i in 1:length(inner_nest$day)){
+  mydata <- inner_nest$data[[i]]
+  mydata <- arrange(mydata, Date)
+  mydata <- mutate(mydata, 
+                   Distance = distHaversine(cbind(Longitude, Latitude),
+                                            cbind(lag(Longitude), lag(Latitude))))
+  
+  mydata$Distance <- mydata$Distance / 1000
+  sum_km <- sum(mydata$Distance, na.rm = T)
+  date <- substr(mydata$Date[1], 0 , 10)
+  toadd <- c(date, sum_km)
+  inner_travel <- rbind(inner_travel, toadd)
+}
+
+
+
+###################### sorting out boxplot for inner part 
+inner_travel$NewDate <- substr(inner_travel$day, 0, 7)
+inner_travel <- inner_travel[-1,]
+inner_travel$km_travelled <- as.factor(as.character(inner_travel$km_travelled))
+
+inner_date <- inner_travel %>%
+  nest(data= -NewDate) #
+
+average_km_inner = as.data.frame(matrix(nrow = 1, ncol = 2))
+names <- colnames(data_month)
+colnames(average_km_inner) <- names 
+for (i in 1:nrow(inner_date)) {
+  data_month <- inner_date$data[[i]]
+  data_month <- as.data.frame(data_month)
+  month <- inner_date$NewDate[[i]]
+  #adding <- data_month$Freq
+  detec <- nrow(data_month)
+  null <- average_km_inner[1,]
+  null$km_travelled <- 0
+  if (detec %% 5 == 0) {
+  } else {
+    data_month <- rbind(data_month, null)
+  }
+  detec <- nrow(data_month)
+  if (detec %% 5 == 0) {
+  } else {
+    data_month <- rbind(data_month, null)
+  }
+  detec <- nrow(data_month)
+  if (detec %% 5 == 0) {
+  } else {
+    data_month <- rbind(data_month, null)
+  }
+  detec <- nrow(data_month)
+  if (detec %% 5 == 0) {
+  } else {
+    data_month <- rbind(data_month, null)
+  }
+  #divide <- nrow(data_month)/6
+  data_month$km_travelled = as.numeric(as.character(data_month$km_travelled))
+  #data_month <- as.data.frame(data_month)
+  summed <- colMeans(matrix(data_month$km_travelled, nrow=5))
+  df.new = data_month[seq(1, nrow(data_month), 5), ]
+  df.new$km_travelled <- summed 
+  df.new$day <- as.character(df.new$day)
+  
+  average_km_inner <- rbind(average_km_inner, df.new)
+  #toadd <- c(month, detec)
+  #detections <- rbind(detections, toadd)
+}
+
+average_km_inner <- average_km_inner[-1,]
+
+average_km_inner$year <- substr(average_km_inner$day, 0, 4)
+
+average_km_inner$year[average_km_inner$year == 2013] <- "Marlin"
+average_km_inner$year[average_km_inner$year == 2014] <- "Marlin"
+average_km_inner$year[average_km_inner$year == 2015] <- "Marlin"
+average_km_inner$year[average_km_inner$year == 2016] <- "Marlin"
+
+average_km_inner$year[average_km_inner$year == 2017] <- "Grampian"
+average_km_inner$year[average_km_inner$year == 2018] <- "Grampian"
+average_km_inner$year[average_km_inner$year == 2019] <- "Grampian"
+
+average_km_inner <- average_km_inner %>% drop_na()
+
+
+
+
+
+ggplot(average_km_inner, aes(x=year, y=km_travelled)) + 
+  geom_boxplot(outlier.colour="red", outlier.shape=8,
+               outlier.size=4, colour = "black") + 
+  #geom_point(size = 0.1) +
+  scale_x_discrete(breaks = every_nth(n = 3)) +
+  ylab("Kilometers travelled") + 
+  xlab("Month") + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+                        panel.background = element_blank(), axis.line = element_line(colour = "black"))
+
+
+
+plot(density(average_km$km_travelled))
+shapiro.test(average_km$km_travelled)
+qqnorm(average_km$km_travelled);qqline(average_km$km_travelled, col = 2)
+
+hist(average_km$km_travelled, 
+     main="Credit Score", 
+     xlab="Credit Score", 
+     border="light blue", 
+     col="blue", 
+     las=1, 
+     breaks=5)
+
+
+
+################################ sorting out boxplot for outer areas 
+
+outer_travel$NewDate <- substr(outer_travel$day, 0, 7)
+outer_travel <- outer_travel[-1,]
+outer_travel$km_travelled <- as.factor(as.character(outer_travel$km_travelled))
+
+outer_date <- outer_travel %>%
+  nest(data= -NewDate) #
+
+average_km_outer = as.data.frame(matrix(nrow = 1, ncol = 2))
+names <- colnames(data_month)
+colnames(average_km_outer) <- names 
+for (i in 1:nrow(outer_date)) {
+  data_month <- outer_date$data[[i]]
+  data_month <- as.data.frame(data_month)
+  month <- outer_date$NewDate[[i]]
+  #adding <- data_month$Freq
+  detec <- nrow(data_month)
+  null <- average_km_outer[1,]
+  null$km_travelled <- 0
+  if (detec %% 5 == 0) {
+  } else {
+    data_month <- rbind(data_month, null)
+  }
+  detec <- nrow(data_month)
+  if (detec %% 5 == 0) {
+  } else {
+    data_month <- rbind(data_month, null)
+  }
+  detec <- nrow(data_month)
+  if (detec %% 5 == 0) {
+  } else {
+    data_month <- rbind(data_month, null)
+  }
+  detec <- nrow(data_month)
+  if (detec %% 5 == 0) {
+  } else {
+    data_month <- rbind(data_month, null)
+  }
+  #divide <- nrow(data_month)/6
+  data_month$km_travelled = as.numeric(as.character(data_month$km_travelled))
+  #data_month <- as.data.frame(data_month)
+  summed <- colMeans(matrix(data_month$km_travelled, nrow=5))
+  df.new = data_month[seq(1, nrow(data_month), 5), ]
+  df.new$km_travelled <- summed 
+  df.new$day <- as.character(df.new$day)
+  
+  average_km_outer <- rbind(average_km_outer, df.new)
+  #toadd <- c(month, detec)
+  #detections <- rbind(detections, toadd)
+}
+
+average_km_outer <- average_km_outer[-1,]
+
+average_km_outer$year <- substr(average_km_outer$day, 0, 4)
+
+average_km_outer$year[average_km_outer$year == 2013] <- "Marlin"
+average_km_outer$year[average_km_outer$year == 2014] <- "Marlin"
+average_km_outer$year[average_km_outer$year == 2015] <- "Marlin"
+average_km_outer$year[average_km_outer$year == 2016] <- "Marlin"
+
+average_km_outer$year[average_km_outer$year == 2017] <- "Grampian"
+average_km_outer$year[average_km_outer$year == 2018] <- "Grampian"
+average_km_outer$year[average_km_outer$year == 2019] <- "Grampian"
+
+
+
+
+average_km_outer <- average_km_outer %>% drop_na()
+
+average_km_inner$group <- "Inside MPA"
+average_km_outer$group <- "Outside MPA"
+
+final_km <- rbind(average_km_inner, average_km_outer)
+final_km$year <- factor(final_km$year , levels=c("Marlin", "Grampian"))
+#final_km$group <- factor(final_km$year , levels=c("Outside MPA", "Inside MPA"))
+write.csv(final_km, "../data/stats/grampian_marlin_averaged_boxplots.csv")
+
+
+
+pdf("../results/Thesis_figures/km_travelled_in_out_MPA.pdf")
+ggplot(final_km) + 
+  geom_boxplot( aes(x=factor(year), y=km_travelled, fill=factor(group)), outlier.colour="red", outlier.shape=8,
+               outlier.size=2, alpha = 0.9) + 
+  #geom_point(size = 0.1) +
+  xlab("Boat names") + 
+  ylab("Kilometers travelled") + 
+  scale_fill_manual(values=c("#69b3a2", "grey"), name = "") +
+  #scale_fill_discrete(name = "New Legend Title") + 
+  theme(legend.position= "top", panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+                        panel.background = element_blank(), axis.line = element_line(colour = "black"))
+
+dev.off()
+
+
+
+will <- final_km[final_km$group == 'Inside MPA',]
+
+wilcox.test(km_travelled ~ year, data = will) 
+
+will_out <- final_km[final_km$group == 'Outside MPA',]
+
+wilcox.test(km_travelled ~ year, data = will_out) 
+
+
 
 
 

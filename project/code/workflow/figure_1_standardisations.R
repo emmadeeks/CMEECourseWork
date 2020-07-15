@@ -77,8 +77,8 @@ ggplot(summary_tags, aes(x= as.factor(month), y=standard2, fill=factor(year), co
   scale_colour_manual(name = "Year", values = c('#B40F20', '#D69C4E', '#046C9A', '#ABDDDE', '#00A08A', '#000000')) + 
   scale_fill_manual(name = "Year", values = c('#B40F20', '#046C9A', '#046C9A', '#ABDDDE', '#00A08A', '#000000')) +
   #theme(axis.text.x = element_text(angle = 180, hjust = 1))  
-  theme(panel.border = element_blank(),
-                     panel.grid.minor = element_blank(), axis.line = element_line(colour = "black"), panel.background = element_rect(fill='grey96', colour='black'))
+  theme(legend.position= c(0.85,0.85), legend.key=element_blank(), panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        panel.background = element_blank(), axis.line = element_line(colour = "black"))
 dev.off()
 
 ################# SUMMARY TAGS ##############
@@ -93,8 +93,8 @@ ggplot(summary_tags, mapping =  aes(x=monthyear, y=(standard2*250), group = 1)) 
   stat_smooth(method="lm", se=TRUE, fill=NA, formula=y ~ poly(x, 2, raw=TRUE),colour="red") +
   xlab("Date") +# for the x axis label
   ylab("Number of IUU interceptions") +
-  theme(axis.text.x = element_text(angle = 90, hjust = 1), panel.border = element_blank(),
-                     panel.grid.minor = element_blank(), axis.line = element_line(colour = "black"), panel.background = element_rect(fill='grey96', colour='black'))
+  theme(axis.text.x = element_text(angle = 90, hjust = 1), panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        panel.background = element_blank(), axis.line = element_line(colour = "black"))
 dev.off()
 
 summary(lm(summary_tags$standard2 ~ poly(summary_tags$X, 2, raw = TRUE)))
@@ -130,8 +130,8 @@ a <- ggplot(summary_tags, aes(x= as.factor(month), y=standard2, fill=factor(year
   scale_colour_manual(name = "Year", values = c('#B40F20', '#D69C4E', '#046C9A', '#ABDDDE', '#00A08A', '#000000')) + 
   scale_fill_manual(name = "Year", values = c('#B40F20', '#046C9A', '#046C9A', '#ABDDDE', '#00A08A', '#000000')) +
   #theme(axis.text.x = element_text(angle = 180, hjust = 1))  
-  theme(panel.border = element_blank(),
-        panel.grid.minor = element_blank(), axis.line = element_line(colour = "black"), panel.background = element_rect(fill='grey96', colour='black'))
+  theme(legend.position= c(0.75,0.75), legend.key=element_blank(), panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        panel.background = element_blank(), axis.line = element_line(colour = "black"))
 
 every_nth = function(n) {
   return(function(x) {x[c(TRUE, rep(FALSE, n - 1))]})
@@ -146,15 +146,15 @@ b <- ggplot(summary_tags, mapping =  aes(x=monthyear, y=standard2, group = 1)) +
   stat_smooth(method="lm", se=TRUE, fill=NA, formula=y ~ poly(x, 2, raw=TRUE),colour="blue2", size = 0.8) +
   xlab("Date") +# for the x axis label
   ylab("Standardised overlap score (lines)") +
-  theme(axis.text.x = element_text(angle = 90, hjust = 1), panel.border = element_blank(),
-        axis.line = element_line(colour = "black"), panel.background = element_rect(fill='grey96', colour='black')) 
+  theme(axis.text.x = element_text(angle = 90, hjust = 1), panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        panel.background = element_blank(), axis.line = element_line(colour = "black"))
 #axis.line.y.right = element_line(color = "blue4"), 
 #axis.ticks.y.right = element_line(color = "blue4"))
 
 
 
 
-n <- plot_grid(a, b, ncol = 1)
+n <- plot_grid(b, a, ncol = 1)
 
 
 

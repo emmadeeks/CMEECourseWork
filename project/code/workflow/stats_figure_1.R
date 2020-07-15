@@ -120,46 +120,175 @@ data$count_tag <- as.numeric(as.character(data$count_tag))
 
 data$day <- as.factor(data$day)
 
+day_mod <- data
+day_mod$use <- (day_mod$Freq / (day_mod$count_tag * day_mod$actual_hours))
+day_mod$use <- day_mod$use * 10000
+day_mod$use <- as.integer(day_mod$use)
 
-####### making it every 5 days 
 
-data_nest <- data %>%
+sharks_stand <- read.csv("../../data/stats/all_days_sharks_stand_stats.csv")
+
+colnames(sharks_stand)[3] <- "Var1"
+
+merge <- cbind(as.character(sharks_stand$Var1), sharks_stand$shark_stand)
+merge <- as.data.frame(merge)
+cols <- c("Var1", "shark_stand")
+colnames(merge) <- cols
+
+merge$shark_stand <- as.integer(merge$shark_stand)
+merge$Var1 <- as.Date(merge$Var1, format="%Y-%m-%d")
+day_mod$Var1 <- as.Date(day_mod$Var1, format="%Y-%m-%d")
+#day_mod <- data[order(as.Date(day_mod$Var1, format="%Y-%m-%d")),]
+
+build <- merge(day_mod, merge, by = "Var1", all.x = T)
+
+model <- glmmTMB((use ~ year + month + shark_stand +(1|day)),
+                 data = build,
+                 family = nbinom2)
+summary(model)
+
+
+
+model2 <- glmmTMB((shark_stand ~ year + month +(1|day)),
+                  data = build,
+                  family = nbinom2)
+
+summary(model2)
+
+
+write.csv("../../data/stats/all_days_counts_sharks_stand.csv")
+
+
+########
+data_nest <- build %>%
   nest(data= -monthyear) #
 
-detections = as.data.frame(matrix(nrow = 1, ncol = 7))
+detections = as.data.frame(matrix(nrow = 1, ncol = 10))
 names <- colnames(data_month)
+names <- c(names, "day_no")
 colnames(detections) <- names 
+
 for (i in 1:nrow(data_nest)) {
   data_month <- data_nest$data[[i]]
   data_month <- as.data.frame(data_month)
   month <- data_nest$monthyear[[i]]
   #adding <- data_month$Freq
   detec <- nrow(data_month)
-  null <- detections[1,]
-  null$Freq <- 0
+  #null <- detections[1,]
+  #null$Freq <- 0
   if (detec %% 5 == 0) {
   } else {
-    data_month <- rbind(data_month, null)
+    data_month <- data_month[-1,]
   }
   detec <- nrow(data_month)
   if (detec %% 5 == 0) {
   } else {
-    data_month <- rbind(data_month, null)
+    data_month <- data_month[-1,]
   }
   detec <- nrow(data_month)
   if (detec %% 5 == 0) {
   } else {
-    data_month <- rbind(data_month, null)
+    data_month <- data_month[-1,]
   }
   detec <- nrow(data_month)
   if (detec %% 5 == 0) {
   } else {
-    data_month <- rbind(data_month, null)
+    data_month <- data_month[-1,]
+  }
+  detec <- nrow(data_month)
+  if (detec %% 5 == 0) {
+  } else {
+    data_month <- data_month[-1,]
+  }
+  #divide <- nrow(data_month)/6
+  summed_overlap <- colSums(matrix(data_month$use, nrow=5))
+  meaned_ac <- colSums(matrix(data_month$shark_stand, nrow=5))
+  df.new = data_month[seq(1, nrow(data_month), 5), ]
+  df.new$use <- summed_overlap
+  df.new$shark_stand <- meaned_ac
+  df.new$day_no <- 1:length(summed_overlap)
+  df.new$Var1 <- as.character(df.new$Var1)
+  
+  detections <- rbind(detections, df.new)
+  #toadd <- c(month, detec)
+  #detections <- rbind(detections, toadd)
+}
+
+detections <- detections[-1,]
+detections$shark_stand <- as.integer(detections$shark_stand)
+
+model <- glmmTMB((use ~ month + year + shark_stand + (1|day_no)),
+                 data = detections,
+                 family = nbinom2)
+summary(model)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+######## old part but probably still need to use 
+
+
+
+
+####### making it every 5 days 
+
+data_nest <- data %>%
+  nest(data= -monthyear) #
+
+detections = as.data.frame(matrix(nrow = 1, ncol = 8))
+names <- colnames(data_month)
+names <- c(names, "day_no")
+colnames(detections) <- names 
+
+for (i in 1:nrow(data_nest)) {
+  data_month <- data_nest$data[[i]]
+  data_month <- as.data.frame(data_month)
+  month <- data_nest$monthyear[[i]]
+  #adding <- data_month$Freq
+  detec <- nrow(data_month)
+  #null <- detections[1,]
+  #null$Freq <- 0
+  if (detec %% 5 == 0) {
+  } else {
+    data_month <- data_month[-1,]
+  }
+  detec <- nrow(data_month)
+  if (detec %% 5 == 0) {
+  } else {
+    data_month <- data_month[-1,]
+  }
+  detec <- nrow(data_month)
+  if (detec %% 5 == 0) {
+  } else {
+    data_month <- data_month[-1,]
+  }
+  detec <- nrow(data_month)
+  if (detec %% 5 == 0) {
+  } else {
+    data_month <- data_month[-1,]
   }
   #divide <- nrow(data_month)/6
   summed <- colSums(matrix(data_month$Freq, nrow=5))
   df.new = data_month[seq(1, nrow(data_month), 5), ]
   df.new$Freq <- summed 
+  df.new$day_no <- 1:length(summed)
   df.new$Var1 <- as.character(df.new$Var1)
   
   detections <- rbind(detections, df.new)
@@ -169,23 +298,67 @@ for (i in 1:nrow(data_nest)) {
 
 
 detections$use <- (detections$Freq / (detections$count_tag * detections$actual_hours))
-
-
-write.csv(detections, "../../data/stats/figure_1_time_overlap_standard.csv")
-
+detections <- detections[-1,]
 detections$use <- detections$use * 10000
 detections$use <- as.integer(detections$use)
 
+write.csv(detections, "../../data/stats/figure_1_time_overlap_standard.csv")
+#detections <- read.csv("../../data/stats/figure_1_time_overlap_standard.csv")
 
 
-model <- glmmTMB((use ~ month + year + (1|day)),
+model <- glmmTMB((use ~ month + year + (1|day_no)),
                  data = detections,
                  ziformula = ~ 1,
                  family = nbinom2)
 
-model <-lmer(use ~ month + year + (1|day), data=detections)
+model <- glmmTMB((use ~ month + year + (1|day_no)),
+                 data = detections,
+                 family = nbinom2)
+summary(model)
+
+
+
+
+######## Encorporating sharks into the model 
+
+
+#detections <- read.csv("../../data/stats/figure_1_time_overlap_standard.csv")
+#detections <- detections[-1, ]
+detections$monthyear <- substr(detections$Var1, 0, 7)
+
+
+sharks_stand <- read.csv("../../data/stats/sharks_stand_stats.csv")
+sharks_stand <- sharks_stand[,-3]
+sharks_stand <- sharks_stand[,-3]
+sharks_stand <- sharks_stand[,-3]
+
+detections <- merge(detections, sharks_stand, by = "monthyear")
+detections$shark_stand <- as.integer(detections$shark_stand)
+
+
+model <- glmmTMB((use ~ month + year + shark_stand + (1|day)),
+                 data = detections,
+                 family = nbinom2)
+
+summary(model)
+
+###### glm for sharks 
+
+
+shark_model <- glmmTMB((sharks_stand ~ year + (1|day)),
+                 data = detections,
+                 family = nbinom2)
+
+
 
 ########## EXAMPLE 1
+model <- glmmTMB((use ~ month + year + shark_stand + (1|day)),
+                 data = detections,
+                 ziformula = ~ 1,
+                 family = nbinom2)
+
+
+
 
 ff <- fixef(model)$zi
 round(plogis(c(sppGP=unname(ff[1]),ff[-1]+ff[1])),3)
@@ -197,11 +370,11 @@ model2 = update(model, ziformula=~GP)
 fixef(model2)[["zi"]]
 
 
-model3 = update(model, ziformula=~(1|day))
-fixef(model)[["zi"]]
-VarCorr(model)
+model3 = update(model, ziformula=~(1|day.x))
+fixef(model3)[["zi"]]
+VarCorr(model3)
 
-model4 = glmmTMB(use~month + (1|day), zi=~year, detections, family=nbinom2)
+model4 = glmmTMB(use~month + (1|day.x), zi=~year, detections, family=nbinom2)
 fixef(model4)[["zi"]]
 
 cc = confint(model4,method="uniroot",parm=9, parm.range=c(-20,20))
@@ -252,6 +425,23 @@ mod2 <- update(model3, ziformula=~0)
 mod3 <- update(mod2, family=poisson)
 diagnose_vcov(mod3)
 mod3$sdr$pdHess   
+
+
+
+
+
+##########
+emm_az <- emmeans(model4, ~ month ,lmer.df = "satterthwaite")
+
+
+# this is our post-hoc
+library("emmeans")
+emm_az <- emmeans(model_lfinal, ~ loc_locs,lmer.df = "satterthwaite")
+rbind(pairs(emm_az), adjust="bonferroni") # can change "Tukey" to "bonferroni"
+
+library(car)
+qqPlot(resid(model)) 
+
 
 
 

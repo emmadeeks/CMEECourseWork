@@ -78,6 +78,7 @@ setwd("/Users/emmadeeks/Desktop/CMEECourseWork/project/data") #go to the data di
 
 ############# second plot ##########
 BPV$NewDate <- substr(BPV$Date, 0, 7)
+BPV$day <- substr(BPV$Date, 0, 10)
 
 
 BPV_loop <- BPV %>%
@@ -88,11 +89,17 @@ adding = as.data.frame(matrix(nrow = 1, ncol = 4))
 cols <- c("month", "Hrs_in_DG", "Hrs_patrol", "elsewhere")
 colnames(adding) <- cols
 
+km_inner = as.data.frame(matrix(nrow = 1, ncol = 5))
+km_outer = as.data.frame(matrix(nrow = 1, ncol = 5))
+cols <- colnames(outer)
+colnames(km_inner) <- cols
+colnames(km_outer) <- cols
 
 for ( i in 1:nrow(BPV_loop)){
   data <- BPV_loop$data[[i]]
   month <- BPV_loop$NewDate[[i]]
-  border <- data[which(data$Latitude >= -11 & data$Latitude <= -2), ]
+  border <- data[which(data$Latitude >= -11 & data$Latitude <= -3), ]
+  outer <- data[which(data$Latitude >= -3), ]
   border_num <- (nrow(data) - nrow(border))
   DG <- data%>% filter(between(Latitude, -7.6, -7.0))
   within_dg <- DG%>% filter(between(Longitude, 72.3, 72.5))
@@ -108,9 +115,16 @@ for ( i in 1:nrow(BPV_loop)){
   #binded_MPA <- sum(centre_final, elsewhere_num)
   toadd <- c(month, DG_final, patrol_nodg, border_num)
   adding <- rbind(adding, toadd)
+  km_inner <- rbind(km_inner, border)
+  km_outer <- rbind(km_outer, outer)
 }
 
-ggplot(border_nodg, aes(x=Longitude, y=Latitude)) + 
+write.csv(km_inner, "../data/stats/km_inner.csv")
+
+write.csv(km_outer, "../data/stats/km_outer.csv")
+
+
+ggplot(outer, aes(x=Longitude, y=Latitude)) + 
   geom_polygon(data=Chagos_try, aes(x=long, y=lat, group=group), color='black', fill = NA) +
   geom_point(size = 1, shape=21) +
   ggtitle(month) +
@@ -118,6 +132,7 @@ ggplot(border_nodg, aes(x=Longitude, y=Latitude)) +
   ylab("Number of overlaps") +
   theme(axis.text.x = element_text(angle = 90, hjust = 1)) + 
   theme_bw()
+
 
 adding <- adding[-1,]
 
@@ -331,7 +346,7 @@ ggplot(adding, aes(x=month, y=Hrs_patrol, group = 1)) +
 
 adding$X <- 1:nrow(adding)
 lm(standard~X, data = summary_tags)
-summary(lm(adding$Hrs_in_DG ~ poly(adding$X, 1, raw = TRUE)))
+summary(lm(adding$Hrs_patrol ~ poly(adding$X, 1, raw = TRUE)))
 
 
 
