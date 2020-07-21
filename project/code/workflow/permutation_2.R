@@ -2,31 +2,13 @@
 rm(list=ls()) #Clear global environment 
 setwd("/Users/emmadeeks/Desktop/CMEECourseWork/project/data") #go to the data directory 
 #Map of the world American
-#Load the data 
-#install.packages('raster') # Core raster GIS data package
-#install.packages('sf') # Core vector GIS data package
-#install.packages('rgeos') # Extends vector data functionality
-#install.packages('lwgeom') # Extends vector data functionality
-#install.packages('viridis') # Because we like the colour scheme!
-#install.packages('ggmap')
-#install.packages('rgdal')
-#install.packages("hexbin")
 
-library(raster) #Require these packages 
-library(sf)     #Require 
-library(viridis)
-library('units')
-library('rgdal')
-
-require(ggmap)
-require(rgdal)
-require(sf)
 library(data.table)
-library(geosphere)
+
 library(tidyverse)
 library(lubridate)
 library(plyr)
-require(hexbin)
+
 library(ggplot2)
 
 tags_at_liberty <- read.csv("../results/acoustic_GPS/AG_standardising_tags.csv")  
@@ -96,7 +78,7 @@ colnames(average_table) <- cols
 average_table <- as.data.frame(average_table)
 
 
-for (i in 1:20) {
+for (i in 1:100) {
   shuffle_acoustic <- acoustic[sample(nrow(acoustic)),] #shuffle rows 
   shuffle_BPV <- BPV[sample(nrow(BPV)),] #shuffle rows 
   shuffle_acoustic <- shuffle_acoustic[,-1]
@@ -195,13 +177,15 @@ long <- melt(setDT(average_table), id.vars = c("acoustic_date"), variable.name =
 long$value <- as.numeric(as.character(long$value))
 long$value <- round(long$value, digits = 3)
 
-average_table[,3:22] <- lapply(average_table[,3:22], function(x) as.numeric(as.character(x)))
+average_table[,3:102] <- lapply(average_table[,3:102], function(x) as.numeric(as.character(x)))
 
 
 average_table$mean=rowMeans(average_table[,-c(1:2)], na.rm = TRUE)
 
 average_table$mean <- as.numeric(as.character(average_table$mean))
 average_table$acoustic_date <- as.character(average_table$acoustic_date)
+
+write.csv(average_table, "../results/Thesis_figures/permutation_average.csv")
 
 pdf("../results/acoustic_GPS/permute_test/compare_permute_mean_original.pdf")
 ggplot() + 

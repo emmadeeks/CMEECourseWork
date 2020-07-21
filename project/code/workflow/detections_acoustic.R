@@ -17,7 +17,7 @@ GPS_acoustic <- read.csv("New_data_no_dg_hour/acoustic_GPS_no_elas.csv")
 
 
 
-GPS_acoustic$NewDate <- substr(GPS_acoustic$Date, 0 , 7)
+GPS_acoustic$NewDate <- substr(GPS_acoustic$Date, 0 , 10)
 GPS_acoustic <- GPS_acoustic[!duplicated(GPS_acoustic[c('Date', 'Code')]),] 
 all_combined <- GPS_acoustic %>%
   nest(data= -NewDate) #
@@ -31,9 +31,9 @@ for (i in 1:nrow(all_combined)) {
   detections <- rbind(detections, toadd)
 }
 
-detections <- detections[-52,]
+#detections <- detections[-52,]
 detections <- detections[-1,]
-detections$V1 <- paste0(detections$V1, "-15")
+
 
 detections$V1 <- as.Date(detections$V1, format="%Y-%m-%d")
 detections$V1 <- as.factor(as.character(detections$V1))
@@ -52,24 +52,27 @@ detections$count_tag <-
           as.Date(tags_at_liberty$max, "%Y-%m-%d") >= as.Date(x, "%Y-%m-%d")))
 
 
+detections <- detections[order(as.Date(detections$monthyear, format="%Y-%m-%d")),]
+
+detections$year <- substr(detections$monthyear, 0, 4)
+detections <-detections[!(detections$year == "2013"),]
+
+#summary_original <- read.csv('../results/acoustic_GPS/AG_NR_summary_sharks_no_dg_NOREPEATS.csv')
 
 
-summary_original <- read.csv('../results/acoustic_GPS/AG_NR_summary_sharks_no_dg_NOREPEATS.csv')
+#detections$monthyear <- substr(detections$monthyear, 0 , 7)
+#new_frame <- merge(summary_original, detections, by = "monthyear")
+#new_frame$count_tag <- as.numeric(as.character(new_frame$count_tag.y))
+#new_frame$count <- as.numeric(as.character(new_frame$count.y))
 
 
-detections$monthyear <- substr(detections$monthyear, 0 , 7)
-new_frame <- merge(summary_original, detections, by = "monthyear")
-new_frame$count_tag <- as.numeric(as.character(new_frame$count_tag.y))
-new_frame$count <- as.numeric(as.character(new_frame$count.y))
-
-
-summary_tags <- read.csv('../results/acoustic_GPS/AG_NR_summary_sharks_no_dg_NOREPEATS.csv')
+#summary_tags <- read.csv('../results/acoustic_GPS/AG_NR_summary_sharks_no_dg_NOREPEATS.csv')
 
 
 
-new_frame$plot1 <- (new_frame$count / new_frame$count_tag)
-new_frame$plot2 <- (new_frame$count / new_frame$number_sharks)
-new_frame <- new_frame[-30,]
+#new_frame$plot1 <- (new_frame$count / new_frame$count_tag)
+#new_frame$plot2 <- (new_frame$count / new_frame$number_sharks)
+#new_frame <- new_frame[-30,]
 
 
 
@@ -77,7 +80,56 @@ new_frame <- new_frame[-30,]
 detections$count_tag <- as.numeric(as.character(detections$count_tag))
 detections$count <- as.numeric(as.character(detections$count))
 detections$plot1 <- detections$count / detections$count_tag
-detections$monthyear <- substr(detections$monthyear, 0 , 7)
+detections$plot1 <- detections$plot1 * 100
+#detections$monthyear <- substr(detections$monthyear, 0 , 7)
+#detections$year <- substr(detections$monthyear, 0, 4)
+detections$day <- substr(detections$monthyear, 9,10)
+detections$plot1 <- as.integer(detections$plot1)
+
+#d <- unstack(detections, form=plot1~year)
+#d <- as.data.frame(d)
+
+require("glmmTMB")
+
+#detections <- detections[order(as.Date(detections$day, format="%Y-%m-%d")),]
+
+shark_model <- glmmTMB((plot1 ~ year + (1|day)),
+                       data = detections,
+                       family = nbinom2)
+
+
+plot <- aggregate(detections[, 5], list(detections$year), mean)
+
+pdf("../results/Thesis_figures/acoustic_detections_years.pdf")
+ggplot() + geom_bar(plot, mapping = aes(x=Group.1, y=x), stat="identity", colour = "blue", fill = "gray") +
+  ylab("Standardised detection frequency") +
+  xlab("Year") +
+  #geom_line(summary_tags, mapping = aes(x=monthyear, y=standard2, group = 1)) +
+  #geom_bar(alpha = 0.5) +
+  #theme(axis.text.x = element_text(angle = 90)) +
+  theme(axis.text.y   = element_text(size=12),
+        axis.text.x   = element_text(size=12, angle = 90, hjust = 1),
+        axis.title.y  = element_text(size=14),
+        axis.title.x  = element_text(size=14),
+        panel.background = element_blank(),
+        panel.grid.major = element_blank(), 
+        panel.grid.minor = element_blank(),
+        axis.line = element_line(colour = "black"),
+        panel.border = element_rect(colour = "black", fill=NA, size=2)
+  )
+dev.off()
+
+
+
+
+
+
+
+
+
+########################
+
+
 
 
 
@@ -207,6 +259,11 @@ for (i in 1:nrow(detections_days_2)) {
   } else {
     data_month <- data_month[-1,]
   }
+  detec <- nrow(data_month)
+  if (detec %% 5 == 0) {
+  } else {
+    data_month <- data_month[-1,]
+  }
   #divide <- nrow(data_month)/6
   data_month$count = as.numeric(as.character(data_month$count))
   data_month$shark_number = as.numeric(as.character(data_month$shark_number))
@@ -217,6 +274,7 @@ for (i in 1:nrow(detections_days_2)) {
   df.new = data_month[seq(1, nrow(data_month), 5), ]
   df.new$count <- summed 
   df.new$day <- as.character(df.new$day)
+  df.new <- df.new[,-3]
   df.new <- df.new[,-3]
   df.new$rep_no <- add
   
@@ -242,6 +300,15 @@ counttag <- as.data.frame(counttag)
 cols <- c("monthyear", "count_tag")
 colnames(counttag) <- cols
 new_frame <- merge(every_5, counttag, by = "monthyear")
+
+tags_at_liberty <- read.csv("../results/acoustic_GPS/AG_standardising_tags.csv")  
+
+new_frame$count_tag <- 
+  sapply(new_frame$day, function(x)
+    sum(as.Date(tags_at_liberty$min, "%Y-%m-%d") <= as.Date(x, "%Y-%m-%d") &
+          as.Date(tags_at_liberty$max, "%Y-%m-%d") >= as.Date(x, "%Y-%m-%d")))
+
+
 new_frame$count <-as.numeric(as.character(new_frame$count))
 new_frame$count_tag <-as.numeric(as.character(new_frame$count_tag))
 new_frame$shark_stand <- (new_frame$count / new_frame$count_tag)
@@ -254,6 +321,10 @@ new_frame$shark_stand <- new_frame$shark_stand * 100
 write.csv(new_frame, "../data/stats/sharks_stand_stats.csv")
 
 sharks_plot <- read.csv("../data/stats/sharks_stand_stats.csv")
+
+
+
+
 
 sharks_plot$year <- substr(sharks_plot$monthyear, 0, 4)
 sharks_plot$day <- substr(sharks_plot$day, 9, 10)
@@ -298,7 +369,27 @@ ggplot(sharks_plot, aes(x=year, y=shark_stand)) +
 
 dev.off()
 
+plot <- aggregate(sharks_plot[, 7], list(sharks_plot$year), mean)
 
+ggplot() + geom_bar(plot, mapping = aes(x=Group.1, y=x), stat="identity", colour = "blue", fill = "gray") +
+  ylab("Detection frequency (standardised by tags at liberty)") +
+  xlab("Year") +
+  #geom_line(summary_tags, mapping = aes(x=monthyear, y=standard2, group = 1)) +
+  #geom_bar(alpha = 0.5) +
+  #theme(axis.text.x = element_text(angle = 90)) +
+  theme(axis.text.y   = element_text(size=12),
+                                            axis.text.x   = element_text(size=12, angle = 90, hjust = 1),
+                                            axis.title.y  = element_text(size=14),
+                                            axis.title.x  = element_text(size=14),
+                                            panel.background = element_blank(),
+                                            panel.grid.major = element_blank(), 
+                                            panel.grid.minor = element_blank(),
+                                            axis.line = element_line(colour = "black"),
+                                            panel.border = element_rect(colour = "black", fill=NA, size=2)
+  )
+
+
+#dev.off()
 
 ########### Detection days 
 detections_days$monthyear <- detections_days$NewDate

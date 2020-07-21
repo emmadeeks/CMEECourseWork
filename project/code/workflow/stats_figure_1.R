@@ -156,8 +156,14 @@ model2 <- glmmTMB((shark_stand ~ year + month +(1|day)),
 summary(model2)
 
 
-write.csv("../../data/stats/all_days_counts_sharks_stand.csv")
+write.csv(build, "../../data/stats/all_days_counts_sharks_stand.csv")
 
+build <- build[,-3]
+build <- build[,-6]
+build <- build[,-6]
+
+
+write.csv(build, "../../data/stats/mum_all_days_counts_sharks_stand.csv")
 
 ########
 data_nest <- build %>%
