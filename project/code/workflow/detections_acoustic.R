@@ -86,6 +86,7 @@ detections$plot1 <- detections$plot1 * 100
 detections$day <- substr(detections$monthyear, 9,10)
 detections$plot1 <- as.integer(detections$plot1)
 
+write.csv(detections, "../data/stats/correct_shark_stand.csv")
 #d <- unstack(detections, form=plot1~year)
 #d <- as.data.frame(d)
 
@@ -93,33 +94,66 @@ require("glmmTMB")
 
 #detections <- detections[order(as.Date(detections$day, format="%Y-%m-%d")),]
 
-shark_model <- glmmTMB((plot1 ~ year + (1|day)),
+
+shark_model <- glmmTMB((plot1 ~ year + (1|day) -1),
                        data = detections,
                        family = nbinom2)
 
+detections$year <- factor(detections$year)
+one <- glm(plot1 ~ year,data=detections, family = nbinom2)
+one <- glm(plot1 ~ year -1,data=detections)
+
+summary(shark_model)
+summary(one)
+
+library(multcomp)
+summary(glht(one, mcp(year="Tukey")))
+
+
+coeftest(shark_model, vcov = sandwich)
+
+
+
+#detections$month <- substr(detections$monthyear, 6, 7)
+model.nb = glm(plot1 ~ year, data = detections) 
+summary(model.nb)
+
+
+
+
+
+
+
+
+
+1 - pchisq(summary(model.nb)$deviance, summary(model.nb)$df.residual)
+
+1 - pchisq(summary(one)$deviance, summary(one)$df.residual)
+
 
 plot <- aggregate(detections[, 5], list(detections$year), mean)
+sd <- aggregate(detections[, 5], list(detections$year), sd)
+#ad <- aggregate(detections[, 5], list(detections$year), sum)
+
+plot <- merge(plot, sd, by = "Group.1")
 
 pdf("../results/Thesis_figures/acoustic_detections_years.pdf")
-ggplot() + geom_bar(plot, mapping = aes(x=Group.1, y=x), stat="identity", colour = "blue", fill = "gray") +
-  ylab("Standardised detection frequency") +
+ggplot(plot, mapping = aes(x=Group.1, y=x.x)) + geom_bar(stat="identity", colour = "blue", fill = "gray") +
+  ylab("Standardised elasmobranch detection frequency") +
   xlab("Year") +
+  theme_bw() +
+  geom_errorbar(aes(ymin=x.x-x.y, ymax=x.x+x.y), width=.2) +
   #geom_line(summary_tags, mapping = aes(x=monthyear, y=standard2, group = 1)) +
   #geom_bar(alpha = 0.5) +
   #theme(axis.text.x = element_text(angle = 90)) +
-  theme(axis.text.y   = element_text(size=12),
-        axis.text.x   = element_text(size=12, angle = 90, hjust = 1),
-        axis.title.y  = element_text(size=14),
-        axis.title.x  = element_text(size=14),
-        panel.background = element_blank(),
-        panel.grid.major = element_blank(), 
-        panel.grid.minor = element_blank(),
+  theme(axis.text.y   = element_text(size=18),
+        axis.text.x   = element_text(size=18, angle = 90, hjust = 1),
+        axis.title.y  = element_text(size=19),
+        axis.title.x  = element_text(size=20),
         axis.line = element_line(colour = "black"),
         panel.border = element_rect(colour = "black", fill=NA, size=2)
   )
 dev.off()
-
-
 
 
 

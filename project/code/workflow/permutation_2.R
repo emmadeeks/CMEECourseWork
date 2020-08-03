@@ -77,6 +77,10 @@ cols <- c("acoustic_date", "original")
 colnames(average_table) <- cols 
 average_table <- as.data.frame(average_table)
 
+r_squared = as.data.frame(matrix(nrow = 1, ncol = 3))
+rows <- c("permutation", "Multiple_R-squared", "adjusted_r_squared")
+colnames(r_squared) <- rows
+
 
 for (i in 1:100) {
   shuffle_acoustic <- acoustic[sample(nrow(acoustic)),] #shuffle rows 
@@ -166,9 +170,25 @@ for (i in 1:100) {
   
   assign(nam, summary)
   
+  summary <- na.omit(summary)
+  summary$X <- 1:nrow(summary)
+  stats <- summary(lm(summary$standard2 ~ poly(summary$X, 2, raw = TRUE)))
+  add1 <- stats$r.squared
+  add <- stats$adj.r.squared
+  toadd <- c(nam, add1, add)
+  r_squared <- rbind(r_squared, toadd)
+  
 }
 
 View(average_table)
+write.csv(r_squared, "stats/r_squared.csv")
+
+
+######################################
+
+summary(lm(summary_tags$standard3 ~ poly(summary_tags$X, 2, raw = TRUE)))
+r_squared <- r_squared[-1,]
+r_squared[order(r_squared$`Multiple_R-squared`),]  
 
 #average_table <- as.data.frame(average_table)
 library(data.table)
@@ -186,6 +206,9 @@ average_table$mean <- as.numeric(as.character(average_table$mean))
 average_table$acoustic_date <- as.character(average_table$acoustic_date)
 
 write.csv(average_table, "../results/Thesis_figures/permutation_average.csv")
+average_table <- read.csv("../results/Thesis_figures/permutation_average.csv" )
+
+
 
 pdf("../results/acoustic_GPS/permute_test/compare_permute_mean_original.pdf")
 ggplot() + 

@@ -142,25 +142,85 @@ stations <- read.csv("Station_attributes_full.csv")
 setwd("/Users/emmadeeks/Desktop/CMEECourseWork/project/data")
 
 pdf("../results/Thesis_figures/station_plot.pdf")
-autoplot(papoue_2, geom=c("r", "c"), colour="white", size=0.1, show.legend = FALSE) + scale_fill_etopo() +
-  geom_polygon(data=Chagos_island, aes(x=long, y=lat, group=group), color='lightsteelblue3', fill = NA, size = 0.1) +
+autoplot(papoue_2, geom=c("r", "c"), colour="white", size=0.001, show.legend = FALSE) + scale_fill_etopo() +
+  geom_polygon(data=Chagos_island, aes(x=long, y=lat, group=group), color='lightsteelblue3', fill = NA, size = 0.4) +
   geom_point(data= stations, mapping = aes(x=x, y=y, color=as.factor(stations$Year)), pch = 17, size = 3) + 
   xlim(70.7,73) +
   ylim(-8, -4.3) +
+  ylab("Longitude") + 
+  xlab("Latitude") +
   scale_color_manual(name = "Year", labels = c("2013", "2014", "2015", "2016"), values = c("#33A02C","#E31A1C", "#FF7F00", "#6A3D9A")) +
   #geom_polygon(data=Chagos_island, aes(x=long, y=lat, group=group), color='white', size = 0.07, fill = NA) +
   #coord_cartesian(expand = 0)+
   theme_bw() +
+  north(Chagos_island, symbol= 3, location = 'bottomright', 0.09) + 
+  scalebar(Chagos_island,transform = T, dist = 40, dist_unit = "km", model = 'WGS84', location = "bottomleft", st.size = 3) +
+  #coord_equal() +
   #coord_equal() +
   #scalebar(Chagos_island,transform = T, dist = 40, dist_unit = "km", model = 'WGS84', location = "left", st.size = 2.5) +
   #north(Chagos_island, symbol= 3, location = "right") +
-  guides(color = guide_legend(override.aes = list(size = 2.1)), guides(shape = guide_legend(override.aes = list(size = 2.1)))) +
-  theme(axis.ticks.y=element_blank(), plot.margin = unit(c(0, 0, 0, 0), "cm"), axis.title.y=element_blank(), panel.grid = element_blank(), panel.spacing = unit(-0.8, "lines"), legend.position = c(0, 1), 
-        legend.justification = c(0, 1), axis.title.x=element_blank(), legend.title = element_text(size = 7), 
-        legend.text = element_text(size = 7)) 
+  #guides(color = guide_legend(override.aes = list(size = 2.1)), guides(shape = guide_legend(override.aes = list(size = 2.1)))) +
+  theme(plot.margin = unit(c(0, 0, 0, 0), "cm"), panel.grid = element_blank(), panel.spacing = unit(-0.8, "lines"), legend.position = c(0, 1), 
+        legend.justification = c(0, 1), legend.title = element_text(size = 14), 
+        legend.text = element_text(size = 14), axis.text.x = element_text(size = 12), 
+        axis.text.y = element_text(size = 12), text = element_text(size=14, color = "black")) 
 dev.off()
 
-  ggtitle("A marmap map with ggplot2") 
+x <- autoplot(papoue_2, geom=c("r", "c"), colour="white", size=0.001, show.legend = FALSE) + scale_fill_etopo() +
+  geom_polygon(data=Chagos_island, aes(x=long, y=lat, group=group), color='lightsteelblue3', fill = NA, size = 0.4) +
+  geom_point(data= stations, mapping = aes(x=x, y=y, color=as.factor(stations$Year)), pch = 17, size = 3) + 
+  xlim(70.7,73) +
+  ylim(-8, -4.3) +
+  ylab("Longitude") + 
+  xlab("Latitude") +
+  scale_color_manual(name = "Year", labels = c("2013", "2014", "2015", "2016"), values = c("#33A02C","#E31A1C", "#FF7F00", "#6A3D9A")) +
+  #geom_polygon(data=Chagos_island, aes(x=long, y=lat, group=group), color='white', size = 0.07, fill = NA) +
+  #coord_cartesian(expand = 0)+
+  theme_bw() +
+  north(Chagos_island, symbol= 3, location = 'bottomright', 0.09) + 
+  scalebar(Chagos_island,transform = T, dist = 40, dist_unit = "km", model = 'WGS84', location = "bottomleft", st.size = 3) +
+  #coord_equal() +
+  #coord_equal() +
+  #scalebar(Chagos_island,transform = T, dist = 40, dist_unit = "km", model = 'WGS84', location = "left", st.size = 2.5) +
+  #north(Chagos_island, symbol= 3, location = "right") +
+  #guides(color = guide_legend(override.aes = list(size = 2.1)), guides(shape = guide_legend(override.aes = list(size = 2.1)))) +
+  theme(plot.margin = unit(c(0, 0, 0, 0), "cm"), panel.grid = element_blank(), panel.spacing = unit(-0.8, "lines"), legend.position = c(0, 1), 
+        legend.justification = c(0, 1), legend.title = element_text(size = 12), 
+        legend.text = element_text(size = 12), axis.text.x = element_text(size = 10), 
+        axis.text.y = element_text(size = 10), text = element_text(size=12, color = "black")) 
+
+
+pdf("../results/Thesis_figures/station_plot.pdf")
+x
+dev.off()
+
+
+y <- autoplot(figure_A_chagos, geom=c("r"), colour="grey", size=0.1, show.legend = FALSE) + scale_fill_etopo() +
+  geom_polygon(data=Chagos_try, mapping = aes(x=long, y=lat, group=group), color='black', fill = NA, size = 0.5) +
+  geom_point(monthdata, mapping = aes(x=Longitude, y=Latitude), size = 0.5, shape=19, colour = 'black') + 
+  stat_density_2d(monthdata, mapping = aes(x=Longitude, y=Latitude), geom="polygon", bins = 5, alpha=.3) +
+  #xlim(70.7,73) +
+  #ylim(-8, -4.3) +
+  #scale_color_manual(name = "Year", labels = c("2013", "2014", "2015", "2016"), values = c("#33A02C","#E31A1C", "#FF7F00", "#6A3D9A")) +
+  #geom_polygon(data=Chagos_island, aes(x=long, y=lat, group=group), color='white', size = 0.07, fill = NA) +
+  #coord_cartesian(expand = 0)+
+ 
+  ylab("Longitude") + 
+  xlab("Latitude") +
+  north(Chagos_try, symbol= 9, location = 'bottomright', 0.07) + 
+  scalebar(Chagos_try,transform = T, dist = 100, dist_unit = "km", model = 'WGS84', location = "bottomleft", st.size = 3) +
+  theme_bw() +
+  #coord_equal() +
+  #scalebar(Chagos_island,transform = T, dist = 40, dist_unit = "km", model = 'WGS84', location = "left", st.size = 2.5) +
+  #north(Chagos_island, symbol= 3, location = "right") +
+  #guides(color = guide_legend(override.aes = list(size = 2.1)), guides(shape = guide_legend(override.aes = list(size = 2.1)))) +
+  theme( panel.grid = element_blank(), axis.text.x = element_text(size = 14), 
+        axis.text.y = element_text(size = 14), text = element_text(size=16, color = "black")) 
+
+
+pdf("../results/Thesis_figures/example_track.pdf")
+y
+dev.off()
 
 
 
@@ -186,7 +246,7 @@ dev.off()
   figure_A_chagos <- getNOAA.bathy(lon1 = 67.8, lon2 = 76,
                             lat1 = -10.9, lat2 = -2, resolution = 1)
   
-  a <-  autoplot(figure_A_chagos, geom=c("r", "c"), colour="white", size=0.05, show.legend = FALSE) + scale_fill_etopo() +
+  a <-  autoplot(figure_A_chagos, geom=c("r"), colour="white", size=0.001, show.legend = FALSE) + scale_fill_etopo() +
     geom_polygon(data=Chagos_try, mapping = aes(x=long, y=lat, group=group), color='black', fill = NA, size = 0.5) +
     geom_point(monthdata, mapping = aes(x=Longitude, y=Latitude), size = 0.5, shape=19, colour = 'black') + 
     stat_density_2d(monthdata, mapping = aes(x=Longitude, y=Latitude), geom="polygon", bins = 5, alpha=.2) +
@@ -207,11 +267,11 @@ dev.off()
           legend.text = element_text(size = 7), aspect.ratio=4/4) 
   
   #a <- a + scalebar(data = Chagos_try, location='topleft', dist=100, transform = T, dist_unit = "km", model='WGS84',
-                    st.dist=.02, st.size = 4, height = 0.006)  
+                    #st.dist=.02, st.size = 4, height = 0.006)  
   #a <- a + north2(a, x=.3, y=.18, symbol=9, 0.07)
   
   ######### stations 
- n <-  autoplot(papoue_2, geom=c("r", "c"), colour="white", size=0.1, show.legend = FALSE) + scale_fill_etopo() +
+ n <-  autoplot(papoue_2, geom=c("r"), colour="white", size=0.01, show.legend = FALSE) + scale_fill_etopo() +
   geom_polygon(data=Chagos_island, aes(x=long, y=lat, group=group), color='lightsteelblue3', fill = NA, size = 0.1) +
   geom_point(data= stations, mapping = aes(x=x, y=y, color=as.factor(stations$Year)), pch = 17, size = 3) + 
   xlim(70.7,73) +
@@ -245,27 +305,41 @@ dev.off()
  DG <- IUU%>% filter(between(Latitude, -5.4, -7.4))
  within_dg <- IUU%>% filter(between(Longitude, 71, 72.6))
 
-b <- autoplot(papoue_2, geom=c("r", "c"), colour="white", size=0.1, show.legend = FALSE) + scale_fill_etopo(papoue_2) +
+b <- autoplot(papoue_2, geom=c("r"), colour="white", size=00.1, show.legend = FALSE) + scale_fill_etopo(papoue_2) +
   geom_polygon(data=Chagos_island, aes(x=long, y=lat, group=group), color='lightsteelblue3', fill = NA, size = 0.1) +
+  #geom_point(data= stations, mapping = aes(x=x, y=y, color=as.factor(stations$Year)), pch = 17, size = 3) + 
   xlim(70.7,73) +
   ylim(-8, -4.3) +
-  geom_point(data= within_dg, aes(x= Longitude, y= Latitude), shape = 23, fill = "orange", size = 2) +
+  #scale_color_manual(name = "Year", labels = c("2013", "2014", "2015", "2016"), values = c("#33A02C","#E31A1C", "#FF7F00", "#6A3D9A")) +
+  ylab("Longitude") + 
+  xlab("Latitude") +
+  geom_point(data= within_dg, aes(x= Longitude, y= Latitude), shape = 4, fill = "red", colour = "red", size = 3) +
   theme_bw() +
   #north(Chagos_island, symbol= 3, location = 'bottomright', 0.07) + 
-    scalebar(Chagos_island,transform = T, dist = 40, dist_unit = "km", model = 'WGS84', location = "bottomleft", st.size = 2.5) +
-    north(Chagos_island, symbol= 3, location = "bottomright") +
-  theme(axis.ticks.y=element_blank(), plot.margin = unit(c(0, 0, 0, 0), "cm"), axis.title.y=element_blank(), panel.grid = element_blank(), panel.spacing = unit(-0.8, "lines"), legend.position = c(0, 1), 
-        legend.justification = c(0, 1), axis.title.x=element_blank(), legend.title = element_text(size = 7), 
-        legend.text = element_text(size = 7), aspect.ratio=4/4) 
+  scalebar(Chagos_island,transform = T, dist = 40, dist_unit = "km", model = 'WGS84', location = "bottomleft", st.size = 3) +
+  north(Chagos_island, symbol= 3, location = "bottomright") +
+  theme( plot.margin = unit(c(0, 0, 0, 0), "cm"), panel.grid = element_blank(), panel.spacing = unit(-0.8, "lines"), legend.position = c(0, 1), 
+        legend.justification = c(0, 1), legend.title = element_text(size = 14), 
+        legend.text = element_text(size = 14), aspect.ratio=4/4, axis.text.x = element_text(size = 14), 
+        axis.text.y = element_text(size = 14), text = element_text(size=16, color = "black"), axis.title.x=element_text(size = 16), axis.title.y=element_text(size = 16)) 
  
+
 
 b <- b +
   stat_density_2d(overlap, mapping = aes(x= Longitude_BPV, y= Latitude_BPV, col = stat(log(level))),
                   geom = "polygon",
                   contour = T, 
                   n = 1000 ,
-                  bins = 1000, alpha=.3) +
-  viridis::scale_color_viridis(name = "Log count", option = 'magma')
+                  bins = 1000, alpha = 0.1) +
+  viridis::scale_color_viridis(name = "Log count", option = 'magma', alpha = 0.3)
+
+
+
+b <- b + geom_point(data= stations, aes(x=x, y=y), pch = 17, fill = "yellow", size = 3, alpha = 0.7)
+
+pdf("../results/Thesis_figures/stat_density_plot_2.pdf")
+b
+dev.off()
 
   
 ############### Schematic diagram 
@@ -303,7 +377,7 @@ p
 dev.off()
 
 
-
+x <- plot_grid(a, n, labels = "auto", ncol = 2, align="hv")
  
  
  ########################### notes 

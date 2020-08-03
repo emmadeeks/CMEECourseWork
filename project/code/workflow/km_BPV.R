@@ -81,13 +81,14 @@ for (i in 2:length(BPV_AV$NewDate)){
 }
 
 mean_table <- mean_table[-1,]
+mean_table <- na.omit(mean_table)
 
 mean_table$average <- as.numeric(as.character(mean_table$average))
 
 
 ggplot(mean_table, aes(x=monthyear, y=average, group = 1)) + 
+  geom_point() +
   geom_line() +
-  geom_point() + 
   stat_smooth(method="lm", se=TRUE, fill=NA, formula=y ~ poly(x, 2, raw=TRUE),colour="red") +
   xlab("Month") +# for the x axis label
   ylab("Proportion of successful overlaps compared to 744 and sharks at liberty") +
@@ -383,6 +384,8 @@ average_km_inner <- average_km_inner %>% drop_na()
 
 
 
+####################################
+
 
 
 ggplot(average_km_inner, aes(x=year, y=km_travelled)) + 
@@ -491,19 +494,39 @@ write.csv(final_km, "../data/stats/grampian_marlin_averaged_boxplots.csv")
 
 
 pdf("../results/Thesis_figures/km_travelled_in_out_MPA.pdf")
+
+ggplot(final_km) + 
+  geom_boxplot( aes(x=factor(year), y=km_travelled, fill=factor(group), color = group), outlier.colour="red", outlier.shape=8,
+                outlier.size=4, alpha = 0.9, lwd=0.9) + 
+  #geom_point(size = 0.1) +
+  xlab("Boat names") + 
+  ylab("Kilometers travelled every 5 days") + 
+  scale_fill_manual(values=c("blue", "grey"), name = "") +
+  scale_color_manual(name = "", values = c("grey60", "blue")) +
+  #scale_fill_discrete(name = "New Legend Title") + 
+  theme_bw() +
+  theme( 
+        text = element_text(size=20, color = "black"), axis.text.x = element_text(size = 18), 
+        axis.text.y = element_text(size = 18), legend.position= c(0.8,0.9),
+        legend.text = element_text(size = 18),
+        axis.line = element_line(colour = "black"), panel.border = element_rect(colour = "black", fill=NA, size=1))
+
+dev.off()
+
+
 ggplot(final_km) + 
   geom_boxplot( aes(x=factor(year), y=km_travelled, fill=factor(group)), outlier.colour="red", outlier.shape=8,
-               outlier.size=2, alpha = 0.9) + 
+                outlier.size=4, alpha = 0.9, lwd=0.9) + 
   #geom_point(size = 0.1) +
   xlab("Boat names") + 
   ylab("Kilometers travelled") + 
   scale_fill_manual(values=c("#69b3a2", "grey"), name = "") +
   #scale_fill_discrete(name = "New Legend Title") + 
-  theme(legend.position= "top", panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
-                        panel.background = element_blank(), axis.line = element_line(colour = "black"))
-
-dev.off()
-
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        text = element_text(size=14, color = "black"), axis.text.x = element_text(size = 14), 
+        axis.text.y = element_text(size = 14), legend.position= c(0.8,0.9),
+        legend.text = element_text(size = 14),
+        panel.background = element_blank(), axis.line = element_line(colour = "black"))
 
 
 will <- final_km[final_km$group == 'Inside MPA',]
