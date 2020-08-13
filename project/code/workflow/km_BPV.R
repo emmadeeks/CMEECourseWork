@@ -12,7 +12,7 @@ library(dplyr)
 
 
 library(dplyr)
-
+library(geosphere)
 
 setwd("/Users/emmadeeks/Desktop/CMEECourseWork/project/data") #go to the data directory 
 BPV <- read.csv("New_data_no_dg_hour/BPV_formatted_CORRECT_hour_INCLUDE_dg.csv")
@@ -497,19 +497,20 @@ pdf("../results/Thesis_figures/km_travelled_in_out_MPA.pdf")
 
 ggplot(final_km) + 
   geom_boxplot( aes(x=factor(year), y=km_travelled, fill=factor(group), color = group), outlier.colour="red", outlier.shape=8,
-                outlier.size=4, alpha = 0.9, lwd=0.9) + 
+                outlier.size=4, alpha = 0.7, lwd=0.9) + 
   #geom_point(size = 0.1) +
   xlab("Boat names") + 
-  ylab("Kilometers travelled every 5 days") + 
-  scale_fill_manual(values=c("blue", "grey"), name = "") +
-  scale_color_manual(name = "", values = c("grey60", "blue")) +
+  ylab("Daily kilometers travelled") + 
+  scale_fill_manual(values=c('red', '#208EA3'), name = "") +
+  scale_color_manual(name = "", values = c('grey50', 'grey50')) +
   #scale_fill_discrete(name = "New Legend Title") + 
   theme_bw() +
   theme( 
         text = element_text(size=20, color = "black"), axis.text.x = element_text(size = 18), 
         axis.text.y = element_text(size = 18), legend.position= c(0.8,0.9),
         legend.text = element_text(size = 18),
-        axis.line = element_line(colour = "black"), panel.border = element_rect(colour = "black", fill=NA, size=1))
+        axis.line = element_line(colour = "black"), 
+        panel.border = element_rect(colour = "black", fill=NA, size=1), panel.grid.minor = element_blank(), panel.grid.major = element_blank())
 
 dev.off()
 

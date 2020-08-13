@@ -230,6 +230,7 @@ dev.off()
   stations <- read.csv("Station_attributes_full.csv")
 
   
+  setwd("/Users/emmadeeks/Desktop/CMEECourseWork/project/data")
   ########## Big method figure 
 
   BPV2 <- read.csv("New_data_no_dg_hour/BPV_formatted_CORRECT_hour_INCLUDE_dg.csv")
@@ -250,6 +251,28 @@ dev.off()
     geom_polygon(data=Chagos_try, mapping = aes(x=long, y=lat, group=group), color='black', fill = NA, size = 0.5) +
     geom_point(monthdata, mapping = aes(x=Longitude, y=Latitude), size = 0.5, shape=19, colour = 'black') + 
     stat_density_2d(monthdata, mapping = aes(x=Longitude, y=Latitude), geom="polygon", bins = 5, alpha=.2) +
+    #xlim(70.7,73) +
+    #ylim(-8, -4.3) +
+    #scale_color_manual(name = "Year", labels = c("2013", "2014", "2015", "2016"), values = c("#33A02C","#E31A1C", "#FF7F00", "#6A3D9A")) +
+    #geom_polygon(data=Chagos_island, aes(x=long, y=lat, group=group), color='white', size = 0.07, fill = NA) +
+    #coord_cartesian(expand = 0)+
+    theme_bw() +
+    north(Chagos_try, symbol= 3, location = 'bottomright', 0.07) + 
+    scalebar(Chagos_try,transform = T, dist = 100, dist_unit = "km", model = 'WGS84', location = "bottomleft", st.size = 2.5) +
+    #coord_equal() +
+    #scalebar(Chagos_island,transform = T, dist = 40, dist_unit = "km", model = 'WGS84', location = "left", st.size = 2.5) +
+    #north(Chagos_island, symbol= 3, location = "right") +
+    #guides(color = guide_legend(override.aes = list(size = 2.1)), guides(shape = guide_legend(override.aes = list(size = 2.1)))) +
+    theme(axis.ticks.y=element_blank(), plot.margin = unit(c(0, 0, 0, 0), "cm"), axis.title.y=element_blank(), panel.grid = element_blank(), panel.spacing = unit(-0.8, "lines"), legend.position = c(0, 1), 
+          legend.justification = c(0, 1), axis.title.x=element_blank(), legend.title = element_text(size = 7), 
+          legend.text = element_text(size = 7), aspect.ratio=4/4) 
+  
+  f <-  autoplot(figure_A_chagos, geom=c("r"), colour="white", size=0.001, show.legend = FALSE) + scale_fill_etopo() +
+    geom_polygon(data=Chagos_try, mapping = aes(x=long, y=lat, group=group), color='black', fill = NA, size = 0.5) +
+    geom_point(data= stations, mapping = aes(x=x, y=y, color=as.factor(stations$Year)), pch = 17, size = 1.5) + 
+    scale_color_manual(name = "Year", labels = c("2013", "2014", "2015", "2016"), values = c("#33A02C","#E31A1C", "#FF7F00", "#6A3D9A")) +
+    #geom_point(monthdata, mapping = aes(x=Longitude, y=Latitude), size = 0.5, shape=19, colour = 'black') + 
+    #stat_density_2d(monthdata, mapping = aes(x=Longitude, y=Latitude), geom="polygon", bins = 5, alpha=.2) +
     #xlim(70.7,73) +
     #ylim(-8, -4.3) +
     #scale_color_manual(name = "Year", labels = c("2013", "2014", "2015", "2016"), values = c("#33A02C","#E31A1C", "#FF7F00", "#6A3D9A")) +
@@ -379,7 +402,37 @@ dev.off()
 
 x <- plot_grid(a, n, labels = "auto", ncol = 2, align="hv")
  
- 
+
+
+
+######## update figure 
+pv <- plot_grid(a, f, n, c, labels = "auto", ncol = 2, align="hv")
+
+
+library(grid)
+library(gridExtra)
+
+
+
+y.grob <- textGrob("Longitude", 
+                   gp=gpar(col="black", fontsize=14), rot=90)
+
+x.grob <- textGrob("Latitude", 
+                   gp=gpar(col="black", fontsize=14))
+
+#add to plot
+
+pv <- grid.arrange(arrangeGrob(pv, left = y.grob, bottom = x.grob))
+pv <- cowplot::ggdraw(pv) + 
+  # same plot.background should be in the theme of p1 and p2 as mentioned above
+  theme(plot.background = element_rect(fill="white", color = NA))
+
+
+pdf("../results/Thesis_figures/fig_methods_2.pdf")
+plot(pv)
+dev.off()
+
+
  ########################### notes 
 geom_polygon(data=Chagos_island, aes(x=long, y=lat, group=group), color='black', fill = NA) 
 

@@ -408,7 +408,7 @@ overlap$year <- substr(overlap$Date, 0, 4)
 overlap_2014 <- overlap[overlap$year == '2014',]
 
 
-
+library(data.table)
 Simulation  <- c(206)
 Actual <- c(1221)
 
@@ -429,10 +429,11 @@ ggplot(plot) +
 
 
 pdf("../results/Thesis_figures/random_walk.pdf")
-ggplot(plot, mapping = aes(x = rn, y = count)) + geom_bar(stat="identity", colour = "blue", fill = "gray") +
+ggplot(plot, mapping = aes(x = rn, y = count)) + geom_bar(stat="identity", colour = 'gray50', fill = c('red', '#208EA3'), alpha = 0.7) +
   ylab("Counts of overlap") +
   xlab("") +
   theme_bw() +
+  #scale_fill_manual(values = c('red', '#208EA3')) +
   #geom_errorbar(aes(ymin=x.x-x.y, ymax=x.x+x.y), width=.2) +
   #geom_line(summary_tags, mapping = aes(x=monthyear, y=standard2, group = 1)) +
   #geom_bar(alpha = 0.5) +
