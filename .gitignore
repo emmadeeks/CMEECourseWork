@@ -20,3 +20,6 @@ project/data/shape_files
 .Rhistory
 >>>>>>> 0d7590ae85f1493548f944ace5922e4c47068ab7
 week8/code/.ipynb_checkpoints/FunRes-checkpoint.ipynb
+Publication/data/acoustic_no_elas_Sept.csv
+Publication/data/acoustic_BPV_dataset.csv
+Publication/data/shape_files
